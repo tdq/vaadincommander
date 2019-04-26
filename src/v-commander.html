@@ -1,0 +1,130 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./v-api-bridge.html">
+
+<link rel="import" href="./v-main.html">
+
+<dom-module id="v-commander">
+  <template>
+    <style>
+      :host {
+        --font-size: 16px;
+        --background-color: rgb(0, 0, 255);
+        --default-color: white;
+
+        display: block;
+        font-family: "Courier New", Courier, monospace;
+        line-height: var(--font-size);
+        font-size: var(--font-size);
+        width: 80ch;
+        background-color: var(--background-color);
+        color: var(--default-color);
+      }
+
+      .commander {
+          width: 100%;
+          height: 100%;
+          word-wrap: break-word;
+      }
+
+      .commander > span {
+          display: inline-block;
+          width: 1ch;
+          height: var(--font-size);
+          text-align: center;
+          vertical-align: bottom;
+          overflow: hidden;
+      }
+    </style>
+
+    <div class="commander"></div>
+  </template>
+
+  <script>
+   
+    /**
+     * `v-commander`
+     * MidnigthCommander like web component with plugins support
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class VCommander extends Polymer.Element {
+      static get is() { return 'v-commander'; }
+
+      static get properties() {
+        return {
+            width: {
+                type: Number,
+                value: 80,
+            },
+
+            height: {
+                type: Number,
+                value: 25,
+            },
+
+            config: String
+        };
+      }
+
+        static get observers() {
+            return [
+                '_setSize(width, height)',
+            ];
+        }
+
+        ready() {
+            super.ready();
+
+            const content = this.shadowRoot.querySelector('.commander');
+            this._buffer = new Array(this.height);
+
+            for(let j = 0; j < this.height; ++j) {
+                this._buffer[j] = new Array(this.width);
+
+                for(let i = 0; i < this.width; ++i) {
+                    const item = document.createElement('span');
+                    item.innerHTML = '';
+                    this._buffer[j][i] = item;
+
+                    content.appendChild(item);
+                }
+            }
+
+            Object.keys(window.VC.plugins).forEach(plugin => window.VC.plugins[plugin] = new window.VC.plugins[plugin](new VAPIBridge(this)));
+
+            // TODO call main point to get buffers and merge them
+            const main = this._getMain();
+            //const plugins = this._getPlugins(config);
+
+            main.exec();
+        }
+
+        getBuffer(x, y) {
+            return this._buffer[y][x];
+        }
+
+        _setSize(width, height) {
+            if(width < 0 || height < 0 ) {
+                throw new Exception("Illegal size");
+            }
+
+            this.width = width;
+            this.height = height;
+
+            this.style.width = this.width + 'ch';
+        }
+
+        _getMain() {
+            // Import main class
+            // Create instance of it and return
+            const mainApiBridge = new VAPIBridge(this);
+
+            return new VMain(mainApiBridge);
+        }
+    }
+
+    window.customElements.define(VCommander.is, VCommander);
+  </script>
+</dom-module>

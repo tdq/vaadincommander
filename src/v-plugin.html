@@ -1,0 +1,17 @@
+<script>
+    (function() {
+        window.VC = window.VC || {};
+        window.VC.plugins = window.VC.plugins || {};
+        window.VC.definePlugin = function(name, clazz) {
+            window.VC.plugins[name] = clazz;
+        };
+    })();
+
+
+    class VPlugin {
+        constructor(api) {
+            this.api = api;
+        }    
+    }
+</script>
+

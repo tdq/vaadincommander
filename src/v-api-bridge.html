@@ -1,0 +1,32 @@
+<script>
+    class VAPIBridge {
+
+        constructor(commander/*, dependencies*/) {
+            this._commander = commander;
+            //this.dependencies = dependencies;
+        }
+
+        getBufferWidth() {
+            return this._commander.width;
+        }
+
+        getBufferHeight() {
+            return this._commander.height;
+        }
+
+        readBufferAt(x, y) {
+            const cell = this._commander.getBuffer(x, y);
+
+            return {value: cell.innerHTML, color: cell.style.color, bgcolor: cell.style.backgroundColor};
+        }
+
+        writeBufferAt(x, y, value) {
+            let color = value.color || '#fff';
+            let bgcolor = value.bgcolor || '#000';
+
+            this._commander.getBuffer(x, y).innerHTML = value.value || '';
+            this._commander.getBuffer(x, y).style.color = color;
+            this._commander.getBuffer(x, y).style.backgroundColor = bgcolor;
+        }
+    }
+</script>
