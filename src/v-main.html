@@ -5,16 +5,19 @@
     class VMain extends VPlugin {
         
         exec() {
-            window.VC.plugins.VWindow.drawWindow(0, 0, 40, 24, 'SECTIONS');
-			window.VC.plugins.VWindow.drawWindow(40, 0, 40, 24, 'CONTROL');
+            window.VC.plugins.VWindow.drawWindow(0, 0, 40, 24, {title: ' SECTIONS ', bgcolor: '#0000c9'});
+            window.VC.plugins.VWindow.drawWindow(40, 0, 40, 24, {title: ' CONTROL ', bgcolor: '#00c9c9', color: '#fff'});
 
 			window.VC.plugins.VWindow.drawText(1, 1, 'Platform', '#fff', '#00c9c9');
-			window.VC.plugins.VWindow.drawText(1, 2, 'Learn', '#fff', '#00f');
-			window.VC.plugins.VWindow.drawText(1, 3, 'Services', '#fff', '#00f');
-			window.VC.plugins.VWindow.drawText(1, 4, 'Community', '#fff', '#00f');
-			window.VC.plugins.VWindow.drawText(1, 5, 'Directory', '#fff', '#00f');
-			window.VC.plugins.VWindow.drawText(1, 6, 'Pricing', '#fff', '#00f');
-			window.VC.plugins.VWindow.drawText(1, 7, 'GAMES', '#fff', '#00f');
+			window.VC.plugins.VWindow.drawText(1, 2, 'Learn', '#fff', '#0000c9');
+			window.VC.plugins.VWindow.drawText(1, 3, 'Services', '#fff', '#0000c9');
+			window.VC.plugins.VWindow.drawText(1, 4, 'Community', '#fff', '#0000c9');
+			window.VC.plugins.VWindow.drawText(1, 5, 'Directory', '#fff', '#0000c9');
+			window.VC.plugins.VWindow.drawText(1, 6, 'Pricing', '#fff', '#0000c9');
+			window.VC.plugins.VWindow.drawText(1, 7, 'GAMES', '#fff', '#0000c9');
+
+            // Error window
+            window.VC.plugins.VWindow.drawWindow(20, 6, 40, 12, {title: ' Error ', bgcolor: '#c90000', color: '#fff', shadow: true});
         }
     }
 </script>

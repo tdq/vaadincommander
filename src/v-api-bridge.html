@@ -28,5 +28,9 @@
             this._commander.getBuffer(x, y).style.color = color;
             this._commander.getBuffer(x, y).style.backgroundColor = bgcolor;
         }
+
+        bindKey(key, action) {
+            this._commander.setKeyboardEvent(key, action);        
+        }
     }
 </script>

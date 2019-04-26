@@ -8,7 +8,7 @@
     <style>
       :host {
         --font-size: 16px;
-        --background-color: rgb(0, 0, 255);
+        --background-color: rgb(0, 0, 0, 0.7);
         --default-color: white;
 
         display: block;
@@ -74,6 +74,11 @@
             ];
         }
 
+        constructor() {
+            super();
+            this._keyboardBindings = {};
+        }
+
         ready() {
             super.ready();
 
@@ -95,14 +100,32 @@
             Object.keys(window.VC.plugins).forEach(plugin => window.VC.plugins[plugin] = new window.VC.plugins[plugin](new VAPIBridge(this)));
 
             // TODO call main point to get buffers and merge them
-            const main = this._getMain();
+            const main = this._getMain(new VAPIBridge(this));
             //const plugins = this._getPlugins(config);
+
+            document.addEventListener("keydown", function(e) {
+                if(this._keyboardBindings[e.key]) {
+                    this._keyboardBindings[e.key]();
+                }
+            }.bind(this));
 
             main.exec();
         }
 
         getBuffer(x, y) {
             return this._buffer[y][x];
+        }
+
+        setKeyboardEvent(key, action) {
+            this._keyboardBindings[key] = action;
+        }        
+
+        removeKeyboardEvent(key) {
+            this._keyboardBindings[key] = null;
+        }
+
+        clearKeyboardEvents() {
+            this._keyboardBindings = {};
         }
 
         _setSize(width, height) {

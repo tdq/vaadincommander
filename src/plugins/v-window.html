@@ -2,42 +2,77 @@
 
 <script>
     class VWindow extends VPlugin { 
-        drawWindow(x, y, width, height, title = null) {
+        drawWindow(x, y, width, height, config = null) {
 			const borderX = x + width - 1;
 			const borderY = y + height - 1;
+
+            let color = '#c9c9c9';
+            let bgcolor = '#000';
+
+            if(config && config.bgcolor) {
+                bgcolor = config.bgcolor;
+            }
+
+            if(config && config.color) {
+                color = config.color;
+            }
+
+            // TODO config for border type
 
 			for (let j = y; j < y + height; ++j) {
 				for (let i = x; i < x + width; ++i) {
 					if (i == x && j == y) {
-                        this.api.writeBufferAt(i, j, {value: '&#9556;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9556;', color: color, bgcolor: bgcolor});
 					} else if ( i == borderX && j == y) {
-                        this.api.writeBufferAt(i, j, {value: '&#9559;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9559;', color: color, bgcolor: bgcolor});
 					} else if (i == x && j == borderY) {
-                        this.api.writeBufferAt(i, j, {value: '&#9562;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9562;', color: color, bgcolor: bgcolor});
 					} else if (i == borderX && j == borderY) {
-                        this.api.writeBufferAt(i, j, {value: '&#9565;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9565;', color: color, bgcolor: bgcolor});
 					} else if (i > x && i < borderX && (j == y || j == borderY)) {
-                        this.api.writeBufferAt(i, j, {value: '&#9552;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9552;', color: color, bgcolor: bgcolor});
 					} else if (i == x || i == borderX) {
-                        this.api.writeBufferAt(i, j, {value: '&#9553;', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '&#9553;', color: color, bgcolor: bgcolor});
                     } else {
-                        this.api.writeBufferAt(i, j, {value: '', bgcolor: '#00f'});
+                        this.api.writeBufferAt(i, j, {value: '', bgcolor: bgcolor});
 					}
 				}
 			}
 
-			if (!title) {
-				return;
-			}
+            if(config && config.title) {
+			    let length = config.title.length;
 
-			let length = title.length;
+			    if (length > width - 2) {
+				    length = width - 2;
+			    }
 
-			if (length > width - 2) {
-				length = width - 2;
-			}
+			    const start = Math.round(x + (width / 2) - (length / 2));
+			    this.drawText(start, y, config.title, color, bgcolor, length);
+            }
 
-			const start = Math.round(x + (width / 2) - (length / 2));
-			this.drawText(start, y, title, '#fff', '#00f', length);
+            if(config && config.shadow) {
+                if(borderY + 1 < this.api.getBufferHeight()) {
+                    for(let i = x + 1; i <= borderX; ++i) {
+                        let cell = this.api.readBufferAt(i, borderY + 1);
+                        cell.bgcolor = '#000';
+                        this.api.writeBufferAt(i, borderY + 1, cell);
+                    }
+                }
+                
+                if(borderX + 1 < this.api.getBufferWidth()) {
+                    for(let i = y + 1; i <= borderY; ++i) {
+                        let cell = this.api.readBufferAt(borderX + 1, i);
+                        cell.bgcolor = '#000';
+                        this.api.writeBufferAt(borderX + 1, i, cell);
+                    }
+                }
+                
+                if(borderY + 1 < this.api.getBufferHeight() && borderX + 1 < this.api.getBufferWidth()) {
+                    let cell = this.api.readBufferAt(borderX + 1, borderY + 1);
+                    cell.bgcolor = '#000';
+                    this.api.writeBufferAt(borderX + 1, borderY + 1, cell);
+                }
+            }
 		}
 
 		drawText(x, y, text, color = null, bgcolor = null, length = null) {
