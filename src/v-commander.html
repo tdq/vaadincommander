@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="./v-api-bridge.html">
+<link rel="import" href="./v-palete16.html">
 
 <link rel="import" href="./v-main.html">
 
@@ -50,23 +51,23 @@
      * @demo demo/index.html
      */
     class VCommander extends Polymer.Element {
-      static get is() { return 'v-commander'; }
+        static get is() { return 'v-commander'; }
 
-      static get properties() {
-        return {
-            width: {
-                type: Number,
-                value: 80,
-            },
+        static get properties() {
+            return {
+                width: {
+                    type: Number,
+                    value: 80,
+                },
 
-            height: {
-                type: Number,
-                value: 25,
-            },
+                height: {
+                    type: Number,
+                    value: 25,
+                },
 
-            config: String
-        };
-      }
+                config: String
+            };
+        }
 
         static get observers() {
             return [
@@ -76,7 +77,7 @@
 
         constructor() {
             super();
-            this._keyboardBindings = {};
+            //this._keyboardBindings = new Array();
         }
 
         ready() {
@@ -91,7 +92,7 @@
                 for(let i = 0; i < this.width; ++i) {
                     const item = document.createElement('span');
                     item.innerHTML = '';
-                    this._buffer[j][i] = item;
+                    this._buffer[j][i] = {value: '', color: 15, bgcolor: 0};
 
                     content.appendChild(item);
                 }
@@ -103,11 +104,15 @@
             const main = this._getMain(new VAPIBridge(this));
             //const plugins = this._getPlugins(config);
 
+            // FIXME this should be done much better.
+            // Probably it's better to have set of predicates which accepts event
+            // and if it's valid for predicate it will do it's stuff.
+            // But in this case we need to find a way to protect it from memory leaks.``
+            /*
             document.addEventListener("keydown", function(e) {
-                if(this._keyboardBindings[e.key]) {
-                    this._keyboardBindings[e.key]();
-                }
+                this._keyboardBindings.forEach(binding => binding(e));
             }.bind(this));
+            */
 
             main.exec();
         }
@@ -116,16 +121,28 @@
             return this._buffer[y][x];
         }
 
-        setKeyboardEvent(key, action) {
-            this._keyboardBindings[key] = action;
-        }        
+        writeBuffer(x, y, value) {
+            this._buffer[y][x] = value;
 
-        removeKeyboardEvent(key) {
-            this._keyboardBindings[key] = null;
+            const content = this.shadowRoot.querySelector('.commander');
+            const cell = content.childNodes[y * this.width + x];
+            
+            const color = value.hasOwnProperty('shadowed') ? Palete16[7] : Palete16[value.color];
+            const bgcolor = value.hasOwnProperty('shadowed') ? Palete16[0] : Palete16[value.bgcolor];
+
+            cell.innerHTML = value.value || '';
+            cell.style.color = color;
+            cell.style.backgroundColor = bgcolor;
         }
 
-        clearKeyboardEvents() {
-            this._keyboardBindings = {};
+        addEventListener(eventType, action) {
+            //this._keyboardBindings[] = action;
+            document.addEventListener(eventType, action);
+        }        
+
+        removeEventListener(eventType, action) {
+            //this._keyboardBindings[key] = null;
+            document.removeEventListener(eventType, action);
         }
 
         _setSize(width, height) {

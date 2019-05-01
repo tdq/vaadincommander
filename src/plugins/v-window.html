@@ -6,8 +6,8 @@
 			const borderX = x + width - 1;
 			const borderY = y + height - 1;
 
-            let color = '#c9c9c9';
-            let bgcolor = '#000';
+            let color = 7;
+            let bgcolor = 0;
 
             if(config && config.bgcolor) {
                 bgcolor = config.bgcolor;
@@ -54,7 +54,7 @@
                 if(borderY + 1 < this.api.getBufferHeight()) {
                     for(let i = x + 1; i <= borderX; ++i) {
                         let cell = this.api.readBufferAt(i, borderY + 1);
-                        cell.bgcolor = '#000';
+                        cell.shadowed = true;
                         this.api.writeBufferAt(i, borderY + 1, cell);
                     }
                 }
@@ -62,14 +62,14 @@
                 if(borderX + 1 < this.api.getBufferWidth()) {
                     for(let i = y + 1; i <= borderY; ++i) {
                         let cell = this.api.readBufferAt(borderX + 1, i);
-                        cell.bgcolor = '#000';
+                        cell.shadowed = true;
                         this.api.writeBufferAt(borderX + 1, i, cell);
                     }
                 }
                 
                 if(borderY + 1 < this.api.getBufferHeight() && borderX + 1 < this.api.getBufferWidth()) {
                     let cell = this.api.readBufferAt(borderX + 1, borderY + 1);
-                    cell.bgcolor = '#000';
+                    cell.shadowed = true;
                     this.api.writeBufferAt(borderX + 1, borderY + 1, cell);
                 }
             }
