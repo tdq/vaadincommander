@@ -122,13 +122,14 @@
         }
 
         writeBuffer(x, y, value) {
+            // TODO add checks and be sure that all fields has value except 'shadowed'
             this._buffer[y][x] = value;
 
             const content = this.shadowRoot.querySelector('.commander');
             const cell = content.childNodes[y * this.width + x];
             
-            const color = value.hasOwnProperty('shadowed') ? Palete16[7] : Palete16[value.color];
-            const bgcolor = value.hasOwnProperty('shadowed') ? Palete16[0] : Palete16[value.bgcolor];
+            const color = value.shadowed ? Palete16[7] : Palete16[value.color];
+            const bgcolor = value.shadowed ? Palete16[0] : Palete16[value.bgcolor];
 
             cell.innerHTML = value.value || '';
             cell.style.color = color;

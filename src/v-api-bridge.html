@@ -16,19 +16,10 @@
 
         readBufferAt(x, y) {
             return this._commander.getBuffer(x, y);
-
-            //return {value: cell.innerHTML, color: cell.style.color, bgcolor: cell.style.backgroundColor};
         }
 
         writeBufferAt(x, y, value) {
-            let color = value.color || 15;
-            let bgcolor = value.bgcolor || 0;
-
             this._commander.writeBuffer(x, y, value);
-
-            //this._commander.getBuffer(x, y).innerHTML = value.value || '';
-            //this._commander.getBuffer(x, y).style.color = color;
-            //this._commander.getBuffer(x, y).style.backgroundColor = bgcolor;
         }
 
         addEventListener(eventType, action) {
