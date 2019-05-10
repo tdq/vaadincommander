@@ -22,6 +22,15 @@
             rightPanel.setWidth(middleX);
             rightPanel.setHeight(height - 2);
 
+            const horizontal = window.VC.plugins.VComponents.horizontal();
+            const button1 = window.VC.plugins.VComponents.button("Button1");
+            const button2 = window.VC.plugins.VComponents.button("Button2");
+
+            horizontal.add(button1);
+            horizontal.add(button2);
+
+            leftPanel.setContent(horizontal);
+
             panelsLayout.add(leftPanel);
             panelsLayout.add(rightPanel);
 

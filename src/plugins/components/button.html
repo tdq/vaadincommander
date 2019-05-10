@@ -3,13 +3,14 @@
 <script>
 class Button extends Component {
 
-    constructor(caption = null) {
+    constructor(caption = null, settings = null) {
         super();
         this._caption = caption;
+        this._settings = settings;
     }
 
     getWidth() {
-        return this._caption ? this._caption.length + 2 : 1;
+        return this._caption ? this._caption.length + 4 : 1;
     }
 
     getHeight() {
@@ -21,15 +22,19 @@ class Button extends Component {
     }
 
     render(api) {
-        const bgcolor = this._focused ? 7 : super.getStyle().bgcolor || 0;
+        const bgcolor = this._focused ? 7 : super.getStyle().bgcolor;
         const color = this._focused ? 0 : super.getStyle().color || 7;
         const width = this.getWidth();
 
         for(let i = 0; i < width; i++) {
-            if(i == 0 || i == width - 1) {
+            if(i == 0) {
+                api.writeBufferAt(i, 0, {value: '[', color: color, bgcolor: bgcolor});
+            } else if(i == width - 1) {
+                api.writeBufferAt(i, 0, {value: ']', color: color, bgcolor: bgcolor});
+            } else if(i == 1 || i == width - 2) {
                 api.writeBufferAt(i, 0, {color: color, bgcolor: bgcolor});
             } else {
-                api.writeBufferAt(i, 0, {value: this._caption.charAt(i - 1), color: color, bgcolor: bgcolor});
+                api.writeBufferAt(i, 0, {value: this._caption.charAt(i - 2), color: color, bgcolor: bgcolor});
             }
         }
 
