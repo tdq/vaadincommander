@@ -1,0 +1,39 @@
+<link rel="import" href="component.html">
+
+<script>
+class Label extends Component {
+
+    constructor(value = null) {
+        super();
+        this._value = value;
+    }
+
+    setValue(value) {
+        this._value = value;
+    }
+
+    getValue() {
+        return this._value;
+    }
+
+    getWidth() {
+        return super.getWidth() ? super.getWidth() : this._value.length || 0;
+    }
+
+    getHeight() {
+        return super.getHeight() ? super.getHeight() : 1;
+    }
+
+    render(api) {
+        if(!this._value) {
+            return;
+        }
+
+        const size = this.getWidth();
+
+        for (let i = 0; i < size; ++i) {
+            api.writeBufferAt(i, 0, {value: this._value.charAt(i), color: super.getStyle().color || 7, bgcolor: super.getStyle().bgcolor || 0});
+	    }    
+    }
+}
+</script>

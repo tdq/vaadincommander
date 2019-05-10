@@ -1,0 +1,19 @@
+<link rel="import" href="component.html">
+
+<script>
+class Layout extends Component {
+
+    constructor() {
+        super();
+        this._childs = new Array();
+    }
+
+    add(component) {
+        this._childs.push(component);
+    }
+
+    remove(component) {
+        this._childs = this._childs.filter(child => child !== component);        
+    }
+}
+</script>

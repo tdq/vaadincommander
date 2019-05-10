@@ -1,0 +1,97 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="v-commander">
+  <template>
+    <style>
+        --font-size: 16px;
+
+      :host {
+        display: block;
+        font-family: "Lucida Console", Monaco, monospace;
+        line-height: var(--font-size);
+        font-size: var(--font-size);
+        width: 80ch;
+      }
+
+      .commander {
+          width: 100%;
+          height: 100%;
+          word-wrap: break-word;
+      }
+
+      .commander > span {
+          display: inline-block;
+          width: 1ch;
+          height: var(--font-size);
+      }
+    </style>
+
+    <div class="commander"></div>
+  </template>
+
+  <script>
+    /**
+     * `v-commander`
+     * MidnigthCommander like web component with plugins support
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class VCommander extends Polymer.Element {
+      static get is() { return 'v-commander'; }
+
+      static get properties() {
+        return {
+            width: {
+                type: Number,
+                value: 80,
+            },
+
+            height: {
+                type: Number,
+                value: 25,
+            }
+        };
+      }
+
+        static get observers() {
+            return [
+                '_setSize(width, height)',
+            ];
+        }
+
+        ready() {
+            super.ready();
+
+            const content = this.shadowRoot.querySelector('.commander');
+            this._buffer = new Array(this.height);
+
+            for(let j = 0; j < this.height; ++j) {
+                this._buffer[j] = new Array[this.width];
+
+                for(let i = 0; i < this.width: ++i) {
+                    const item = document.createElement('span');
+                    item.innerHTML = '&nbsp';
+                    this._buffer[j][i] = item;
+
+                    content.appendChild(item);
+                }
+            }
+        }
+
+        _setSize(width, height) {
+            if(width < 0 || height < 0 ) {
+                throw new Exception("Illegal size");
+            }
+
+            this.width = width;
+            this.height = height;
+
+            this.shadowRoot.style.width = this.width + 'ch';
+        }
+    }
+
+    window.customElements.define(VCommander.is, VCommander);
+  </script>
+</dom-module>

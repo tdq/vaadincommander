@@ -1,0 +1,67 @@
+<link rel="import" href="layout.html">
+
+<script>
+class HorizontalLayout extends Layout {
+
+    getWidth() {
+        let width = 0;
+        this._childs.forEach(child => width += child.getWidth());
+
+        return width;
+    }
+
+    getHeight() {
+        let height = 0;
+        this._childs.forEach(child => {
+            let childHeight = child.getHeight();
+            height = childHeight > height ? childHeight : height;
+        });
+
+        return height;
+    }
+
+    render(api) {
+        let offset = 0;
+        this._childs.forEach(child => {
+            // TODO relative sizes (sizes in %), spaces between components
+            const childWidth = child.getWidth();
+            const wrapper = new _HLAPIWrapper(api, childWidth, offset);
+            offset += childWidth;
+
+            child.render(wrapper);
+        });
+    }
+}
+
+class _HLAPIWrapper {
+    constructor(api, width, offset) {
+        this._api = api;
+        this._width = width;
+        this._offset = offset;
+    }
+
+    getBufferWidth() {
+        return this._width;
+    }
+
+    getBufferHeight() {
+        return this._api.getBufferHeight();
+    }
+
+    readBufferAt(x, y) {
+        return this._api.getBufferAt(x + this._offset, y);
+    }
+
+    writeBufferAt(x, y, value) {
+        this._api.writeBufferAt(x + this._offset, y, value);
+    }
+
+    addEventListener(eventType, action) {
+        this._api.addEventListener(eventType, action);        
+    }
+
+    removeEventListener(eventType, action) {
+        this._api.removeEventListener(eventType, action);
+    }
+}
+</script>

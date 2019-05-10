@@ -1,12 +1,46 @@
 <link rel="import" href="./v-plugin.html">
 <link rel="import" href="./plugins/v-window.html">
+<link rel="import" href="./plugins/v-components.html">
 
 <script>
     class VMain extends VPlugin {
         
         exec() {
-            window.VC.plugins.VWindow.drawWindow(0, 0, 40, 24, {title: ' SECTIONS ', bgcolor: 1});
-            window.VC.plugins.VWindow.drawWindow(40, 0, 40, 24, {title: ' CONTROL ', bgcolor: 5, color: 15});
+            const width = this.api.getBufferWidth();
+            const height = this.api.getBufferHeight();
+            const middleX = width / 2;
+            const middleY = height / 2;
+            
+            const vertical = window.VC.plugins.VComponents.vertical();
+            const horizontal1 = window.VC.plugins.VComponents.horizontal();
+            const horizontal2 = window.VC.plugins.VComponents.horizontal();
+
+            vertical.add(horizontal1);
+            vertical.add(horizontal2);
+
+            const vertical1 = window.VC.plugins.VComponents.vertical();
+            const vertical2 = window.VC.plugins.VComponents.vertical();
+            
+            horizontal1.add(vertical1);
+            horizontal1.add(vertical2);
+
+            for(let i = 0; i < 11; i++) {
+                vertical1.add(window.VC.plugins.VComponents.label("Label" + i));
+            }
+
+            for(let i = 0; i < 5; i++) {
+                vertical2.add(window.VC.plugins.VComponents.label("Label" + i));
+            }
+
+            for(let i = 0; i < 5; i++) {
+                horizontal2.add(window.VC.plugins.VComponents.label("Label" + i));
+            }
+
+            vertical.render(this.api);
+
+            /*
+            window.VC.plugins.VWindow.drawWindow(0, 0, middleX, height-1, {title: ' SECTIONS ', bgcolor: 1});
+            window.VC.plugins.VWindow.drawWindow(middleX, 0, middleX, height-1, {title: ' CONTROL ', bgcolor: 5, color: 15});
 
 			window.VC.plugins.VWindow.drawText(1, 1, 'Platform', 15, 5);
 			window.VC.plugins.VWindow.drawText(1, 2, 'Learn', 15, 1);
@@ -17,7 +51,7 @@
 			window.VC.plugins.VWindow.drawText(1, 7, 'GAMES', 15, 1);
 
             // Error window
-            window.VC.plugins.VWindow.drawWindow(20, 6, 40, 12, {title: ' Error ', bgcolor: 2, color: 15, shadow: true});
+            window.VC.plugins.VWindow.drawWindow(middleX - 20, middleY - 6, 40, 12, {title: ' Error ', bgcolor: 2, color: 15, shadow: true});
 
             this.api.addEventListener("keydown", e => {
                 if(e.ctrlKey && e.key == 'm') {
@@ -26,6 +60,7 @@
                     alert("You pressed Ctrl+m");
                 }
             });
+            */
         }
     }
 </script>

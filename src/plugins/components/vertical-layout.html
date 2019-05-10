@@ -1,0 +1,67 @@
+<link rel="import" href="layout.html">
+
+<script>
+class VerticalLayout extends Layout {
+
+    getWidth() {
+        let width = 0;
+        this._childs.forEach(child => {
+            const childWidth = child.getWidth();
+            width = childWidth > width ? childWidth : width;
+        });
+
+        return width;
+    }
+
+    getHeight() {
+        let height = 0;
+        this._childs.forEach(child => height += child.getHeight());
+
+        return height;
+    }
+
+    render(api) {
+        let offset = 0;
+        this._childs.forEach(child => {
+            // TODO relative sizes (sizes in %), spaces between components
+            const wrapper = new _VLAPIWrapper(api, child.getHeight(), offset);
+            offset += child.getHeight();
+
+            child.render(wrapper);
+        });
+    }
+}
+
+class _VLAPIWrapper {
+    constructor(api, height, offset) {
+        this._api = api;
+        this._height = height;
+        this._offset = offset;
+    }
+
+    getBufferWidth() {
+        return this._api.getBufferWidth();
+    }
+
+    getBufferHeight() {
+        return this._height;
+    }
+
+    readBufferAt(x, y) {
+        return this._api.getBufferAt(x, y + this._offset);
+    }
+
+    writeBufferAt(x, y, value) {
+        this._api.writeBufferAt(x, y + this._offset, value);
+    }
+
+    addEventListener(eventType, action) {
+        this._api.addEventListener(eventType, action);        
+    }
+
+    removeEventListener(eventType, action) {
+        this._api.removeEventListener(eventType, action);
+    }
+
+}
+</script>

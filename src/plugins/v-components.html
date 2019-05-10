@@ -1,0 +1,49 @@
+<link rel="import" href="../v-plugin.html">
+<link lazy rel="import" href="./components/button.html">
+<link lazy rel="import" href="./components/checkbox.html">
+<link lazy rel="import" href="./components/combobox.html">
+<link lazy rel="import" href="./components/horizontal-layout.html">
+<link lazy rel="import" href="./components/label.html">
+<link lazy rel="import" href="./components/list.html">
+<link lazy rel="import" href="./components/text-field.html">
+<link lazy rel="import" href="./components/vertical-layout.html">
+
+<script>
+class VComponents extends VPlugin {
+    
+    vertical() {
+        return new VerticalLayout();
+    }
+
+    horizontal() {
+        return new HorizontalLayout();
+    }
+
+    label(value = null) {
+        return new Label(value);
+    }
+
+    button() {
+
+    }
+
+    textField() {
+
+    }
+
+    list() {
+
+    }
+
+    comboBox() {
+
+    }
+
+    checkBox() {
+
+    }
+}
+
+window.VC.definePlugin('VComponents', VComponents);
+
+</script>

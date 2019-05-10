@@ -34,6 +34,12 @@
           text-align: center;
           vertical-align: bottom;
           overflow: hidden;
+          cursor: none;
+      }
+
+      .commander > span:hover {
+          background-color: #008080 !important;
+          color: #000000 !important;
       }
     </style>
 
@@ -98,10 +104,14 @@
                 }
             }
 
-            Object.keys(window.VC.plugins).forEach(plugin => window.VC.plugins[plugin] = new window.VC.plugins[plugin](new VAPIBridge(this)));
+            Object.keys(window.VC.plugins).forEach(plugin => {
+                if(window.VC.plugins[plugin] instanceof Function) {
+                     window.VC.plugins[plugin] = new window.VC.plugins[plugin](new VAPIBridge(this));
+                }
+            });
 
             // TODO call main point to get buffers and merge them
-            const main = this._getMain(new VAPIBridge(this));
+            const main = this._getMain();
             //const plugins = this._getPlugins(config);
 
             // FIXME this should be done much better.
@@ -155,6 +165,8 @@
             this.height = height;
 
             this.style.width = this.width + 'ch';
+
+            this.shadowRoot.querySelector('.commander').innerHTML ='';
         }
 
         _getMain() {
