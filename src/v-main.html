@@ -11,6 +11,55 @@
             const middleX = width / 2;
             const middleY = height / 2;
             
+            const mainLayout = window.VC.plugins.VComponents.vertical();
+            const panelsLayout = window.VC.plugins.VComponents.horizontal();
+            
+            const leftPanel = window.VC.plugins.VComponents.panel({bgcolor: 1});
+            leftPanel.setWidth(middleX);
+            leftPanel.setHeight(height - 2);
+
+            const rightPanel = window.VC.plugins.VComponents.panel({bgcolor: 5, color: 15});
+            rightPanel.setWidth(middleX);
+            rightPanel.setHeight(height - 2);
+
+            panelsLayout.add(leftPanel);
+            panelsLayout.add(rightPanel);
+
+            mainLayout.add(panelsLayout);
+
+            mainLayout.render(this.api);
+        }
+
+        test0() {
+            window.VC.plugins.VWindow.drawWindow(0, 0, middleX, height-1, {title: ' SECTIONS ', bgcolor: 1});
+            window.VC.plugins.VWindow.drawWindow(middleX, 0, middleX, height-1, {title: ' CONTROL ', bgcolor: 5, color: 15});
+
+			window.VC.plugins.VWindow.drawText(1, 1, 'Platform', 15, 5);
+			window.VC.plugins.VWindow.drawText(1, 2, 'Learn', 15, 1);
+			window.VC.plugins.VWindow.drawText(1, 3, 'Services', 15, 1);
+			window.VC.plugins.VWindow.drawText(1, 4, 'Community', 15, 1);
+			window.VC.plugins.VWindow.drawText(1, 5, 'Directory', 15, 1);
+			window.VC.plugins.VWindow.drawText(1, 6, 'Pricing', 15, 1);
+			window.VC.plugins.VWindow.drawText(1, 7, 'GAMES', 15, 1);
+
+            // Error window
+            window.VC.plugins.VWindow.drawWindow(middleX - 20, middleY - 6, 40, 12, {title: ' Error ', bgcolor: 2, color: 15, shadow: true});
+
+            this.api.addEventListener("keydown", e => {
+                if(e.ctrlKey && e.key == 'm') {
+                    e.preventDefault();
+
+                    alert("You pressed Ctrl+m");
+                }
+            });
+        }
+
+        test1() {
+            const width = this.api.getBufferWidth();
+            const height = this.api.getBufferHeight();
+            const middleX = width / 2;
+            const middleY = height / 2;
+            
             const vertical = window.VC.plugins.VComponents.vertical();
             const horizontal1 = window.VC.plugins.VComponents.horizontal();
             const horizontal2 = window.VC.plugins.VComponents.horizontal();
@@ -36,31 +85,18 @@
                 horizontal2.add(window.VC.plugins.VComponents.label("Label" + i));
             }
 
+            const button = window.VC.plugins.VComponents.button("Button1");
+            button.setFocused(true);
+            
+            button.setClickListener(() => {
+                alert("Button clicked");
+            });
+            
+
+            horizontal2.add(button);
+
             vertical.render(this.api);
 
-            /*
-            window.VC.plugins.VWindow.drawWindow(0, 0, middleX, height-1, {title: ' SECTIONS ', bgcolor: 1});
-            window.VC.plugins.VWindow.drawWindow(middleX, 0, middleX, height-1, {title: ' CONTROL ', bgcolor: 5, color: 15});
-
-			window.VC.plugins.VWindow.drawText(1, 1, 'Platform', 15, 5);
-			window.VC.plugins.VWindow.drawText(1, 2, 'Learn', 15, 1);
-			window.VC.plugins.VWindow.drawText(1, 3, 'Services', 15, 1);
-			window.VC.plugins.VWindow.drawText(1, 4, 'Community', 15, 1);
-			window.VC.plugins.VWindow.drawText(1, 5, 'Directory', 15, 1);
-			window.VC.plugins.VWindow.drawText(1, 6, 'Pricing', 15, 1);
-			window.VC.plugins.VWindow.drawText(1, 7, 'GAMES', 15, 1);
-
-            // Error window
-            window.VC.plugins.VWindow.drawWindow(middleX - 20, middleY - 6, 40, 12, {title: ' Error ', bgcolor: 2, color: 15, shadow: true});
-
-            this.api.addEventListener("keydown", e => {
-                if(e.ctrlKey && e.key == 'm') {
-                    e.preventDefault();
-
-                    alert("You pressed Ctrl+m");
-                }
-            });
-            */
         }
     }
 </script>

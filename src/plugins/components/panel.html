@@ -1,0 +1,99 @@
+<link rel="import" href="component.html">
+
+<script>
+class Panel extends Component {
+    constructor(settings = null) {
+        super();
+
+        this._settings = settings || {border: "double"};
+    }
+
+    setContent(component) {
+        this._content = component;
+    }
+
+    render(api) {
+        const width = super.getWidth();
+        const height = super.getHeight();
+        const borderX = width - 1;
+        const borderY = height - 1;
+        const color = this._settings.color || 7;
+        const bgcolor = this._settings.bgcolor;
+
+        // TODO border style
+
+		for (let j = 0; j < height; ++j) {
+			for (let i = 0; i < width; ++i) {
+				if (i == 0 && j == 0) {
+                    api.writeBufferAt(i, j, {value: '&#9556;', color: color, bgcolor: bgcolor});
+				} else if ( i == borderX && j == 0) {
+                    api.writeBufferAt(i, j, {value: '&#9559;', color: color, bgcolor: bgcolor});
+				} else if (i == 0 && j == borderY) {
+                    api.writeBufferAt(i, j, {value: '&#9562;', color: color, bgcolor: bgcolor});
+				} else if (i == borderX && j == borderY) {
+                    api.writeBufferAt(i, j, {value: '&#9565;', color: color, bgcolor: bgcolor});
+				} else if (i > 0 && i < borderX && (j == 0 || j == borderY)) {
+                    api.writeBufferAt(i, j, {value: '&#9552;', color: color, bgcolor: bgcolor});
+				} else if (i == 0 || i == borderX) {
+                    api.writeBufferAt(i, j, {value: '&#9553;', color: color, bgcolor: bgcolor});
+                } else {
+                    api.writeBufferAt(i, j, {value: '', bgcolor: bgcolor});
+    			}
+			}
+		}
+
+        if(this._settings.title) {
+    	    const length = this._settings.title.length;
+
+		    if (length > width - 2) {
+			    length = width - 2;
+		    }
+
+		    const start = Math.round(x + (width / 2) - (length / 2));
+		    this._drawText(api, start, y, this._settings.title, color, bgcolor, length);
+        }
+
+        if(this._content) {
+            this._content.render(new _PAPIWrapper(api));
+        }     
+    }
+
+    _drawText(api, x, y, text, color = null, bgcolor = null, length = null) {
+		const size = length ? length : text.length;
+
+		for (let i = 0; i < size; ++i) {
+            api.writeBufferAt(x + i, y, {value: text.charAt(i), color: color, bgcolor: bgcolor});
+		}
+	}
+}
+
+class _PAPIWrapper {
+    constructor(api) {
+        this._api = api;
+    }
+
+    getBufferWidth() {
+        return this._api.getBufferWidth() - 2;
+    }
+
+    getBufferHeight() {
+        return this._api.getBufferHeight() - 2;
+    }
+
+    readBufferAt(x, y) {
+        return this._api.getBufferAt(x + 1, y + 1);
+    }
+
+    writeBufferAt(x, y, value) {
+        this._api.writeBufferAt(x + 1, y + 1, value);
+    }
+
+    addEventListener(eventType, action) {
+        this._api.addEventListener(eventType, action);        
+    }
+
+    removeEventListener(eventType, action) {
+        this._api.removeEventListener(eventType, action);
+    }
+}
+</script>

@@ -7,6 +7,7 @@
 <link lazy rel="import" href="./components/list.html">
 <link lazy rel="import" href="./components/text-field.html">
 <link lazy rel="import" href="./components/vertical-layout.html">
+<link lazy rel="import" href="./components/panel.html">
 
 <script>
 class VComponents extends VPlugin {
@@ -23,8 +24,8 @@ class VComponents extends VPlugin {
         return new Label(value);
     }
 
-    button() {
-
+    button(caption = null) {
+        return new Button(caption);
     }
 
     textField() {
@@ -41,6 +42,10 @@ class VComponents extends VPlugin {
 
     checkBox() {
 
+    }
+
+    panel(settings = null) {
+        return new Panel(settings);
     }
 }
 
