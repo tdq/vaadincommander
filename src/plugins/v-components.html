@@ -24,8 +24,8 @@ class VComponents extends VPlugin {
         return new Label(value);
     }
 
-    button(caption = null) {
-        return new Button(caption);
+    button(caption = null, settings = null) {
+        return new Button(caption, settings);
     }
 
     textField() {
@@ -40,8 +40,8 @@ class VComponents extends VPlugin {
 
     }
 
-    checkBox() {
-
+    checkBox(caption = null, settings = null) {
+        return new CheckBox(caption, settings);
     }
 
     panel(settings = null) {

@@ -32,7 +32,7 @@ class Label extends Component {
         const size = this.getWidth();
 
         for (let i = 0; i < size; ++i) {
-            api.writeBufferAt(i, 0, {value: this._value.charAt(i), color: super.getStyle().color || 7, bgcolor: super.getStyle().bgcolor || 0});
+            api.writeBufferAt(i, 0, {value: this._value.charAt(i), color: super.getStyle().color || 7, bgcolor: super.getStyle().bgcolor});
 	    }    
     }
 }

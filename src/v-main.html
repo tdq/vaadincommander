@@ -22,14 +22,34 @@
             rightPanel.setWidth(middleX);
             rightPanel.setHeight(height - 2);
 
-            const horizontal = window.VC.plugins.VComponents.horizontal();
+            const leftContent = window.VC.plugins.VComponents.vertical();
+
+            const labelsLayout = window.VC.plugins.VComponents.horizontal();
+            const label1 = window.VC.plugins.VComponents.label("Label1");
+            const label2 = window.VC.plugins.VComponents.label("Label2");
+
+            labelsLayout.add(label1);
+            labelsLayout.add(label2);
+            leftContent.add(labelsLayout);
+
+            const buttonsLayout = window.VC.plugins.VComponents.horizontal();
             const button1 = window.VC.plugins.VComponents.button("Button1");
             const button2 = window.VC.plugins.VComponents.button("Button2");
 
-            horizontal.add(button1);
-            horizontal.add(button2);
+            buttonsLayout.add(button1);
+            buttonsLayout.add(button2);
+            leftContent.add(buttonsLayout);
 
-            leftPanel.setContent(horizontal);
+            const checkBoxesLayout = window.VC.plugins.VComponents.horizontal();
+            const checkBox1 = window.VC.plugins.VComponents.checkBox("CheckBox1");
+            const checkBox2 = window.VC.plugins.VComponents.checkBox("CheckBox2");
+            checkBox2.setChecked(true);
+            
+            checkBoxesLayout.add(checkBox1);
+            checkBoxesLayout.add(checkBox2);
+            leftContent.add(checkBoxesLayout);
+
+            leftPanel.setContent(leftContent);
 
             panelsLayout.add(leftPanel);
             panelsLayout.add(rightPanel);

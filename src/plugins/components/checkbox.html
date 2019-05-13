@@ -3,5 +3,50 @@
 <script>
 class CheckBox extends Component {
 
+    constructor(caption = null, settings = null) {
+        super();
+        this._caption = caption;
+        this._settings = settings || {};
+    }
+
+    setCaption(caption) {
+        this._caption = caption;
+    }
+
+    getWidth() {
+        return (this._caption.length || 0) + 4;
+    }
+
+    getHeight() {
+        return 1;
+    }
+
+    setChangeListener(listener) {
+        this._listener = listener;
+    }
+
+    setChecked(checked) {
+        this._checked = checked || false;
+    }
+
+    isChecked() {
+        return this._checked;
+    }
+
+    render(api) {
+        const bgcolor = this._focused ? 7 : super.getStyle().bgcolor;
+        const color = this._focused ? 0 : super.getStyle().color || 7;
+
+        // Create check button
+        api.writeBufferAt(0, 0, {value: '[', color: color, bgcolor: bgcolor});
+        api.writeBufferAt(1, 0, {value: this._checked ? '&#9632;' : '', bgcolor: bgcolor});
+        api.writeBufferAt(2, 0, {value: ']', color: color, bgcolor: bgcolor});
+        api.writeBufferAt(3, 0, {value: '', bgcolor: bgcolor});
+
+        // Caption
+        for(let i = 0; i < this._caption.length || 0; i++) {
+            api.writeBufferAt(i + 4, 0, {value: this._caption.charAt(i), color: color, bgcolor: bgcolor});
+        }
+    }
 }
 </script>

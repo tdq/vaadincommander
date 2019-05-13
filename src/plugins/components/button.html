@@ -6,7 +6,7 @@ class Button extends Component {
     constructor(caption = null, settings = null) {
         super();
         this._caption = caption;
-        this._settings = settings;
+        this._settings = settings || {};
     }
 
     getWidth() {
