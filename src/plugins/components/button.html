@@ -7,6 +7,12 @@ class Button extends Component {
         super();
         this._caption = caption;
         this._settings = settings || {};
+
+        window.VC.plugins.VEventBus.registerEvent(this, e => {
+            if(e.key === "Enter" && this._clickListener) {
+                this._clickListener();
+            }
+        });
     }
 
     getWidth() {
@@ -37,14 +43,6 @@ class Button extends Component {
                 api.writeBufferAt(i, 0, {value: this._caption.charAt(i - 2), color: color, bgcolor: bgcolor});
             }
         }
-
-        api.addEventListener("keydown", e => {
-            if(e.key === "Enter" && this._focused && this._clickListener) {
-                e.preventDefault();
-
-                this._clickListener();
-            }
-        });
     }
 }
 </script>

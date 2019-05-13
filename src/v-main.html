@@ -36,6 +36,9 @@
             const button1 = window.VC.plugins.VComponents.button("Button1");
             const button2 = window.VC.plugins.VComponents.button("Button2");
 
+            button1.setFocused(true);
+            button1.setClickListener(() => alert('Hi!'));
+
             buttonsLayout.add(button1);
             buttonsLayout.add(button2);
             leftContent.add(buttonsLayout);

@@ -10,6 +10,9 @@
 <link lazy rel="import" href="./components/panel.html">
 
 <script>
+/**
+ *
+ */
 class VComponents extends VPlugin {
     
     vertical() {
@@ -49,6 +52,36 @@ class VComponents extends VPlugin {
     }
 }
 
+/**
+ *
+ */
+class VEventBus extends VPlugin {
+    constructor(api) {
+        super(api);
+        this._events = new Map();
+
+        api.addEventListener("keydown", e => {
+            const componentsIter = this._events.keys();
+            
+            for(let component of componentsIter) {
+                if(component.isFocused()) {
+                    e.preventDefault();
+                    this._events.get(component)(e); 
+                }
+            }
+        });
+    }
+    
+    registerEvent(component, action) {
+        this._events.set(component, action);
+    }
+
+    removeEvent(component) {
+        this._events.delete(component);
+    }
+}
+
 window.VC.definePlugin('VComponents', VComponents);
+window.VC.definePlugin('VEventBus', VEventBus);
 
 </script>
