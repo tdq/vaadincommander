@@ -15,6 +15,12 @@ class Button extends Component {
         });
     }
 
+    setCaption(caption) {
+        this._caption = caption;
+
+        super.markAsDirty();
+    }
+
     getWidth() {
         return this._caption ? this._caption.length + 4 : 1;
     }
@@ -28,6 +34,8 @@ class Button extends Component {
     }
 
     render(api) {
+        super.render(api);
+
         const bgcolor = this._focused ? 7 : super.getStyle().bgcolor;
         const color = this._focused ? 0 : super.getStyle().color || 7;
         const width = this.getWidth();

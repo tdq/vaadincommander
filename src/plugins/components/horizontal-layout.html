@@ -21,6 +21,8 @@ class HorizontalLayout extends Layout {
     }
 
     render(api) {
+        super.render(api);
+
         let offset = 0;
         this._childs.forEach(child => {
             // TODO relative sizes (sizes in %), spaces between components

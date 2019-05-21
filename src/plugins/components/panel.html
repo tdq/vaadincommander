@@ -13,6 +13,8 @@ class Panel extends Component {
     }
 
     render(api) {
+        super.render(api);
+
         const width = super.getWidth();
         const height = super.getHeight();
         const borderX = width - 1;

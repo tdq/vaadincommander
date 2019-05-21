@@ -7,10 +7,24 @@ class CheckBox extends Component {
         super();
         this._caption = caption;
         this._settings = settings || {};
+        this._checked = false;
+
+        window.VC.plugins.VEventBus.registerEvent(this, e => {
+            if(e.key === "Enter") {
+                this.setChecked(!this.isChecked());
+                // TODO changing value of fields should rerender component
+
+                if(this._changeListener) {
+                    this._changeListener();
+                }
+            }
+        });
     }
 
     setCaption(caption) {
-        this._caption = caption;
+        this._caption = caption;i
+
+        super.markAsDirty();
     }
 
     getWidth() {
@@ -22,11 +36,13 @@ class CheckBox extends Component {
     }
 
     setChangeListener(listener) {
-        this._listener = listener;
+        this._changeListener = listener;
     }
 
     setChecked(checked) {
         this._checked = checked || false;
+
+        super.markAsDirty();
     }
 
     isChecked() {
@@ -34,6 +50,8 @@ class CheckBox extends Component {
     }
 
     render(api) {
+        super.render(api);
+
         const bgcolor = this._focused ? 7 : super.getStyle().bgcolor;
         const color = this._focused ? 0 : super.getStyle().color || 7;
 

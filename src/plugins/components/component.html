@@ -41,8 +41,14 @@ class Component {
         return this._focused || false;
     }
 
-    render(api) {
+    markAsDirty() {
+        if(this._api) {
+            this.render(this._api);
+        } 
+    }
 
+    render(api) {
+        this._api = api;
     }
 }
 </script>

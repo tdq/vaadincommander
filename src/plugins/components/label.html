@@ -10,6 +10,8 @@ class Label extends Component {
 
     setValue(value) {
         this._value = value;
+
+        super.markAsDirty();
     }
 
     getValue() {
@@ -25,6 +27,8 @@ class Label extends Component {
     }
 
     render(api) {
+        super.render(api);
+
         if(!this._value) {
             return;
         }

@@ -36,7 +36,7 @@
             const button1 = window.VC.plugins.VComponents.button("Button1");
             const button2 = window.VC.plugins.VComponents.button("Button2");
 
-            button1.setFocused(true);
+            //button1.setFocused(true);
             button1.setClickListener(() => alert('Hi!'));
 
             buttonsLayout.add(button1);
@@ -46,7 +46,13 @@
             const checkBoxesLayout = window.VC.plugins.VComponents.horizontal();
             const checkBox1 = window.VC.plugins.VComponents.checkBox("CheckBox1");
             const checkBox2 = window.VC.plugins.VComponents.checkBox("CheckBox2");
+            
+            checkBox2.setFocused(true);
             checkBox2.setChecked(true);
+
+            checkBox2.setChangeListener(() => {
+                label2.setValue(checkBox2.isChecked() ? "CheckBox2 checked" : "CheckBox2 unchecked");
+            });
             
             checkBoxesLayout.add(checkBox1);
             checkBoxesLayout.add(checkBox2);
