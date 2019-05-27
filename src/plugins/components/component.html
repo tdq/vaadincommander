@@ -42,13 +42,11 @@ class Component {
     }
 
     markAsDirty() {
-        if(this._api) {
-            this.render(this._api);
-        } 
+        window.VC.plugins.VRenderRegister.invokeRender();
     }
 
     render(api) {
-        this._api = api;
+        //this._api = api;
     }
 }
 </script>

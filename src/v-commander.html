@@ -104,9 +104,10 @@
                 }
             }
 
+            const apiBridge = new VAPIBridge(this);
             Object.keys(window.VC.plugins).forEach(plugin => {
                 if(window.VC.plugins[plugin] instanceof Function) {
-                     window.VC.plugins[plugin] = new window.VC.plugins[plugin](new VAPIBridge(this));
+                     window.VC.plugins[plugin] = new window.VC.plugins[plugin](apiBridge);
                 }
             });
 
@@ -133,6 +134,14 @@
 
         writeBuffer(x, y, value) {
             // TODO add checks and be sure that all fields has value except 'shadowed'
+            const currentCell = this._buffer[y][x];
+
+            // TODO add double buffering to reduce amount of DOM changes and add post processing
+            if(currentCell.value === value.value && currentCell.color === value.color && 
+                currentCell.bgcolor === value.bgcolor && currentCell.shadowed === value.shadowed) {
+                return;
+            }
+            
             this._buffer[y][x] = value;
 
             const content = this.shadowRoot.querySelector('.commander');

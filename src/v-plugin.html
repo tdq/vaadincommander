@@ -8,10 +8,59 @@
     })();
 
 
+    /**
+     *
+     */
     class VPlugin {
         constructor(api) {
             this.api = api;
         }    
     }
+
+    /**
+     *
+     */
+    class VApplication {
+        
+        constructor(api) {
+            this.api = api;
+        }
+
+        setContent(content) {
+            this._content = content;
+
+            // TODO register this in some render queue
+            window.VC.plugins.VRenderRegister.registerApplication(this);
+        }
+
+        render() {
+            if(this._content && this.api) {
+                this._content.render(this.api);
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    class VRenderRegister extends VPlugin {
+        registerApplication(application) {
+            this._application = application;
+        }
+
+        invokeRender() {
+            if(!this._invoked) {
+                this._invoked = setTimeout(() => {
+                    if(this._application) {
+                        this._application.render();
+                    }
+
+                    this._invoked = undefined;
+                }, 0);
+            }
+        }
+    }
+
+    window.VC.definePlugin('VRenderRegister', VRenderRegister);
 </script>
 
