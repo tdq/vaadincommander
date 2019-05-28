@@ -31,8 +31,8 @@ class VComponents extends VPlugin {
         return new Button(caption, settings);
     }
 
-    textField() {
-
+    textField(caption = '', settings = {}) {
+        return new TextField(caption, settings);
     }
 
     list() {

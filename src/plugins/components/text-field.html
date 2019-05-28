@@ -2,6 +2,94 @@
 
 <script>
 class TextField extends Component {
+    constructor(value = '', settings = {}) {
+        super();
 
+        this._value = value;
+        this._settings = settings;
+        this._renderValuePos = 0;
+        this._cursorPos = this._value.length || 0; 
+
+        window.VC.plugins.VEventBus.registerEvent(this, e => {
+            if(e.key === "Enter") {
+                this._editMode = !this._editMode;
+
+                // TODO check if value was changed
+                if(!this._editMode && this._valueChangeListener) {
+                    this._valueChangeListener(this._value);
+                }
+
+                if(this._editMode) {
+                    this._cursorPos = Math.min(this._value.length, this.getWidth() - 1);
+                }
+
+                this._renderValuePos = 0;
+
+                this.markAsDirty();
+            }
+
+            if(this._editMode) {
+                console.log("Key: ", e.key);
+
+                if(e.key === "ArrowRight") {
+                    if(this._cursorPos < this.getWidth() - 1 && this._cursorPos < this._value.length) {
+                        ++this._cursorPos;
+                    } else if(this._cursorPos + this._renderValuePos < this._value.length) {
+                        ++this._renderValuePos;
+                    }
+
+                    this.markAsDirty();
+                } else if(e.key === "ArrowLeft") {
+                    if(this._cursorPos > 0) {
+                        --this._cursorPos;
+                    } else if(this._renderValuePos > 0) {
+                        --this._renderValuePos;
+                    }
+
+                    this.markAsDirty();
+                }
+            }
+        });
+    }
+
+    setValue(value) {
+        this._value = value;
+
+        super.markAsDirty();
+    }
+
+    getValue() {
+        return this._value;
+    }
+
+    setPlaceHolder(placeHolder) {
+        this._placeHolder = placeHolder;
+    }
+
+    setValueChangeListener(listener) {
+        this._valueChangeListener = listener;
+    }
+
+    getHeight() {
+        return super.getHeight() ? super.getHeight() : 1;
+    }
+
+    render(api) {
+        super.render(api);
+
+        const size = this.getWidth();
+        const valueSize = this._value.length || 0;
+        const bgcolor = this._editMode ? this._settings.editBgColor || 0 : super.getStyle().bgcolor || 5;
+
+        // TODO render cursor
+
+        for(let i = 0; i < size; ++i) {
+            if(i < valueSize) {
+                api.writeBufferAt(i, 0, {value: this._value.charAt(this._renderValuePos + i), color: super.getStyle().color || 15, bgcolor: i == this._cursorPos && this._editMode ? 2 : bgcolor});
+            } else {
+                api.writeBufferAt(i, 0, {bgcolor: i == this._cursorPos && this._editMode ? 2 : bgcolor});
+            }
+        } 
+    }
 }
 </script>

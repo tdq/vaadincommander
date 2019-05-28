@@ -3,10 +3,10 @@
 <script>
 class Button extends Component {
 
-    constructor(caption = null, settings = null) {
+    constructor(caption = null, settings = {}) {
         super();
         this._caption = caption;
-        this._settings = settings || {};
+        this._settings = settings;
 
         window.VC.plugins.VEventBus.registerEvent(this, e => {
             if(e.key === "Enter" && this._clickListener) {

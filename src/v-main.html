@@ -47,7 +47,7 @@
             const checkBox1 = window.VC.plugins.VComponents.checkBox("CheckBox1");
             const checkBox2 = window.VC.plugins.VComponents.checkBox("CheckBox2");
             
-            checkBox2.setFocused(true);
+            //checkBox2.setFocused(true);
             checkBox2.setChecked(true);
 
             checkBox2.setChangeListener(() => {
@@ -57,6 +57,11 @@
             checkBoxesLayout.add(checkBox1);
             checkBoxesLayout.add(checkBox2);
             leftContent.add(checkBoxesLayout);
+
+            const textField = window.VC.plugins.VComponents.textField('Text Field test. This value should be very long!');
+            textField.setWidth(35);
+            textField.setFocused(true);
+            leftContent.add(textField);
 
             leftPanel.setContent(leftContent);
 
