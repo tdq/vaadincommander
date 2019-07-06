@@ -30,35 +30,21 @@ class TextField extends Component {
             }
 
             if(this._editMode) {
-                console.log("Key: ", e.key);
-
                 if(e.key === "ArrowRight") {
-                    /*
-                    if(this._cursorPos < this.getWidth() - 1 && this._cursorPos < this._value.length) {
-                        ++this._cursorPos;
-                    } else if(this._cursorPos + this._renderValuePos < this._value.length) {
-                        ++this._renderValuePos;
-                    }
-
-                    if(this._carretPos < this.getWidth() - 1) {
-                        ++this._carretPos;
-                    }*/
                     this._setCarretPos(this._carretPos+1);
 
                     this.markAsDirty();
                 } else if(e.key === "ArrowLeft") {
-                    /*
-                    if(this._cursorPos > 0) {
-                        --this._cursorPos;
-                    } else if(this._renderValuePos > 0) {
-                        --this._renderValuePos;
-                    }
-
-                    if(this._carretPos > 0) {
-                        --this._carretPos;
-                    }
-                    */
                     this._setCarretPos(this._carretPos-1);
+
+                    this.markAsDirty();
+                } else if(e.key === "Backspace") {
+                    this._value = this._value.splice(this._carretPos-1, 1, '');
+                    this._setCarretPos(this._carretPos-1);
+        
+                    this.markAsDirty();
+                } else if(e.key === "Delete") {
+                    this._value = this._value.splice(this._carretPos, 1, '');
 
                     this.markAsDirty();
                 } else if(e.key.length == 1) {

@@ -61,6 +61,7 @@
             const textField = window.VC.plugins.VComponents.textField('Text Field test. This value should be very long!');
             textField.setWidth(35);
             textField.setFocused(true);
+            textField.setValueChangeListener(value => label1.setValue(value));
             leftContent.add(textField);
 
             leftPanel.setContent(leftContent);
