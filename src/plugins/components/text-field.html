@@ -9,6 +9,7 @@ class TextField extends Component {
         this._settings = settings;
         this._renderValuePos = 0;
         this._cursorPos = this._value.length || 0; 
+        this._carretPos = this._cursorPos;
 
         window.VC.plugins.VEventBus.registerEvent(this, e => {
             if(e.key === "Enter") {
@@ -32,21 +33,42 @@ class TextField extends Component {
                 console.log("Key: ", e.key);
 
                 if(e.key === "ArrowRight") {
+                    /*
                     if(this._cursorPos < this.getWidth() - 1 && this._cursorPos < this._value.length) {
                         ++this._cursorPos;
                     } else if(this._cursorPos + this._renderValuePos < this._value.length) {
                         ++this._renderValuePos;
                     }
 
+                    if(this._carretPos < this.getWidth() - 1) {
+                        ++this._carretPos;
+                    }*/
+                    this._setCarretPos(this._carretPos+1);
+
                     this.markAsDirty();
                 } else if(e.key === "ArrowLeft") {
+                    /*
                     if(this._cursorPos > 0) {
                         --this._cursorPos;
                     } else if(this._renderValuePos > 0) {
                         --this._renderValuePos;
                     }
 
+                    if(this._carretPos > 0) {
+                        --this._carretPos;
+                    }
+                    */
+                    this._setCarretPos(this._carretPos-1);
+
                     this.markAsDirty();
+                } else if(e.key.length == 1) {
+                    // Printable symbol, add it into value
+                    this._value = this._value.splice(this._carretPos, 0, e.key);
+                    this._setCarretPos(this._carretPos+1);
+
+                    this.markAsDirty();
+                } else {
+                    // Not printable symbol
                 }
             }
         });
@@ -81,8 +103,6 @@ class TextField extends Component {
         const valueSize = this._value.length || 0;
         const bgcolor = this._editMode ? this._settings.editBgColor || 0 : super.getStyle().bgcolor || 5;
 
-        // TODO render cursor
-
         for(let i = 0; i < size; ++i) {
             if(i < valueSize) {
                 api.writeBufferAt(i, 0, {value: this._value.charAt(this._renderValuePos + i), color: super.getStyle().color || 15, bgcolor: i == this._cursorPos && this._editMode ? 2 : bgcolor});
@@ -91,5 +111,46 @@ class TextField extends Component {
             }
         } 
     }
+
+    _setCarretPos(pos) {
+        if(pos < 0) {
+            this._carretPos = 0;
+        } else if(pos > this._value.length) {
+            this._carretPos = this._value.length;
+        } else {
+            this._carretPos = pos;
+        }
+
+        // Carret still in window
+        if(this._carretPos >= this._renderValuePos && this._carretPos < this._renderValuePos + this.getWidth()) {
+            this._cursorPos = this._carretPos - this._renderValuePos;
+        } else if(this._carretPos < this._renderValuePos) {
+            // Carret pos before window
+            this._cursorPos = 0;
+            this._renderValuePos = this._carretPos;
+        } else {
+            // Carret pos after window
+            this._cursorPos = this.getWidth() - 1;
+            this._renderValuePos = this._carretPos - this.getWidth() + 1;
+        }
+    }
+}
+
+if (!String.prototype.splice) {
+    /**
+     * {JSDoc}
+     *
+     * The splice() method changes the content of a string by removing a range of
+     * characters and/or adding new characters.
+     *
+     * @this {String}
+     * @param {number} start Index at which to start changing the string.
+     * @param {number} delCount An integer indicating the number of old chars to remove.
+     * @param {string} newSubStr The String that is spliced in.
+     * @return {string} A new string with the spliced substring.
+     */
+    String.prototype.splice = function(start, delCount, newSubStr) {
+        return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
+    };
 }
 </script>
