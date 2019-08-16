@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public abstract class CustomElement {
     private CustomElementJSObject jsInstance;
 
-    public static <T extends CustomElement> void registerCustomComponent(String tag, Class<T> className, Supplier<T> constructor) {
+    public static <T extends CustomElement> void registerCustomComponent(String tag, Supplier<T> constructor) {
         CustomElementJSObject.registerElement(tag, (jsInstance) -> {
             CustomElement instance = constructor.get();
             instance.setElement(jsInstance);

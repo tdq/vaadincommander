@@ -9,6 +9,6 @@ public class VCommander extends CustomElement {
     protected void init() {
         this.getElement().setInnerHTML("VCommnader web component test");
 
-        System.err.println(this.getElement().getAttribute("width") + ", " + this.getElement().getAttribute("height"));
+        System.err.println("Test: " + this.getElement().getAttribute("width") + ", " + this.getElement().getAttribute("height"));
     }
 }
