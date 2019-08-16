@@ -1,0 +1,34 @@
+v-commander {
+    --font-size: 16px;
+    --background-color: rgb(0, 0, 0, 0.7);
+    --default-color: white;
+
+    display: block;
+    font-family: "Courier New", Courier, monospace;
+    line-height: var(--font-size);
+    font-size: var(--font-size);
+    width: 80ch;
+    background-color: var(--background-color);
+    color: var(--default-color);
+}
+
+v-commander > .commander {
+    width: 100%;
+    height: 100%;
+    word-wrap: break-word;
+}
+
+v-commander > .commander > span {
+    display: inline-block;
+    width: 1ch;
+    height: var(--font-size);
+    text-align: center;
+    vertical-align: bottom;
+    overflow: hidden;
+    cursor: none;
+}
+
+v-commander > .commander > span:hover {
+    background-color: #008080 !important;
+    color: #000000 !important;
+}
