@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>v-commander demo</title>
+
+    <script type="text/javascript" charset="utf-8" src="teavm/classes.js"></script>
+    <script>
+      window.registerCustomElement = function(_tag, _connect) {
+        window.customElements.define(_tag, class extends HTMLElement {
+          constructor() {
+            super();
+            this._java_instance = _connect(this);
+          };
+        });
+
+      }
+    </script>
+
+    <style>
+      .centered {
+          max-width: 1024px;
+      }
+
+      demo-snippet {
+          text-align: center;
+      }
+    </style>
+  </head>
+  <body onload="main()">
+    <div class="demo-snippet centered">
+      <h3>Basic v-commander demo</h3>
+      <v-commander width="100" height="30"></v-commander>
+    </div>
+  </body>
+</html>

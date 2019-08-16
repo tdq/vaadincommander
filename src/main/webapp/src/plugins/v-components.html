@@ -1,13 +1,14 @@
 <link rel="import" href="../v-plugin.html">
-<link lazy rel="import" href="./components/button.html">
-<link lazy rel="import" href="./components/checkbox.html">
-<link lazy rel="import" href="./components/combobox.html">
-<link lazy rel="import" href="./components/horizontal-layout.html">
-<link lazy rel="import" href="./components/label.html">
-<link lazy rel="import" href="./components/list.html">
-<link lazy rel="import" href="./components/text-field.html">
-<link lazy rel="import" href="./components/vertical-layout.html">
-<link lazy rel="import" href="./components/panel.html">
+<link lazy rel="import" href="components/button.html">
+<link lazy rel="import" href="components/checkbox.html">
+<link lazy rel="import" href="components/combobox.html">
+<link lazy rel="import" href="components/horizontal-layout.html">
+<link lazy rel="import" href="components/label.html">
+<link lazy rel="import" href="components/list.html">
+<link lazy rel="import" href="components/text-field.html">
+<link lazy rel="import" href="components/vertical-layout.html">
+<link lazy rel="import" href="components/panel.html">
+<link lazy rel="import" href="components/popup.html">
 
 <script>
 /**
@@ -39,8 +40,8 @@ class VComponents extends VPlugin {
 
     }
 
-    comboBox() {
-
+    comboBox(value = '', settings = {}) {
+        return new ComboBox(value, settings);
     }
 
     checkBox(caption = null, settings = null) {
@@ -49,6 +50,10 @@ class VComponents extends VPlugin {
 
     panel(settings = null) {
         return new Panel(settings);
+    }
+
+    popup(content = null, settings = {}) {
+        return new Popup(content, settings);
     }
 }
 

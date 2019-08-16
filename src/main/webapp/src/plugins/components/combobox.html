@@ -1,0 +1,50 @@
+<link rel="import" href="component.html">
+
+<script>
+class ComboBox extends Component {
+    constructor(value = '', settings = {}) {
+        super();
+
+        this._value = value;
+        this._settings = settings;
+
+        this._content = window.VC.plugins.VComponents.horizontal();
+        this._textField = window.VC.plugins.VComponents.textField();
+        this._expandButton = window.VC.plugins.VComponents.button('v');
+
+        this._content.add(this._textField);
+        this._content.add(this._expandButton);
+    }
+
+    setValue(value) {
+        this._value = value;
+
+        super.markAsDirty();
+    }
+
+    getValue() {
+        return this._value;
+    }
+
+    setItems(items) {
+        this._items = items;
+    }
+
+    setPlaceHolder(placeHolder) {
+        this._placeHolder = placeHolder;
+    }
+
+    setValueChangeListener(listener) {
+        this._valueChangeListener = listener;
+    }
+
+    getHeight() {
+        return super.getHeight() ? super.getHeight() : 1;
+    }
+
+    render(api) {
+        super.render(api);
+    }
+
+}
+</script>
