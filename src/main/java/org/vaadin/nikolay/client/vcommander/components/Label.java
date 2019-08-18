@@ -7,7 +7,12 @@ import org.vaadin.nikolay.client.vcommander.VCommander;
  *
  */
 public class Label extends Component {
+
     private String value;
+
+    {
+        getStyle().setColor(7);
+    }
 
     /**
      *
@@ -44,7 +49,7 @@ public class Label extends Component {
         }
 
         for(int i = 0; i < getWidth(); ++i) {
-            api.setItem(i, 0, new VCommander.Item(value.charAt(i), 7, 0, false));
+            api.setItem(i, 0, new VCommander.Item(value.charAt(i), getStyle().getColor(), getStyle().getBgcolor(), false));
         }
     }
 }

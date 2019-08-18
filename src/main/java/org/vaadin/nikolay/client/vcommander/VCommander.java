@@ -185,7 +185,7 @@ public class VCommander extends CustomElement {
     /**
      *
      */
-    public class VAPIBridge implements APIBridge {
+    private class VAPIBridge implements APIBridge {
 
         private VCommander commander;
 

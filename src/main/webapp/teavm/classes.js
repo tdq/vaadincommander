@@ -917,12 +917,14 @@ function ovnc_Client_main($args) {
     jl_Integer__clinit_();
     jl_Character__clinit_();
     ovncv_VCommander__clinit_();
+    ovncvc_EventBus__clinit_();
     ovncv_RenderRegistry__clinit_();
     jnc_CodingErrorAction__clinit_();
     jnc_CoderResult__clinit_();
     jn_ByteOrder__clinit_();
     jl_Thread__clinit_();
     ovncv_Palete16__clinit_();
+    jusi_SimpleStreamImpl__clinit_();
     var$2 = new ovnc_Client$main$lambda$_1_0;
     var$3 = new ovnc_CustomElement$registerCustomComponent$lambda$_1_0;
     var$3.$_01 = var$2;
@@ -958,6 +960,9 @@ function jl_Class_getName($this) {
 }
 function jl_Class_getComponentType($this) {
     return jl_Class_getClass($this.$platformClass.$meta.item);
+}
+function jl_Class_desiredAssertionStatus($this) {
+    return 1;
 }
 function otji_JS() {
     jl_Object.call(this);
@@ -1053,6 +1058,9 @@ function jl_String_length($this) {
 }
 function jl_String_isEmpty($this) {
     return $this.$characters.data.length ? 0 : 1;
+}
+function jl_String_toString($this) {
+    return $this;
 }
 function jl_String_toCharArray($this) {
     var $array, var$2, $i, var$4;
@@ -1444,25 +1452,26 @@ function jl_Integer_parseInt($s, $radix) {
     $rt_throw(var$7);
 }
 function jl_Integer_valueOf($s) {
-    var var$2, var$3;
-    var$2 = jl_Integer_parseInt($s, 10);
-    if (var$2 >= (-128) && var$2 <= 127) {
+    return jl_Integer_valueOf0(jl_Integer_parseInt($s, 10));
+}
+function jl_Integer_valueOf0($i) {
+    var var$2;
+    if ($i >= (-128) && $i <= 127) {
         a: {
             if (jl_Integer_integerCache === null) {
                 jl_Integer_integerCache = $rt_createArray(jl_Integer, 256);
-                var$3 = 0;
+                var$2 = 0;
                 while (true) {
-                    if (var$3 >= jl_Integer_integerCache.data.length)
+                    if (var$2 >= jl_Integer_integerCache.data.length)
                         break a;
-                    jl_Integer_integerCache.data[var$3] = jl_Integer__init_(var$3 - 128 | 0);
-                    var$3 = var$3 + 1 | 0;
+                    jl_Integer_integerCache.data[var$2] = jl_Integer__init_(var$2 - 128 | 0);
+                    var$2 = var$2 + 1 | 0;
                 }
             }
         }
-        $s = jl_Integer_integerCache.data[var$2 + 128 | 0];
-    } else
-        $s = jl_Integer__init_(var$2);
-    return $s;
+        return jl_Integer_integerCache.data[$i + 128 | 0];
+    }
+    return jl_Integer__init_($i);
 }
 function jl_Integer_intValue($this) {
     return $this.$value;
@@ -1917,6 +1926,9 @@ function ovncv_VCommander() {
 }
 var ovncv_VCommander_pluginsProviders = null;
 var ovncv_VCommander_plugins = null;
+function ovncv_VCommander_registerPlugin($pluginProvider) {
+    ju_ArrayList_add(ovncv_VCommander_pluginsProviders, ju_Objects_requireNonNull($pluginProvider));
+}
 function ovncv_VCommander_getPlugin($name) {
     return ju_HashMap_get(ovncv_VCommander_plugins, jl_Class_getName($name));
 }
@@ -1961,10 +1973,7 @@ function ovncv_VCommander_init($this) {
     ovncv_Main_exec($application);
 }
 function ovncv_VCommander__clinit_() {
-    var var$1;
-    var$1 = new ju_ArrayList;
-    var$1.$array = $rt_createArray(jl_Object, 10);
-    ovncv_VCommander_pluginsProviders = var$1;
+    ovncv_VCommander_pluginsProviders = ju_ArrayList__init_();
     ovncv_VCommander_plugins = ju_HashMap__init_();
 }
 function ovncv_VCommander$Item() {
@@ -1999,12 +2008,24 @@ function jl_Iterable() {
 }
 function jl_Iterable_forEach($this, $action) {
     var $itr;
-    $itr = ju_AbstractList_iterator($this);
-    while (ju_AbstractList$1_hasNext($itr)) {
-        ovncv_VCommander$init$lambda$_3_0_accept($action, ju_AbstractList$1_next($itr));
+    $itr = $this.$iterator();
+    while ($itr.$hasNext()) {
+        $action.$accept($itr.$next());
     }
 }
 function ju_Collection() {
+}
+function ju_Collection_spliterator($this) {
+    var var$1;
+    var$1 = new jusi_SpliteratorOverCollection;
+    var$1.$collection = $this;
+    return var$1;
+}
+function ju_Collection_stream($this) {
+    var var$1;
+    var$1 = new jusi_StreamOverSpliterator;
+    var$1.$spliterator = ju_Collection_spliterator($this);
+    return var$1;
 }
 function ju_AbstractCollection() {
     jl_Object.call(this);
@@ -2032,6 +2053,14 @@ function ju_ArrayList() {
     var a = this; ju_AbstractList.call(a);
     a.$array = null;
     a.$size0 = 0;
+}
+function ju_ArrayList__init_() {
+    var var_0 = new ju_ArrayList();
+    ju_ArrayList__init_0(var_0);
+    return var_0;
+}
+function ju_ArrayList__init_0($this) {
+    $this.$array = $rt_createArray(jl_Object, 10);
 }
 function ju_ArrayList_ensureCapacity($this, $minCapacity) {
     var $newLength, var$3, var$4, var$5;
@@ -2090,6 +2119,7 @@ function ju_Map() {
 }
 function ju_AbstractMap() {
     jl_Object.call(this);
+    this.$cachedKeySet = null;
 }
 function ju_HashMap() {
     var a = this; ju_AbstractMap.call(a);
@@ -2163,6 +2193,15 @@ function ju_HashMap_findNullKeyEntry($this) {
         $m = $m.$next0;
     }
     return $m;
+}
+function ju_HashMap_keySet($this) {
+    var var$1;
+    if ($this.$cachedKeySet === null) {
+        var$1 = new ju_HashMap$1;
+        var$1.$this$01 = $this;
+        $this.$cachedKeySet = var$1;
+    }
+    return $this.$cachedKeySet;
 }
 function ju_HashMap_put($this, $key, $value) {
     return ju_HashMap_putImpl($this, $key, $value);
@@ -2338,6 +2377,9 @@ function ovncv_VCommander$VAPIBridge_setItem($this, $x, $y, $item) {
         var$4.style.setProperty("background-color", $rt_ustr(var$6));
     }
 }
+function ovncv_VCommander$VAPIBridge_addEventListener($this, $eventType, $action) {
+    window.document.addEventListener($rt_ustr($eventType), otji_JS_function($action, "handleEvent"));
+}
 function juf_Consumer() {
 }
 function ovncv_VCommander$init$lambda$_3_0() {
@@ -2346,7 +2388,7 @@ function ovncv_VCommander$init$lambda$_3_0() {
 }
 function ovncv_VCommander$init$lambda$_3_0_accept(var$0, var$1) {
     var var$2, var$3, var$4, var$5, var$6, var$7;
-    var$1 = ovncv_RenderRegistry$_clinit_$lambda$_5_0_apply(var$1, var$0.$_02);
+    var$1 = var$1.$apply(var$0.$_02);
     ju_HashMap_putImpl(ovncv_VCommander_plugins, jl_Class_getName(jl_Object_getClass(var$1)), var$1);
     if (jl_System_errCache === null) {
         var$2 = new ji_PrintStream;
@@ -2382,16 +2424,38 @@ function ovncv_Application_setContent($this, $content) {
 }
 function ovncv_Application_render($this) {
     if ($this.$content0 !== null && $this.$api !== null)
-        ovncvc_Label_render($this.$content0, $this.$api);
+        $this.$content0.$render($this.$api);
 }
 function ovncv_Main() {
     ovncv_Application.call(this);
 }
 function ovncv_Main_exec($this) {
-    var $label;
-    $label = new ovncvc_Label;
-    ovncvc_Label_setValue($label, $rt_s(14));
-    ovncv_Application_setContent($this, $label);
+    var $label1, $label2, $button, $layout, var$5;
+    $label1 = ovncvc_Label__init_();
+    ovncvc_Label_setValue($label1, $rt_s(14));
+    $label2 = ovncvc_Label__init_();
+    ovncvc_Label_setValue($label2, $rt_s(15));
+    $label2.$style.$color0 = 1;
+    $label2.$style.$bgcolor0 = 4;
+    $button = new ovncvc_Button;
+    ovncvc_Component__init_($button);
+    $layout = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
+    var$5 = new ovncvc_Button$_init_$lambda$_0_0;
+    var$5.$_03 = $button;
+    ovncvc_EventBus_registerEvent($layout, $button, var$5);
+    $button.$style.$color0 = 7;
+    ovncvc_Button_setCaption($button, $rt_s(16));
+    $button.$focused = 1;
+    $layout = new ovncv_Main$exec$lambda$_1_0;
+    $layout.$_04 = $label2;
+    ovncvc_Button_setClickListener($button, $layout);
+    $layout = new ovncvc_HorizontalLayout;
+    ovncvc_Component__init_($layout);
+    $layout.$components = ju_ArrayList__init_();
+    ovncvc_Layout_add($layout, $label1);
+    ovncvc_Layout_add($layout, $label2);
+    ovncvc_Layout_add($layout, $button);
+    ovncv_Application_setContent($this, $layout);
 }
 function ju_Map$Entry() {
 }
@@ -2412,7 +2476,7 @@ function ju_Objects_requireNonNull($obj) {
     if ($obj !== null)
         return $obj;
     $obj = new jl_NullPointerException;
-    jl_Throwable__init_($obj, $rt_s(15));
+    jl_Throwable__init_($obj, $rt_s(17));
     $rt_throw($obj);
 }
 function jl_NumberFormatException() {
@@ -2457,16 +2521,50 @@ function otci_Base46_decode($seq) {
     return $result;
 }
 function ovncvc_Component() {
-    jl_Object.call(this);
-    this.$width0 = 0;
+    var a = this; jl_Object.call(a);
+    a.$width0 = 0;
+    a.$focused = 0;
+    a.$style = null;
+}
+function ovncvc_Component__init_0() {
+    var var_0 = new ovncvc_Component();
+    ovncvc_Component__init_(var_0);
+    return var_0;
+}
+function ovncvc_Component__init_($this) {
+    var var$1;
+    var$1 = new ovncvc_Component$Style;
+    var$1.$this$02 = $this;
+    $this.$style = var$1;
+}
+function ovncvc_Component_isFocused($this) {
+    return $this.$focused;
+}
+function ovncvc_Component_setFocused($this, $focused) {
+    $this.$focused = $focused;
+}
+function ovncvc_Component_getStyle($this) {
+    return $this.$style;
+}
+function ovncvc_Component_markAsDirty($this) {
+    ovncv_RenderRegistry_invokeRender(ovncv_VCommander_getPlugin($rt_cls(ovncv_RenderRegistry)));
 }
 function ovncvc_Label() {
     ovncvc_Component.call(this);
     this.$value2 = null;
 }
+function ovncvc_Label__init_() {
+    var var_0 = new ovncvc_Label();
+    ovncvc_Label__init_0(var_0);
+    return var_0;
+}
+function ovncvc_Label__init_0($this) {
+    ovncvc_Component__init_($this);
+    $this.$style.$color0 = 7;
+}
 function ovncvc_Label_setValue($this, $value) {
     $this.$value2 = $value;
-    ovncv_RenderRegistry_invokeRender(ovncv_VCommander_getPlugin($rt_cls(ovncv_RenderRegistry)));
+    ovncvc_Component_markAsDirty($this);
 }
 function ovncvc_Label_getWidth($this) {
     return $this.$width0 > 0 ? $this.$width0 : $this.$value2 === null ? 0 : jl_String_length($this.$value2);
@@ -2477,9 +2575,143 @@ function ovncvc_Label_render($this, $api) {
         return;
     $i = 0;
     while ($i < ovncvc_Label_getWidth($this)) {
-        ovncv_VCommander$VAPIBridge_setItem($api, $i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($this.$value2, $i), 7, 0, 0));
+        $api.$setItem($i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($this.$value2, $i), $this.$style.$color0, $this.$style.$bgcolor0, 0));
         $i = $i + 1 | 0;
     }
+}
+function ovncvc_Button() {
+    var a = this; ovncvc_Component.call(a);
+    a.$caption = null;
+    a.$clickListener = null;
+}
+function ovncvc_Button_setCaption($this, $caption) {
+    $this.$caption = $caption;
+    ovncvc_Component_markAsDirty($this);
+}
+function ovncvc_Button_setClickListener($this, $listener) {
+    $this.$clickListener = ju_Objects_requireNonNull($listener);
+}
+function ovncvc_Button_getWidth($this) {
+    return $this.$caption === null ? 1 : jl_String_length($this.$caption) + 4 | 0;
+}
+function ovncvc_Button_render($this, $api) {
+    var $color, $bgcolor, $width, $i, var$6, var$7;
+    $color = $this.$focused ? 0 : $this.$style.$color0;
+    $bgcolor = $this.$focused ? 7 : $this.$style.$bgcolor0;
+    $width = ovncvc_Button_getWidth($this);
+    $i = 0;
+    var$6 = $width - 1 | 0;
+    var$7 = $width - 2 | 0;
+    while ($i < $width) {
+        if (!$i)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(91, $color, $bgcolor, 0));
+        else if ($i == var$6)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(93, $color, $bgcolor, 0));
+        else if ($i != 1 && $i != var$7)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($this.$caption, $i - 2 | 0), $color, $bgcolor, 0));
+        else
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(0, $color, $bgcolor, 0));
+        $i = $i + 1 | 0;
+    }
+}
+function jl_Runnable() {
+}
+function ovncv_Main$exec$lambda$_1_0() {
+    jl_Object.call(this);
+    this.$_04 = null;
+}
+function ovncv_Main$exec$lambda$_1_0_run(var$0) {
+    var var$1;
+    var$1 = var$0.$_04;
+    ovncvc_Label_setValue(var$1, $rt_s(18));
+    var$1.$style.$bgcolor0 = 1;
+    var$1.$style.$color0 = 4;
+}
+function ovncvc_Layout() {
+    ovncvc_Component.call(this);
+    this.$components = null;
+}
+function ovncvc_Layout_add($this, $component) {
+    ju_ArrayList_add($this.$components, ju_Objects_requireNonNull($component));
+}
+function ovncvc_Layout_getComponents($this) {
+    return $this.$components;
+}
+function ovncvc_HorizontalLayout() {
+    ovncvc_Layout.call(this);
+}
+function ovncvc_HorizontalLayout_getWidth($this) {
+    return jusi_SimpleStreamImpl_reduce(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$components), new ovncvc_HorizontalLayout$getWidth$lambda$_1_0), jl_Integer_valueOf0(0), new ovncvc_HorizontalLayout$getWidth$lambda$_1_1).$value;
+}
+function ovncvc_HorizontalLayout_render($this, $api) {
+    var $offset, var$3, $component, $childWidth, $wrapper;
+    $offset = 0;
+    var$3 = ju_AbstractList_iterator($this.$components);
+    while (ju_AbstractList$1_hasNext(var$3)) {
+        $component = ju_AbstractList$1_next(var$3);
+        $childWidth = $component.$getWidth();
+        $wrapper = new ovncvc_HorizontalLayout$HLAPIWrapper;
+        $wrapper.$this$03 = $this;
+        $wrapper.$api0 = $api;
+        $wrapper.$width1 = $childWidth;
+        $wrapper.$offset = $offset;
+        $offset = $offset + $childWidth | 0;
+        $component.$render($wrapper);
+    }
+}
+function ovncvc_Component$Style() {
+    var a = this; jl_Object.call(a);
+    a.$color0 = 0;
+    a.$bgcolor0 = 0;
+    a.$this$02 = null;
+}
+function ovncvc_Component$Style_getColor($this) {
+    return $this.$color0;
+}
+function ovncvc_Component$Style_setColor($this, $color) {
+    $this.$color0 = $color;
+}
+function ovncvc_Component$Style_getBgcolor($this) {
+    return $this.$bgcolor0;
+}
+function ovncvc_Component$Style_setBgcolor($this, $bgcolor) {
+    $this.$bgcolor0 = $bgcolor;
+}
+function ovncv_Plugin() {
+    jl_Object.call(this);
+    this.$apiBridge = null;
+}
+function ovncv_Plugin__init_(var_0) {
+    var var_1 = new ovncv_Plugin();
+    ovncv_Plugin__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncv_Plugin__init_0($this, $apiBridge) {
+    $this.$apiBridge = ju_Objects_requireNonNull($apiBridge);
+}
+function ovncvc_EventBus() {
+    ovncv_Plugin.call(this);
+    this.$events = null;
+}
+function ovncvc_EventBus_registerEvent($this, $component, $action) {
+    ju_Objects_requireNonNull($component);
+    ju_Objects_requireNonNull($action);
+    ju_HashMap_putImpl($this.$events, $component, $action);
+}
+function ovncvc_EventBus__clinit_() {
+    ovncv_VCommander_registerPlugin(new ovncvc_EventBus$_clinit_$lambda$_5_0);
+}
+function ovncvc_EventBus$ComponentEvent() {
+}
+function ovncvc_Button$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_03 = null;
+}
+function ovncvc_Button$_init_$lambda$_0_0_call(var$0, var$1) {
+    var var$2;
+    var$2 = var$0.$_03;
+    if (jl_String_equals($rt_s(19), $rt_str(var$1.key)) && var$2.$clickListener !== null)
+        ovncv_Main$exec$lambda$_1_0_run(var$2.$clickListener);
 }
 function jl_Math() {
     jl_Object.call(this);
@@ -2496,6 +2728,22 @@ function jl_Math_max($a, $b) {
 }
 function ju_Arrays() {
     jl_Object.call(this);
+}
+function juf_Function() {
+}
+function ovncvc_EventBus$_clinit_$lambda$_5_0() {
+    jl_Object.call(this);
+}
+function ovncvc_EventBus$_clinit_$lambda$_5_0_apply(var$0, var$1) {
+    var var$2, var$3;
+    var$1 = var$1;
+    var$2 = new ovncvc_EventBus;
+    ovncv_Plugin__init_0(var$2, var$1);
+    var$2.$events = ju_HashMap__init_();
+    var$3 = new ovncvc_EventBus$_init_$lambda$_0_0;
+    var$3.$_05 = var$2;
+    ovncv_VCommander$VAPIBridge_addEventListener(var$1, $rt_s(20), var$3);
+    return var$2;
 }
 function ju_Iterator() {
 }
@@ -2523,10 +2771,6 @@ function ju_AbstractList$1_next($this) {
     $this.$index = var$2 + 1 | 0;
     return ju_ArrayList_get(var$1, var$2);
 }
-function ovncv_Plugin() {
-    jl_Object.call(this);
-    this.$apiBridge = null;
-}
 function ovncv_RenderRegistry() {
     var a = this; ovncv_Plugin.call(a);
     a.$application = null;
@@ -2544,15 +2788,13 @@ function ovncv_RenderRegistry_invokeRender($this) {
         var$2.$backingMap = ju_HashMap__init_();
         $timer.$tasks = var$2;
         var$2 = new ovncv_RenderRegistry$1;
-        var$2.$this$01 = $this;
+        var$2.$this$04 = $this;
         var$2.$nativeTimerId = (-1);
         ju_Timer_schedule($timer, var$2, Long_ZERO);
     }
 }
 function ovncv_RenderRegistry__clinit_() {
-    var var$1;
-    var$1 = new ovncv_RenderRegistry$_clinit_$lambda$_5_0;
-    ju_ArrayList_add(ovncv_VCommander_pluginsProviders, ju_Objects_requireNonNull(var$1));
+    ovncv_VCommander_registerPlugin(new ovncv_RenderRegistry$_clinit_$lambda$_5_0);
 }
 function jl_System() {
     jl_Object.call(this);
@@ -2664,8 +2906,6 @@ function jl_ConsoleOutputStreamStderr() {
 function jl_ConsoleOutputStreamStderr_write($this, $b) {
     $rt_putStderr($b);
 }
-function juf_Function() {
-}
 function ovncv_RenderRegistry$_clinit_$lambda$_5_0() {
     jl_Object.call(this);
 }
@@ -2673,7 +2913,7 @@ function ovncv_RenderRegistry$_clinit_$lambda$_5_0_apply(var$0, var$1) {
     var var$2;
     var$1 = var$1;
     var$2 = new ovncv_RenderRegistry;
-    var$2.$apiBridge = ju_Objects_requireNonNull(var$1);
+    ovncv_Plugin__init_0(var$2, var$1);
     return var$2;
 }
 function jnc_Charset() {
@@ -2731,7 +2971,7 @@ function jnci_UTF8Charset_newEncoder($this) {
         return var$1;
     }
     var$5 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$5, $rt_s(16));
+    jl_Throwable__init_(var$5, $rt_s(21));
     $rt_throw(var$5);
 }
 function jnc_IllegalCharsetNameException() {
@@ -2752,6 +2992,39 @@ function jl_CloneNotSupportedException() {
 }
 function ju_ConcurrentModificationException() {
     jl_RuntimeException.call(this);
+}
+function jlr_Array() {
+    jl_Object.call(this);
+}
+function jlr_Array_newInstanceImpl(var$1, var$2) {
+    if (var$1.$meta.primitive) {
+        if (var$1 == $rt_bytecls()) {
+            return $rt_createByteArray(var$2);
+        }
+        if (var$1 == $rt_shortcls()) {
+            return $rt_createShortArray(var$2);
+        }
+        if (var$1 == $rt_charcls()) {
+            return $rt_createCharArray(var$2);
+        }
+        if (var$1 == $rt_intcls()) {
+            return $rt_createIntArray(var$2);
+        }
+        if (var$1 == $rt_longcls()) {
+            return $rt_createLongArray(var$2);
+        }
+        if (var$1 == $rt_floatcls()) {
+            return $rt_createFloatArray(var$2);
+        }
+        if (var$1 == $rt_doublecls()) {
+            return $rt_createDoubleArray(var$2);
+        }
+        if (var$1 == $rt_booleancls()) {
+            return $rt_createBooleanArray(var$2);
+        }
+    } else {
+        return $rt_createArray(var$1, var$2)
+    }
 }
 function jn_Buffer() {
     var a = this; jl_Object.call(a);
@@ -2782,7 +3055,7 @@ function jn_Buffer_position0($this, $newPosition) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(17)), $newPosition), $rt_s(18)), $this.$limit), $rt_s(19))));
+    jl_Throwable__init_(var$2, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(22)), $newPosition), $rt_s(23)), $this.$limit), $rt_s(24))));
     $rt_throw(var$2);
 }
 function jn_Buffer_clear($this) {
@@ -2811,7 +3084,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
             $pos = $offset + $length | 0;
             if ($pos > var$5) {
                 var$7 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(20)), $pos), $rt_s(21)), var$5)));
+                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(25)), $pos), $rt_s(26)), var$5)));
                 $rt_throw(var$7);
             }
             if (jn_Buffer_remaining($this) < $length) {
@@ -2821,7 +3094,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
             }
             if ($length < 0) {
                 var$7 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(22)), $length), $rt_s(23))));
+                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(27)), $length), $rt_s(28))));
                 $rt_throw(var$7);
             }
             $pos = $this.$position;
@@ -2840,7 +3113,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
     }
     $dst = $dst.data;
     var$10 = new jl_IndexOutOfBoundsException;
-    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(24)), $offset), $rt_s(18)), $dst.length), $rt_s(25))));
+    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(29)), $offset), $rt_s(23)), $dst.length), $rt_s(30))));
     $rt_throw(var$10);
 }
 function jn_ByteBuffer() {
@@ -2870,12 +3143,12 @@ function jn_ByteBuffer_put($this, $src, $offset, $length) {
             $pos = $offset + $length | 0;
             if ($pos > var$6) {
                 var$4 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(26)), $pos), $rt_s(21)), var$6)));
+                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(31)), $pos), $rt_s(26)), var$6)));
                 $rt_throw(var$4);
             }
             if ($length < 0) {
                 var$4 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(22)), $length), $rt_s(23))));
+                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(27)), $length), $rt_s(28))));
                 $rt_throw(var$4);
             }
             $pos = $this.$position + $this.$start0 | 0;
@@ -2895,7 +3168,7 @@ function jn_ByteBuffer_put($this, $src, $offset, $length) {
     }
     $src = $src.data;
     var$10 = new jl_IndexOutOfBoundsException;
-    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(24)), $offset), $rt_s(18)), $src.length), $rt_s(25))));
+    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(29)), $offset), $rt_s(23)), $src.length), $rt_s(30))));
     $rt_throw(var$10);
 }
 function jn_ByteBuffer_put0($this, $src) {
@@ -2917,9 +3190,12 @@ function jnc_CodingErrorAction__init_0($this, $name) {
     $this.$name0 = $name;
 }
 function jnc_CodingErrorAction__clinit_() {
-    jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(27));
-    jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(28));
-    jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(29));
+    jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(32));
+    jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(33));
+    jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(34));
+}
+function jl_NegativeArraySizeException() {
+    jl_RuntimeException.call(this);
 }
 function jn_CharBufferImpl() {
     jn_CharBuffer.call(this);
@@ -2950,7 +3226,7 @@ function jnc_CharsetEncoder_onMalformedInput($this, $newAction) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, $rt_s(30));
+    jl_Throwable__init_(var$2, $rt_s(35));
     $rt_throw(var$2);
 }
 function jnc_CharsetEncoder_implOnMalformedInput($this, $newAction) {
@@ -2963,7 +3239,7 @@ function jnc_CharsetEncoder_onUnmappableCharacter($this, $newAction) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, $rt_s(30));
+    jl_Throwable__init_(var$2, $rt_s(35));
     $rt_throw(var$2);
 }
 function jnc_CharsetEncoder_implOnUnmappableCharacter($this, $newAction) {
@@ -3108,8 +3384,8 @@ function jn_ByteOrder__init_0($this, $name) {
     $this.$name1 = $name;
 }
 function jn_ByteOrder__clinit_() {
-    jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(31));
-    jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(32));
+    jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(36));
+    jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(37));
 }
 function jnci_BufferedEncoder() {
     jnc_CharsetEncoder.call(this);
@@ -3251,41 +3527,23 @@ function jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArra
 function ji_IOException() {
     jl_Exception.call(this);
 }
-function jlr_Array() {
+function otjde_EventListener() {
+}
+function ovncvc_EventBus$_init_$lambda$_0_0() {
     jl_Object.call(this);
+    this.$_05 = null;
 }
-function jlr_Array_newInstanceImpl(var$1, var$2) {
-    if (var$1.$meta.primitive) {
-        if (var$1 == $rt_bytecls()) {
-            return $rt_createByteArray(var$2);
-        }
-        if (var$1 == $rt_shortcls()) {
-            return $rt_createShortArray(var$2);
-        }
-        if (var$1 == $rt_charcls()) {
-            return $rt_createCharArray(var$2);
-        }
-        if (var$1 == $rt_intcls()) {
-            return $rt_createIntArray(var$2);
-        }
-        if (var$1 == $rt_longcls()) {
-            return $rt_createLongArray(var$2);
-        }
-        if (var$1 == $rt_floatcls()) {
-            return $rt_createFloatArray(var$2);
-        }
-        if (var$1 == $rt_doublecls()) {
-            return $rt_createDoubleArray(var$2);
-        }
-        if (var$1 == $rt_booleancls()) {
-            return $rt_createBooleanArray(var$2);
-        }
-    } else {
-        return $rt_createArray(var$1, var$2)
-    }
+function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1) {
+    var var$2, var$3, var$4;
+    var$2 = var$0.$_05;
+    var$3 = ju_HashMap_keySet(var$2.$events);
+    var$4 = new ovncvc_EventBus$lambda$new$1$lambda$_3_0;
+    var$4.$_06 = var$2;
+    var$4.$_10 = var$1;
+    jl_Iterable_forEach(var$3, var$4);
 }
-function jl_NegativeArraySizeException() {
-    jl_RuntimeException.call(this);
+function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(var$0, var$1) {
+    ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1);
 }
 function ju_Timer() {
     var a = this; jl_Object.call(a);
@@ -3297,8 +3555,8 @@ function ju_Timer_schedule($this, $task, $delay) {
     if (!$this.$cancelled && $task.$timer === null && $task.$nativeTimerId < 0) {
         $task.$timer = $this;
         var$3 = new ju_Timer$schedule$lambda$_3_0;
-        var$3.$_03 = $this;
-        var$3.$_10 = $task;
+        var$3.$_07 = $this;
+        var$3.$_11 = $task;
         var$4 = $delay.lo;
         $task.$nativeTimerId = setTimeout(otji_JS_function(var$3, "onTimer"), var$4);
         return;
@@ -3307,8 +3565,6 @@ function ju_Timer_schedule($this, $task, $delay) {
     jl_Exception__init_($task);
     $rt_throw($task);
 }
-function jl_Runnable() {
-}
 function ju_TimerTask() {
     var a = this; jl_Object.call(a);
     a.$timer = null;
@@ -3316,12 +3572,12 @@ function ju_TimerTask() {
 }
 function ovncv_RenderRegistry$1() {
     ju_TimerTask.call(this);
-    this.$this$01 = null;
+    this.$this$04 = null;
 }
 function ovncv_RenderRegistry$1_run($this) {
-    if ($this.$this$01.$application !== null)
-        ovncv_Application_render($this.$this$01.$application);
-    $this.$this$01.$invoke = 0;
+    if ($this.$this$04.$application !== null)
+        ovncv_Application_render($this.$this$04.$application);
+    $this.$this$04.$invoke = 0;
 }
 function ju_Set() {
 }
@@ -3335,6 +3591,21 @@ function ju_HashSet() {
 function ju_HashSet_remove($this, $object) {
     return ju_HashMap_remove($this.$backingMap, $object) === null ? 0 : 1;
 }
+function ovncvc_EventBus$lambda$new$1$lambda$_3_0() {
+    var a = this; jl_Object.call(a);
+    a.$_06 = null;
+    a.$_10 = null;
+}
+function ovncvc_EventBus$lambda$new$1$lambda$_3_0_accept(var$0, var$1) {
+    var var$2, var$3;
+    var$1 = var$1;
+    var$2 = var$0.$_06;
+    var$3 = var$0.$_10;
+    if (var$1.$focused) {
+        var$3.preventDefault();
+        ovncvc_Button$_init_$lambda$_0_0_call(ju_HashMap_get(var$2.$events, var$1), var$3);
+    }
+}
 function jl_IllegalStateException() {
     jl_Exception.call(this);
 }
@@ -3345,22 +3616,91 @@ function otjb_TimerHandler() {
 }
 function ju_Timer$schedule$lambda$_3_0() {
     var a = this; jl_Object.call(a);
-    a.$_03 = null;
-    a.$_10 = null;
+    a.$_07 = null;
+    a.$_11 = null;
 }
 function ju_Timer$schedule$lambda$_3_0_onTimer(var$0) {
     var var$1, var$2, var$3, var$4;
-    var$1 = var$0.$_03;
-    var$2 = var$0.$_10;
+    var$1 = var$0.$_07;
+    var$2 = var$0.$_11;
     var$3 = new jl_Thread;
     var$4 = new ju_Timer$lambda$schedule$1$lambda$_6_0;
-    var$4.$_04 = var$1;
-    var$4.$_11 = var$2;
+    var$4.$_08 = var$1;
+    var$4.$_12 = var$2;
     jl_Thread__init_(var$3, var$4, null);
     jl_Thread_start(var$3);
 }
 function ju_Timer$schedule$lambda$_3_0_onTimer$exported$0(var$0) {
     ju_Timer$schedule$lambda$_3_0_onTimer(var$0);
+}
+function ju_HashMap$1() {
+    ju_AbstractSet.call(this);
+    this.$this$01 = null;
+}
+function ju_HashMap$1_iterator($this) {
+    var var$1, var$2;
+    var$1 = new ju_HashMap$KeyIterator;
+    var$2 = $this.$this$01;
+    var$1.$associatedMap = var$2;
+    var$1.$expectedModCount = var$2.$modCount1;
+    var$1.$futureEntry = null;
+    return var$1;
+}
+function ju_HashMap$AbstractMapIterator() {
+    var a = this; jl_Object.call(a);
+    a.$position1 = 0;
+    a.$expectedModCount = 0;
+    a.$futureEntry = null;
+    a.$currentEntry = null;
+    a.$prevEntry = null;
+    a.$associatedMap = null;
+}
+function ju_HashMap$AbstractMapIterator_hasNext($this) {
+    if ($this.$futureEntry !== null)
+        return 1;
+    while ($this.$position1 < $this.$associatedMap.$elementData.data.length) {
+        if ($this.$associatedMap.$elementData.data[$this.$position1] !== null)
+            return 1;
+        $this.$position1 = $this.$position1 + 1 | 0;
+    }
+    return 0;
+}
+function ju_HashMap$AbstractMapIterator_checkConcurrentMod($this) {
+    var var$1;
+    if ($this.$expectedModCount == $this.$associatedMap.$modCount1)
+        return;
+    var$1 = new ju_ConcurrentModificationException;
+    jl_Exception__init_(var$1);
+    $rt_throw(var$1);
+}
+function ju_HashMap$AbstractMapIterator_makeNext($this) {
+    var var$1, var$2, var$3;
+    ju_HashMap$AbstractMapIterator_checkConcurrentMod($this);
+    if (!ju_HashMap$AbstractMapIterator_hasNext($this)) {
+        var$1 = new ju_NoSuchElementException;
+        jl_Exception__init_(var$1);
+        $rt_throw(var$1);
+    }
+    if ($this.$futureEntry === null) {
+        var$2 = $this.$associatedMap.$elementData.data;
+        var$3 = $this.$position1;
+        $this.$position1 = var$3 + 1 | 0;
+        $this.$currentEntry = var$2[var$3];
+        $this.$futureEntry = $this.$currentEntry.$next0;
+        $this.$prevEntry = null;
+    } else {
+        if ($this.$currentEntry !== null)
+            $this.$prevEntry = $this.$currentEntry;
+        $this.$currentEntry = $this.$futureEntry;
+        $this.$futureEntry = $this.$futureEntry.$next0;
+    }
+}
+function ju_HashMap$KeyIterator() {
+    ju_HashMap$AbstractMapIterator.call(this);
+}
+function ju_HashMap$KeyIterator_next($this) {
+    ju_HashMap$AbstractMapIterator_makeNext($this);
+    return $this.$currentEntry.$key;
 }
 function jl_UnsupportedOperationException() {
     jl_RuntimeException.call(this);
@@ -3415,7 +3755,7 @@ function jl_Thread__init_($this, $target, $name) {
 function jl_Thread_start($this) {
     var var$1;
     var$1 = new jl_Thread$start$lambda$_4_0;
-    var$1.$_05 = $this;
+    var$1.$_09 = $this;
     otp_Platform_startThread(var$1);
 }
 function jl_Thread_setCurrentThread($thread) {
@@ -3431,20 +3771,20 @@ function jl_Thread_currentThread() {
     return jl_Thread_currentThread0;
 }
 function jl_Thread__clinit_() {
-    jl_Thread_mainThread = jl_Thread__init_0(null, $rt_s(33));
+    jl_Thread_mainThread = jl_Thread__init_0(null, $rt_s(38));
     jl_Thread_currentThread0 = jl_Thread_mainThread;
     jl_Thread_nextId = Long_fromInt(1);
     jl_Thread_activeCount = 1;
 }
 function ju_Timer$lambda$schedule$1$lambda$_6_0() {
     var a = this; jl_Object.call(a);
-    a.$_04 = null;
-    a.$_11 = null;
+    a.$_08 = null;
+    a.$_12 = null;
 }
 function ju_Timer$lambda$schedule$1$lambda$_6_0_run(var$0) {
     var var$1, var$2;
-    var$1 = var$0.$_04;
-    var$2 = var$0.$_11;
+    var$1 = var$0.$_08;
+    var$2 = var$0.$_12;
     if (!var$1.$cancelled && var$2.$timer !== null && var$2.$timer !== null) {
         ovncv_RenderRegistry$1_run(var$2);
         ju_HashSet_remove(var$2.$timer.$tasks, var$2);
@@ -3464,11 +3804,11 @@ function otp_PlatformRunnable() {
 }
 function jl_Thread$start$lambda$_4_0() {
     jl_Object.call(this);
-    this.$_05 = null;
+    this.$_09 = null;
 }
 function jl_Thread$start$lambda$_4_0_run(var$0) {
     var var$1, var$2, var$3, $$je;
-    var$1 = var$0.$_05;
+    var$1 = var$0.$_09;
     a: {
         try {
             jl_Thread_activeCount = jl_Thread_activeCount + 1 | 0;
@@ -3519,6 +3859,9 @@ function jl_Thread$start$lambda$_4_0_run(var$0) {
     jl_Thread_activeCount = jl_Thread_activeCount - 1 | 0;
     jl_Thread_setCurrentThread(jl_Thread_mainThread);
     $rt_throw(var$2);
+}
+function ju_NoSuchElementException() {
+    jl_RuntimeException.call(this);
 }
 function jl_IllegalMonitorStateException() {
     jl_RuntimeException.call(this);
@@ -3594,6 +3937,16 @@ function jl_Object$monitorEnterWait$lambda$_6_0_run(var$0) {
     var$1.$count = var$1.$count + var$3 | 0;
     otpp_AsyncCallbackWrapper_complete(var$4, null);
 }
+function ovncvc_HorizontalLayout$HLAPIWrapper() {
+    var a = this; jl_Object.call(a);
+    a.$api0 = null;
+    a.$width1 = 0;
+    a.$offset = 0;
+    a.$this$03 = null;
+}
+function ovncvc_HorizontalLayout$HLAPIWrapper_setItem($this, $x, $y, $item) {
+    $this.$api0.$setItem($x + $this.$offset | 0, $y, $item);
+}
 function ovncv_Palete16() {
     jl_Object.call(this);
 }
@@ -3602,25 +3955,161 @@ function ovncv_Palete16__clinit_() {
     var var$1, var$2;
     var$1 = $rt_createArray(jl_String, 16);
     var$2 = var$1.data;
-    var$2[0] = $rt_s(34);
-    var$2[1] = $rt_s(35);
-    var$2[2] = $rt_s(36);
-    var$2[3] = $rt_s(37);
-    var$2[4] = $rt_s(38);
-    var$2[5] = $rt_s(39);
-    var$2[6] = $rt_s(40);
-    var$2[7] = $rt_s(41);
-    var$2[8] = $rt_s(34);
-    var$2[9] = $rt_s(42);
-    var$2[10] = $rt_s(43);
-    var$2[11] = $rt_s(44);
-    var$2[12] = $rt_s(45);
-    var$2[13] = $rt_s(46);
-    var$2[14] = $rt_s(47);
-    var$2[15] = $rt_s(48);
+    var$2[0] = $rt_s(39);
+    var$2[1] = $rt_s(40);
+    var$2[2] = $rt_s(41);
+    var$2[3] = $rt_s(42);
+    var$2[4] = $rt_s(43);
+    var$2[5] = $rt_s(44);
+    var$2[6] = $rt_s(45);
+    var$2[7] = $rt_s(46);
+    var$2[8] = $rt_s(39);
+    var$2[9] = $rt_s(47);
+    var$2[10] = $rt_s(48);
+    var$2[11] = $rt_s(49);
+    var$2[12] = $rt_s(50);
+    var$2[13] = $rt_s(51);
+    var$2[14] = $rt_s(52);
+    var$2[15] = $rt_s(53);
     ovncv_Palete16_color = var$1;
 }
-$rt_packages([-1, "java", 0, "lang", -1, "org", 2, "vaadin", 3, "nikolay", 4, "client", 5, "vcommander"
+function ovncvc_HorizontalLayout$getWidth$lambda$_1_0() {
+    jl_Object.call(this);
+}
+function ovncvc_HorizontalLayout$getWidth$lambda$_1_0_apply(var$0, var$1) {
+    return jl_Integer_valueOf0(var$1.$getWidth());
+}
+function juf_BiFunction() {
+}
+function juf_BinaryOperator() {
+}
+function ovncvc_HorizontalLayout$getWidth$lambda$_1_1() {
+    jl_Object.call(this);
+}
+function ovncvc_HorizontalLayout$getWidth$lambda$_1_1_apply(var$0, var$1, var$2) {
+    var$1 = var$1;
+    var$2 = var$2;
+    return jl_Integer_valueOf0(var$1.$value + var$2.$value | 0);
+}
+function jus_BaseStream() {
+}
+function jus_Stream() {
+}
+function jusi_SimpleStreamImpl() {
+    jl_Object.call(this);
+}
+var jusi_SimpleStreamImpl_$assertionsDisabled = 0;
+function jusi_SimpleStreamImpl_map($this, $mapper) {
+    var var$2;
+    var$2 = new jusi_MappingStreamImpl;
+    var$2.$sourceStream = $this;
+    var$2.$mapper = $mapper;
+    return var$2;
+}
+function jusi_SimpleStreamImpl_reduce($this, $identity, $accumulator) {
+    var $consumer, $wantsMore;
+    $consumer = new jusi_ReducingConsumer;
+    $consumer.$accumulator = $accumulator;
+    $consumer.$result = $identity;
+    $consumer.$initialized = 1;
+    $wantsMore = jusi_WrappingStreamImpl_next($this, $consumer);
+    if (!jusi_SimpleStreamImpl_$assertionsDisabled && $wantsMore) {
+        $identity = new jl_AssertionError;
+        jl_Throwable__init_($identity, $rt_s(54));
+        $rt_throw($identity);
+    }
+    return $consumer.$result;
+}
+function jusi_SimpleStreamImpl__clinit_() {
+    jusi_SimpleStreamImpl_$assertionsDisabled = 0;
+}
+function jusi_StreamOverSpliterator() {
+    jusi_SimpleStreamImpl.call(this);
+    this.$spliterator = null;
+}
+function jusi_StreamOverSpliterator_next($this, $consumer) {
+    var $action;
+    $action = new jusi_StreamOverSpliterator$AdapterAction;
+    $action.$consumer = $consumer;
+    while (jusi_SpliteratorOverCollection_tryAdvance($this.$spliterator, $action)) {
+        if ($action.$wantsMore)
+            continue;
+        else
+            return 1;
+    }
+    return 0;
+}
+function jusi_WrappingStreamImpl() {
+    jusi_SimpleStreamImpl.call(this);
+    this.$sourceStream = null;
+}
+function jusi_WrappingStreamImpl_next($this, $consumer) {
+    return jusi_StreamOverSpliterator_next($this.$sourceStream, jusi_MappingStreamImpl_wrap($this, $consumer));
+}
+function jusi_MappingStreamImpl() {
+    jusi_WrappingStreamImpl.call(this);
+    this.$mapper = null;
+}
+function jusi_MappingStreamImpl_wrap($this, $consumer) {
+    var var$2;
+    var$2 = new jusi_MappingStreamImpl$wrap$lambda$_1_0;
+    var$2.$_010 = $this;
+    var$2.$_13 = $consumer;
+    return var$2;
+}
+function ju_Spliterator() {
+}
+function jusi_SpliteratorOverCollection() {
+    var a = this; jl_Object.call(a);
+    a.$collection = null;
+    a.$iterator0 = null;
+}
+function jusi_SpliteratorOverCollection_tryAdvance($this, $action) {
+    if ($this.$iterator0 === null)
+        $this.$iterator0 = ju_AbstractList_iterator($this.$collection);
+    if (!ju_AbstractList$1_hasNext($this.$iterator0))
+        return 0;
+    jusi_StreamOverSpliterator$AdapterAction_accept($action, ju_AbstractList$1_next($this.$iterator0));
+    return 1;
+}
+function juf_Predicate() {
+}
+function jusi_ReducingConsumer() {
+    var a = this; jl_Object.call(a);
+    a.$accumulator = null;
+    a.$result = null;
+    a.$initialized = 0;
+}
+function jusi_ReducingConsumer_test($this, $t) {
+    if (!$this.$initialized) {
+        $this.$result = $t;
+        $this.$initialized = 1;
+    } else
+        $this.$result = ovncvc_HorizontalLayout$getWidth$lambda$_1_1_apply($this.$accumulator, $this.$result, $t);
+    return 1;
+}
+function jl_AssertionError() {
+    jl_Error.call(this);
+}
+function jusi_MappingStreamImpl$wrap$lambda$_1_0() {
+    var a = this; jl_Object.call(a);
+    a.$_010 = null;
+    a.$_13 = null;
+}
+function jusi_MappingStreamImpl$wrap$lambda$_1_0_test(var$0, var$1) {
+    var var$2;
+    var$2 = var$0.$_010;
+    return jusi_ReducingConsumer_test(var$0.$_13, ovncvc_HorizontalLayout$getWidth$lambda$_1_0_apply(var$2.$mapper, var$1));
+}
+function jusi_StreamOverSpliterator$AdapterAction() {
+    var a = this; jl_Object.call(a);
+    a.$consumer = null;
+    a.$wantsMore = 0;
+}
+function jusi_StreamOverSpliterator$AdapterAction_accept($this, $t) {
+    $this.$wantsMore = jusi_MappingStreamImpl$wrap$lambda$_1_0_test($this.$consumer, $t);
+}
+$rt_packages([-1, "java", 0, "lang", -1, "org", 2, "vaadin", 3, "nikolay", 4, "client", 5, "vcommander", 6, "components"
 ]);
 $rt_metadata([jl_Object, "Object", 1, 0, [], 0, 3, 0, ["$hashCode0", function() { return jl_Object_hashCode(this); }, "$equals", function(var_1) { return jl_Object_equals(this, var_1); }],
 ovnc_Client, 0, jl_Object, [], 0, 3, 0, 0,
@@ -3695,7 +4184,7 @@ jl_Iterable, 0, jl_Object, [], 3, 3, 0, 0]);
 $rt_metadata([ju_Collection, 0, jl_Object, [jl_Iterable], 3, 3, 0, 0,
 ju_AbstractCollection, 0, jl_Object, [ju_Collection], 1, 3, 0, 0,
 ju_List, 0, jl_Object, [ju_Collection], 3, 3, 0, 0,
-ju_AbstractList, 0, ju_AbstractCollection, [ju_List], 1, 3, 0, 0,
+ju_AbstractList, 0, ju_AbstractCollection, [ju_List], 1, 3, 0, ["$iterator", function() { return ju_AbstractList_iterator(this); }],
 jl_Cloneable, 0, jl_Object, [], 3, 3, 0, 0,
 ju_RandomAccess, 0, jl_Object, [], 3, 3, 0, 0,
 ju_ArrayList, 0, ju_AbstractList, [jl_Cloneable, ji_Serializable, ju_RandomAccess], 0, 3, 0, 0,
@@ -3709,9 +4198,9 @@ otjc_JSArrayReader, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0,
 otjb_Window, 0, jl_Object, [otj_JSObject, otjb_WindowEventTarget, otjb_StorageProvider, otjc_JSArrayReader], 1, 3, 0, ["$addEventListener$exported$0", function(var_1, var_2) { return otjb_Window_addEventListener$exported$0(this, var_1, var_2); }, "$removeEventListener$exported$1", function(var_1, var_2) { return otjb_Window_removeEventListener$exported$1(this, var_1, var_2); }, "$get$exported$2", function(var_1) { return otjb_Window_get$exported$2(this, var_1); }, "$removeEventListener$exported$3", function(var_1,
 var_2, var_3) { return otjb_Window_removeEventListener$exported$3(this, var_1, var_2, var_3); }, "$dispatchEvent$exported$4", function(var_1) { return otjb_Window_dispatchEvent$exported$4(this, var_1); }, "$getLength$exported$5", function() { return otjb_Window_getLength$exported$5(this); }, "$addEventListener$exported$6", function(var_1, var_2, var_3) { return otjb_Window_addEventListener$exported$6(this, var_1, var_2, var_3); }],
 ovncv_APIBridge, 0, jl_Object, [], 3, 3, 0, 0,
-ovncv_VCommander$VAPIBridge, 0, jl_Object, [ovncv_APIBridge], 0, 3, 0, 0,
+ovncv_VCommander$VAPIBridge, 0, jl_Object, [ovncv_APIBridge], 0, 0, 0, ["$setItem", function(var_1, var_2, var_3) { ovncv_VCommander$VAPIBridge_setItem(this, var_1, var_2, var_3); }],
 juf_Consumer, 0, jl_Object, [], 3, 3, 0, 0,
-ovncv_VCommander$init$lambda$_3_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, 0,
+ovncv_VCommander$init$lambda$_3_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncv_VCommander$init$lambda$_3_0_accept(this, var_1); }],
 ovncv_Application, 0, jl_Object, [], 1, 3, 0, 0,
 ovncv_Main, 0, ovncv_Application, [], 0, 3, 0, 0,
 ju_Map$Entry, 0, jl_Object, [], 3, 3, 0, 0,
@@ -3725,14 +4214,25 @@ otciu_UnicodeHelper, 0, jl_Object, [], 4, 3, 0, 0,
 otci_CharFlow, 0, jl_Object, [], 0, 3, 0, 0,
 otci_Base46, 0, jl_Object, [], 4, 3, 0, 0,
 ovncvc_Component, 0, jl_Object, [], 1, 3, 0, 0,
-ovncvc_Label, 0, ovncvc_Component, [], 0, 3, 0, 0,
+ovncvc_Label, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_Label_getWidth(this); }, "$render", function(var_1) { ovncvc_Label_render(this, var_1); }],
+ovncvc_Button, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_Button_getWidth(this); }, "$render", function(var_1) { ovncvc_Button_render(this, var_1); }],
+jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0,
+ovncv_Main$exec$lambda$_1_0, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0,
+ovncvc_Layout, 0, ovncvc_Component, [], 1, 3, 0, 0,
+ovncvc_HorizontalLayout, 0, ovncvc_Layout, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_HorizontalLayout_getWidth(this); }, "$render", function(var_1) { ovncvc_HorizontalLayout_render(this, var_1); }],
+ovncvc_Component$Style, 0, jl_Object, [], 0, 3, 0, 0,
+ovncv_Plugin, 0, jl_Object, [], 1, 3, 0, 0,
+ovncvc_EventBus, "EventBus", 7, ovncv_Plugin, [], 0, 3, 0, 0,
+ovncvc_EventBus$ComponentEvent, 0, jl_Object, [], 3, 3, 0, 0,
+ovncvc_Button$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, 0,
 jl_Math, 0, jl_Object, [], 4, 3, 0, 0,
 ju_Arrays, 0, jl_Object, [], 0, 3, 0, 0,
+juf_Function, 0, jl_Object, [], 3, 3, 0, 0,
+ovncvc_EventBus$_clinit_$lambda$_5_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_EventBus$_clinit_$lambda$_5_0_apply(this, var_1); }],
 ju_Iterator, 0, jl_Object, [], 3, 3, 0, 0,
-ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, 0,
-ovncv_Plugin, 0, jl_Object, [], 1, 3, 0, 0,
-ovncv_RenderRegistry, "RenderRegistry", 6, ovncv_Plugin, [], 0, 3, 0, 0,
-jl_System, 0, jl_Object, [], 4, 3, 0, 0,
+ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, ["$hasNext", function() { return ju_AbstractList$1_hasNext(this); }, "$next", function() { return ju_AbstractList$1_next(this); }],
+ovncv_RenderRegistry, "RenderRegistry", 6, ovncv_Plugin, [], 0, 3, 0, 0]);
+$rt_metadata([jl_System, 0, jl_Object, [], 4, 3, 0, 0,
 jl_AutoCloseable, 0, jl_Object, [], 3, 3, 0, 0,
 ji_Closeable, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0,
 ji_Flushable, 0, jl_Object, [], 3, 3, 0, 0,
@@ -3740,18 +4240,19 @@ ji_OutputStream, 0, jl_Object, [ji_Closeable, ji_Flushable], 1, 3, 0, 0,
 ji_FilterOutputStream, 0, ji_OutputStream, [], 0, 3, 0, 0,
 ji_PrintStream, 0, ji_FilterOutputStream, [], 0, 3, 0, 0,
 jl_ConsoleOutputStreamStderr, 0, ji_OutputStream, [], 0, 0, 0, 0,
-juf_Function, 0, jl_Object, [], 3, 3, 0, 0,
-ovncv_RenderRegistry$_clinit_$lambda$_5_0, 0, jl_Object, [juf_Function], 0, 3, 0, 0,
-jnc_Charset, 0, jl_Object, [jl_Comparable], 1, 3, 0, 0]);
-$rt_metadata([jnci_UTF8Charset, 0, jnc_Charset, [], 0, 3, 0, 0,
+ovncv_RenderRegistry$_clinit_$lambda$_5_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncv_RenderRegistry$_clinit_$lambda$_5_0_apply(this, var_1); }],
+jnc_Charset, 0, jl_Object, [jl_Comparable], 1, 3, 0, 0,
+jnci_UTF8Charset, 0, jnc_Charset, [], 0, 3, 0, 0,
 jnc_IllegalCharsetNameException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0,
 jl_CloneNotSupportedException, 0, jl_Exception, [], 0, 3, 0, 0,
 ju_ConcurrentModificationException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
+jlr_Array, 0, jl_Object, [], 4, 3, 0, 0,
 jn_Buffer, 0, jl_Object, [], 1, 3, 0, 0,
 jl_Readable, 0, jl_Object, [], 3, 3, 0, 0,
 jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0,
 jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0,
 jnc_CodingErrorAction, 0, jl_Object, [], 0, 3, 0, 0,
+jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0,
 jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0,
 jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0,
@@ -3761,28 +4262,32 @@ jn_ByteOrder, 0, jl_Object, [], 4, 3, 0, 0,
 jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0,
 jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0,
 ji_IOException, 0, jl_Exception, [], 0, 3, 0, 0,
-jlr_Array, 0, jl_Object, [], 4, 3, 0, 0,
-jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
+otjde_EventListener, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0,
+ovncvc_EventBus$_init_$lambda$_0_0, 0, jl_Object, [otjde_EventListener], 0, 3, 0, ["$handleEvent$exported$0", function(var_1) { return ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(this, var_1); }],
 ju_Timer, 0, jl_Object, [], 0, 3, 0, 0,
-jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0,
 ju_TimerTask, 0, jl_Object, [jl_Runnable], 1, 3, 0, 0,
 ovncv_RenderRegistry$1, 0, ju_TimerTask, [], 0, 0, 0, 0,
 ju_Set, 0, jl_Object, [ju_Collection], 3, 3, 0, 0,
 ju_AbstractSet, 0, ju_AbstractCollection, [ju_Set], 1, 3, 0, 0,
 ju_HashSet, 0, ju_AbstractSet, [jl_Cloneable, ji_Serializable], 0, 3, 0, 0,
+ovncvc_EventBus$lambda$new$1$lambda$_3_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_EventBus$lambda$new$1$lambda$_3_0_accept(this, var_1); }],
 jl_IllegalStateException, 0, jl_Exception, [], 0, 3, 0, 0,
 jnc_CoderMalfunctionError, 0, jl_Error, [], 0, 3, 0, 0,
 otjb_TimerHandler, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0,
 ju_Timer$schedule$lambda$_3_0, 0, jl_Object, [otjb_TimerHandler], 0, 3, 0, ["$onTimer$exported$0", function() { return ju_Timer$schedule$lambda$_3_0_onTimer$exported$0(this); }],
+ju_HashMap$1, 0, ju_AbstractSet, [], 0, 0, 0, ["$iterator", function() { return ju_HashMap$1_iterator(this); }],
+ju_HashMap$AbstractMapIterator, 0, jl_Object, [], 0, 0, 0, ["$hasNext", function() { return ju_HashMap$AbstractMapIterator_hasNext(this); }],
+ju_HashMap$KeyIterator, 0, ju_HashMap$AbstractMapIterator, [ju_Iterator], 0, 0, 0, ["$next", function() { return ju_HashMap$KeyIterator_next(this); }],
 jl_UnsupportedOperationException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0,
 jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0,
-ju_Timer$lambda$schedule$1$lambda$_6_0, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0,
-jn_ReadOnlyBufferException, 0, jl_UnsupportedOperationException, [], 0, 3, 0, 0,
+ju_Timer$lambda$schedule$1$lambda$_6_0, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0]);
+$rt_metadata([jn_ReadOnlyBufferException, 0, jl_UnsupportedOperationException, [], 0, 3, 0, 0,
 jn_BufferOverflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jn_BufferUnderflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 otp_PlatformRunnable, 0, jl_Object, [], 3, 3, 0, 0,
 jl_Thread$start$lambda$_4_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, ["$run", function() { jl_Thread$start$lambda$_4_0_run(this); }],
+ju_NoSuchElementException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jl_IllegalMonitorStateException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jl_Object$Monitor, 0, jl_Object, [], 0, 0, 0, 0,
 otp_PlatformQueue, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0,
@@ -3790,7 +4295,25 @@ jl_Object$monitorExit$lambda$_8_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0
 oti_AsyncCallback, 0, jl_Object, [], 3, 3, 0, 0,
 otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, ["$complete", function(var_1) { otpp_AsyncCallbackWrapper_complete(this, var_1); }, "$error", function(var_1) { otpp_AsyncCallbackWrapper_error(this, var_1); }],
 jl_Object$monitorEnterWait$lambda$_6_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, 0,
-ovncv_Palete16, 0, jl_Object, [], 0, 3, 0, 0]);
+ovncvc_HorizontalLayout$HLAPIWrapper, 0, jl_Object, [ovncv_APIBridge], 0, 0, 0, ["$setItem", function(var_1, var_2, var_3) { ovncvc_HorizontalLayout$HLAPIWrapper_setItem(this, var_1, var_2, var_3); }],
+ovncv_Palete16, 0, jl_Object, [], 0, 3, 0, 0,
+ovncvc_HorizontalLayout$getWidth$lambda$_1_0, 0, jl_Object, [juf_Function], 0, 3, 0, 0,
+juf_BiFunction, 0, jl_Object, [], 3, 3, 0, 0,
+juf_BinaryOperator, 0, jl_Object, [juf_BiFunction], 3, 3, 0, 0,
+ovncvc_HorizontalLayout$getWidth$lambda$_1_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, 0,
+jus_BaseStream, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0,
+jus_Stream, 0, jl_Object, [jus_BaseStream], 3, 3, 0, 0,
+jusi_SimpleStreamImpl, 0, jl_Object, [jus_Stream], 1, 3, 0, 0,
+jusi_StreamOverSpliterator, 0, jusi_SimpleStreamImpl, [], 0, 3, 0, 0,
+jusi_WrappingStreamImpl, 0, jusi_SimpleStreamImpl, [], 1, 3, 0, 0,
+jusi_MappingStreamImpl, 0, jusi_WrappingStreamImpl, [], 0, 3, 0, 0,
+ju_Spliterator, 0, jl_Object, [], 3, 3, 0, 0,
+jusi_SpliteratorOverCollection, 0, jl_Object, [ju_Spliterator], 0, 3, 0, 0,
+juf_Predicate, 0, jl_Object, [], 3, 3, 0, 0,
+jusi_ReducingConsumer, 0, jl_Object, [juf_Predicate], 0, 0, 0, 0,
+jl_AssertionError, 0, jl_Error, [], 0, 3, 0, 0,
+jusi_MappingStreamImpl$wrap$lambda$_1_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, 0,
+jusi_StreamOverSpliterator$AdapterAction, 0, jl_Object, [juf_Consumer], 0, 0, 0, 0]);
 function $rt_array(cls, data) {
     this.$monitor = null;
     this.$id$ = 0;
@@ -3822,8 +4345,8 @@ $rt_setCloneMethod($rt_array.prototype, function() {
     }
     return new $rt_array(this.type, dataCopy);
 });
-$rt_stringPool(["Can\'t enter monitor from another thread synchronously", "@", "0", "null", "Index out of bounds", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "String is null or empty", "Illegal radix: ", "ch", "UTF-8", "Register plugin: ", "Hello, World!", "", "Replacement preconditions do not hold", "New position ", " is outside of range [0;", "]", "The last char in dst ", " is outside of array of size ", "Length ", " must be non-negative",
-"Offset ", ")", "The last byte in src ", "IGNORE", "REPLACE", "REPORT", "Action must be non-null", "BIG_ENDIAN", "LITTLE_ENDIAN", "main", "#000000", "#0000c9", "#c90000", "#c900c9", "#00c900", "#00c9c9", "#c9c900", "#c9c9c9", "#0000ff", "#ff0000", "#ff00ff", "#00ff00", "#00ffff", "#ffff00", "#ffffff"]);
+$rt_stringPool(["Can\'t enter monitor from another thread synchronously", "@", "0", "null", "Index out of bounds", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "String is null or empty", "Illegal radix: ", "ch", "UTF-8", "Register plugin: ", "Hello, World!", "Label2", "Press enter", "", "Pressed button", "Enter", "keydown", "Replacement preconditions do not hold", "New position ", " is outside of range [0;", "]", "The last char in dst ",
+" is outside of array of size ", "Length ", " must be non-negative", "Offset ", ")", "The last byte in src ", "IGNORE", "REPLACE", "REPORT", "Action must be non-null", "BIG_ENDIAN", "LITTLE_ENDIAN", "main", "#000000", "#0000c9", "#c90000", "#c900c9", "#00c900", "#00c9c9", "#c9c900", "#c9c9c9", "#0000ff", "#ff0000", "#ff00ff", "#00ff00", "#00ffff", "#ffff00", "#ffffff", "next() should have returned true"]);
 jl_String.prototype.toString = function() {
     return $rt_ustr(this);
 };
@@ -4435,6 +4958,8 @@ main = $rt_mainStarter(ovnc_Client_main);
     c.get = c.$get$exported$2;
     c.addEventListener = c.$addEventListener$exported$6;
     c.removeEventListener = c.$removeEventListener$exported$3;
+    c = ovncvc_EventBus$_init_$lambda$_0_0.prototype;
+    c.handleEvent = c.$handleEvent$exported$0;
     c = ju_Timer$schedule$lambda$_3_0.prototype;
     c.onTimer = c.$onTimer$exported$0;
 })();

@@ -12,6 +12,7 @@ public abstract class Component {
     private int width;
     private int height;
     private boolean focused;
+    private Style style = new Style();
 
     /**
      *
@@ -69,8 +70,40 @@ public abstract class Component {
 
     /**
      *
+     * @return
+     */
+    public Style getStyle() {
+        return style;
+    }
+
+    /**
+     *
      */
     protected void markAsDirty() {
         VCommander.getPlugin(RenderRegistry.class).invokeRender();
+    }
+
+    /**
+     *
+     */
+    public class Style {
+        private int color;
+        private int bgcolor;
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public int getBgcolor() {
+            return bgcolor;
+        }
+
+        public void setBgcolor(int bgcolor) {
+            this.bgcolor = bgcolor;
+        }
     }
 }
