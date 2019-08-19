@@ -32,6 +32,14 @@ public abstract class Application {
 
     /**
      *
+     * @return
+     */
+    protected APIBridge getApi() {
+        return this.api;
+    }
+
+    /**
+     *
      */
     public abstract void exec();
 

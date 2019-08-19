@@ -19,8 +19,6 @@ public class Button extends Component {
                 this.clickListener.run();
             }
         });
-
-        getStyle().setColor(7);
     }
 
     /**

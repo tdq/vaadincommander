@@ -87,8 +87,8 @@ public abstract class Component {
      *
      */
     public class Style {
-        private int color;
-        private int bgcolor;
+        private int color = 7;
+        private int bgcolor = 0;
 
         public int getColor() {
             return color;

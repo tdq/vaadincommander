@@ -1,8 +1,11 @@
 package org.vaadin.nikolay.client.vcommander;
 
 import org.vaadin.nikolay.client.vcommander.components.Button;
+import org.vaadin.nikolay.client.vcommander.components.CheckBox;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
+import org.vaadin.nikolay.client.vcommander.components.Panel;
+import org.vaadin.nikolay.client.vcommander.components.VerticalLayout;
 
 public class Main extends Application {
 
@@ -12,6 +15,25 @@ public class Main extends Application {
 
     @Override
     public void exec() {
+        int width = getApi().getBufferWidth();
+        int height = getApi().getBufferHeight();
+        int middleX = width / 2;
+        int middleY = height / 2;
+
+        HorizontalLayout content = new HorizontalLayout();
+
+        Panel leftPanel = new Panel();
+        leftPanel.getStyle().setBgcolor(1);
+        leftPanel.setWidth(middleX);
+        leftPanel.setHeight(height - 2);
+
+        Panel rightPanel = new Panel();
+        rightPanel.setWidth(middleX);
+        rightPanel.setHeight(height - 2);
+
+        content.add(leftPanel);
+        content.add(rightPanel);
+
         Label label1 = new Label();
         label1.setValue("Hello, World!");
 
@@ -22,18 +44,32 @@ public class Main extends Application {
 
         Button button = new Button();
         button.setCaption("Press enter");
-        button.setFocused(true);
         button.setClickListener(() -> {
             label2.setValue("Pressed button");
             label2.getStyle().setBgcolor(1);
             label2.getStyle().setColor(4);
         });
 
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.add(label1);
-        layout.add(label2);
-        layout.add(button);
+        CheckBox checkBox = new CheckBox();
+        checkBox.setCaption("Check box");
+        checkBox.setFocused(true);
+        checkBox.setValueChangeListener(value -> label1.setValue(value ? "Checked" : "Unchecked"));
 
-        setContent(layout);
+        VerticalLayout leftContent = new VerticalLayout();
+
+        HorizontalLayout layout1 = new HorizontalLayout();
+        layout1.add(label1);
+        layout1.add(label2);
+        layout1.add(button);
+
+        HorizontalLayout layout2 = new HorizontalLayout();
+        layout2.add(checkBox);
+
+        leftContent.add(layout1);
+        leftContent.add(layout2);
+
+        leftPanel.setContent(leftContent);
+
+        setContent(content);
     }
 }
