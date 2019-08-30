@@ -52,9 +52,9 @@ public class Panel extends Component {
                     api.setItem(i, j, new VCommander.Item('\u255A', color, bgcolor, false));
                 } else if(i == borderX && j == borderY) {
                     api.setItem(i, j, new VCommander.Item('\u255D', color, bgcolor, false));
-                } else if(i > 0 && i < borderX && (i == 0 || j == borderY)) {
+                } else if(i > 0 && i < borderX && (j == 0 || j == borderY)) {
                     api.setItem(i, j, new VCommander.Item('\u2550', color, bgcolor, false));
-                } else if(i == 0 || j == borderX) {
+                } else if(i == 0 || i == borderX) {
                     api.setItem(i, j, new VCommander.Item('\u2551', color, bgcolor, false));
                 } else {
                     api.setItem(i, j, new VCommander.Item((char) 0, color, bgcolor, false));

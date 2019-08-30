@@ -1,6 +1,5 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
-import org.teavm.jso.dom.events.Event;
 import org.teavm.jso.dom.events.KeyboardEvent;
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.Plugin;

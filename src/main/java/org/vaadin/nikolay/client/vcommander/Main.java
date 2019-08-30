@@ -5,6 +5,7 @@ import org.vaadin.nikolay.client.vcommander.components.CheckBox;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
 import org.vaadin.nikolay.client.vcommander.components.Panel;
+import org.vaadin.nikolay.client.vcommander.components.TextField;
 import org.vaadin.nikolay.client.vcommander.components.VerticalLayout;
 
 public class Main extends Application {
@@ -52,8 +53,13 @@ public class Main extends Application {
 
         CheckBox checkBox = new CheckBox();
         checkBox.setCaption("Check box");
-        checkBox.setFocused(true);
         checkBox.setValueChangeListener(value -> label1.setValue(value ? "Checked" : "Unchecked"));
+
+        TextField textField = new TextField();
+        textField.setValue("Text Field test. This value should be very long!");
+        textField.setWidth(20);
+        textField.setFocused(true);
+        textField.setValueChangeListener(label1::setValue);
 
         VerticalLayout leftContent = new VerticalLayout();
 
@@ -64,6 +70,7 @@ public class Main extends Application {
 
         HorizontalLayout layout2 = new HorizontalLayout();
         layout2.add(checkBox);
+        layout2.add(textField);
 
         leftContent.add(layout1);
         leftContent.add(layout2);
