@@ -77,6 +77,25 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
 
     /**
      *
+     * @param item
+     */
+    public void setSelectedItem(T item) {
+        Objects.requireNonNull(item);
+
+        for(int i = 0; i < items.size(); ++i) {
+            if(items.get(i).equals(item)) {
+                currentItemId = i;
+
+                super.markAsDirty();
+                return;
+            }
+        }
+
+        // TODO maybe we have to throgh an exception if such item was not found?
+    }
+
+    /**
+     *
      * @param listener
      */
     public void setValueChangeListener(ValueChangeListener<T> listener) {
@@ -116,10 +135,6 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
         VerticalLayout layout = new VerticalLayout();
         layout.setWidth(width);
         layout.setHeight(height);
-
-        if(selectMode) {
-            layout.getStyle().setBgcolor(0);
-        }
 
         for(int i = 0; i < Math.min(items.size(), height); ++i) {
             int itemId = i + scrollPos;

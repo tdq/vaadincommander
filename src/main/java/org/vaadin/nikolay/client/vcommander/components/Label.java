@@ -48,10 +48,10 @@ public class Label extends Component {
             return;
         }
 
-        int width = Math.min(value.length(), getWidth());
+        int width = getWidth();
 
         for(int i = 0; i < width; ++i) {
-            api.setItem(i, 0, new VCommander.Item(value.charAt(i), getStyle().getColor(), getStyle().getBgcolor(), false));
+            api.setItem(i, 0, new VCommander.Item(i < value.length() ? value.charAt(i) : 0, getStyle().getColor(), getStyle().getBgcolor(), false));
         }
     }
 }

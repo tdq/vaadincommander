@@ -2,6 +2,7 @@ package org.vaadin.nikolay.client.vcommander;
 
 import org.vaadin.nikolay.client.vcommander.components.Button;
 import org.vaadin.nikolay.client.vcommander.components.CheckBox;
+import org.vaadin.nikolay.client.vcommander.components.ComboBox;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
 import org.vaadin.nikolay.client.vcommander.components.ListBox;
@@ -76,17 +77,28 @@ public class Main extends Application {
         listBox.addItem(new TextItem("Line 0000000000"));
         listBox.setWidth(13);
         listBox.setHeight(8);
-        listBox.setFocused(true);
 
         Panel listBoxPanel = new Panel();
         listBoxPanel.setContent(listBox);
         listBoxPanel.setWidth(listBox.getWidth() + 2);
         listBoxPanel.setHeight(listBox.getHeight() + 2);
 
-        Label listBoxValue = new Label();
-        listBoxValue.setValue("Not selected");
+        TextItem currentItem = new TextItem("Item 2");
+        ComboBox<TextItem> comboBox = new ComboBox<>();
+        comboBox.addItem(new TextItem("Item 1"));
+        comboBox.addItem(currentItem);
+        comboBox.addItem(new TextItem("Item 3"));
+        comboBox.addItem(new TextItem("Item 4"));
+        comboBox.addItem(new TextItem("Item 5"));
+        comboBox.addItem(new TextItem("Item 6"));
+        comboBox.addItem(new TextItem("Item 7"));
+        comboBox.addItem(new TextItem("Item 8"));
+        comboBox.addItem(new TextItem("Item 9"));
+        comboBox.addItem(new TextItem("Item 10"));
+        comboBox.setValue(currentItem);
+        comboBox.setFocused(true);
 
-        listBox.setValueChangeListener(value -> listBoxValue.setValue(value.getCaption()));
+        listBox.setValueChangeListener(value -> comboBox.setPlaceHolder(value.getCaption()));
         textField.setValueChangeListener(value -> listBox.addItem(new TextItem(value)));
 
         VerticalLayout leftContent = new VerticalLayout();
@@ -106,7 +118,7 @@ public class Main extends Application {
         HorizontalLayout layout3 = new HorizontalLayout();
         layout3.setSpacing(true);
         layout3.add(listBoxPanel);
-        layout3.add(listBoxValue);
+        layout3.add(comboBox);
 
         leftContent.add(layout1);
         leftContent.add(layout2);

@@ -139,15 +139,17 @@ public class TextField extends Component {
 
     @Override
     public void render(APIBridge api) {
+        String text = value.length() == 0 && !editMode ? placeHolder : value.toString();
+
         int width = getWidth();
-        int valueSize = this.value.length();
+        int valueSize = text.length();
         Integer bgcolor = editMode ? (Integer) 0 : getStyle().getBgcolor();
 
         for(int i = 0; i < width; ++i) {
             int currentPos = renderValuePos + i;
 
             if(currentPos < valueSize && currentPos >= 0) {
-                api.setItem(i, 0, new VCommander.Item(value.charAt(currentPos), getStyle().getColor(), i == cursorPos && editMode ? 2 : bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), getStyle().getColor(), i == cursorPos && editMode ? 2 : bgcolor, false));
             } else {
                 api.setItem(i, 0, new VCommander.Item((char) 0, getStyle().getColor(), i == cursorPos && editMode ? 2 : bgcolor, false));
             }
