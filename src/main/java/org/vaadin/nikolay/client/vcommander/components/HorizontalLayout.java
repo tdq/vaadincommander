@@ -26,6 +26,10 @@ public class HorizontalLayout extends Layout {
             APIBridge wrapper= new HLAPIWrapper(api, childWidth, offset);
             offset += childWidth;
 
+            if(isSpacing()) {
+                offset += 1;
+            }
+
             component.render(wrapper);
         }
     }

@@ -141,9 +141,7 @@ public class TextField extends Component {
     public void render(APIBridge api) {
         int width = getWidth();
         int valueSize = this.value.length();
-        int bgcolor = editMode ? 0 : getStyle().getBgcolor();
-
-        System.err.println(String.format("CursorPos: %d, valueSize: %d, renderValuePos: %d", cursorPos, valueSize, renderValuePos));
+        Integer bgcolor = editMode ? (Integer) 0 : getStyle().getBgcolor();
 
         for(int i = 0; i < width; ++i) {
             int currentPos = renderValuePos + i;

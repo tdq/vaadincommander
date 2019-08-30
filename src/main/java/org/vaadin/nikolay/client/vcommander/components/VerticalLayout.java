@@ -28,6 +28,11 @@ public class VerticalLayout extends Layout {
             int childHeight = component.getHeight();
             APIBridge wrapper = new VLAPIWrapper(api, childHeight, offset);
             offset += childHeight;
+
+            if(isSpacing()) {
+                offset += 1;
+            }
+
             component.render(wrapper);
         }
     }

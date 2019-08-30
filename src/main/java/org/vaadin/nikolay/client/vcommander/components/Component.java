@@ -87,22 +87,22 @@ public abstract class Component {
      *
      */
     public class Style {
-        private int color = 7;
-        private int bgcolor = 0;
+        private Integer color = 7;
+        private Integer bgcolor;
 
-        public int getColor() {
+        public Integer getColor() {
             return color;
         }
 
-        public void setColor(int color) {
+        public void setColor(Integer color) {
             this.color = color;
         }
 
-        public int getBgcolor() {
+        public Integer getBgcolor() {
             return bgcolor;
         }
 
-        public void setBgcolor(int bgcolor) {
+        public void setBgcolor(Integer bgcolor) {
             this.bgcolor = bgcolor;
         }
     }

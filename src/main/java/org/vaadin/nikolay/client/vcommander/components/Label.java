@@ -48,7 +48,9 @@ public class Label extends Component {
             return;
         }
 
-        for(int i = 0; i < getWidth(); ++i) {
+        int width = Math.min(value.length(), getWidth());
+
+        for(int i = 0; i < width; ++i) {
             api.setItem(i, 0, new VCommander.Item(value.charAt(i), getStyle().getColor(), getStyle().getBgcolor(), false));
         }
     }

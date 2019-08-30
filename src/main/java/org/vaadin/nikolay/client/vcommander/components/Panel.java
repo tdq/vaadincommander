@@ -37,8 +37,8 @@ public class Panel extends Component {
         int height = getHeight();
         int borderX = width - 1;
         int borderY = height - 1;
-        int color = getStyle().getColor();
-        int bgcolor = getStyle().getBgcolor();
+        Integer color = getStyle().getColor();
+        Integer bgcolor = getStyle().getBgcolor();
 
         // TODO border style
 
@@ -74,7 +74,7 @@ public class Panel extends Component {
         }
     }
 
-    private void drawText(APIBridge api, int start, String text, int color, int bgcolor, int length) {
+    private void drawText(APIBridge api, int start, String text, Integer color, Integer bgcolor, int length) {
         for(int i = 0; i < length; ++i) {
             api.setItem(start + i, 0, new VCommander.Item(text.charAt(i), color, bgcolor, false));
         }

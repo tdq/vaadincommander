@@ -29,6 +29,7 @@ public class Main extends Application {
         leftPanel.setHeight(height - 2);
 
         Panel rightPanel = new Panel();
+        rightPanel.getStyle().setBgcolor(0);
         rightPanel.setWidth(middleX);
         rightPanel.setHeight(height - 2);
 
@@ -37,6 +38,7 @@ public class Main extends Application {
 
         Label label1 = new Label();
         label1.setValue("Hello, World!");
+        label1.setWidth(15);
 
         Label label2 = new Label();
         label2.setValue("Label2");
@@ -62,13 +64,16 @@ public class Main extends Application {
         textField.setValueChangeListener(label1::setValue);
 
         VerticalLayout leftContent = new VerticalLayout();
+        leftContent.setSpacing(true);
 
         HorizontalLayout layout1 = new HorizontalLayout();
+        layout1.setSpacing(true);
         layout1.add(label1);
         layout1.add(label2);
         layout1.add(button);
 
         HorizontalLayout layout2 = new HorizontalLayout();
+        layout2.setSpacing(true);
         layout2.add(checkBox);
         layout2.add(textField);
 

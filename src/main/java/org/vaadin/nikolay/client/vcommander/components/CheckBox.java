@@ -69,8 +69,8 @@ public class CheckBox extends Component {
 
     @Override
     public void render(APIBridge api) {
-        int color = isFocused() ? 0 : getStyle().getColor();
-        int bgcolor = isFocused() ? 7 : getStyle().getBgcolor();
+        Integer color = isFocused() ? (Integer) 0 : getStyle().getColor();
+        Integer bgcolor = isFocused() ? (Integer) 7 : getStyle().getBgcolor();
 
         api.setItem(0, 0, new VCommander.Item('[', color, bgcolor, false));
         api.setItem(1, 0, new VCommander.Item(this.checked ? '\u25A0' : (char) 0, color, bgcolor, false));

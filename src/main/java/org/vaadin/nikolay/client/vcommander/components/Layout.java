@@ -10,6 +10,7 @@ import java.util.Objects;
 public abstract class Layout extends Component {
 
     private final List<Component> components = new ArrayList<>();
+    private boolean spacing;
 
     /**
      *
@@ -29,9 +30,25 @@ public abstract class Layout extends Component {
 
     /**
      *
+     * @param spacing
+     */
+    public void setSpacing(boolean spacing) {
+        this.spacing = spacing;
+    }
+
+    /**
+     *
      * @return
      */
     protected List<Component> getComponents() {
         return this.components;
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected boolean isSpacing() {
+        return spacing;
     }
 }

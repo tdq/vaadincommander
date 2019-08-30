@@ -101,12 +101,18 @@ public class VCommander extends CustomElement {
         this.buffer[y][x] = item;
 
         HTMLElement cell = (HTMLElement) this.content.getChildNodes().get(y * this.width + x);
-        String color = item.shadowed ? Palete16.color[7] : Palete16.color[item.color];
-        String bgcolor = item.shadowed ? Palete16.color[0] : Palete16.color[item.bgcolor];
+        String color = item.color == null ? null : item.shadowed ? Palete16.color[7] : Palete16.color[item.color];
+        String bgcolor = item.bgcolor == null ? null :item.shadowed ? Palete16.color[0] : Palete16.color[item.bgcolor];
 
         cell.setInnerHTML(String.valueOf(item.value));
-        cell.getStyle().setProperty("color", color);
-        cell.getStyle().setProperty("background-color", bgcolor);
+
+        if(color != null) {
+            cell.getStyle().setProperty("color", color);
+        }
+
+        if(bgcolor != null) {
+            cell.getStyle().setProperty("background-color", bgcolor);
+        }
     }
 
     private void addEventListener(String type, EventListener listener) {
@@ -122,11 +128,11 @@ public class VCommander extends CustomElement {
      */
     public static class Item {
         private char value;
-        private int color;
-        private int bgcolor;
+        private Integer color;
+        private Integer bgcolor;
         private boolean shadowed;
 
-        public Item(char value, int color, int bgcolor, boolean shadowed) {
+        public Item(char value, Integer color, Integer bgcolor, boolean shadowed) {
             this.value = value;
             this.color = color;
             this.bgcolor = bgcolor;
@@ -141,19 +147,19 @@ public class VCommander extends CustomElement {
             this.value = value;
         }
 
-        public int getColor() {
+        public Integer getColor() {
             return color;
         }
 
-        public void setColor(int color) {
+        public void setColor(Integer color) {
             this.color = color;
         }
 
-        public int getBgcolor() {
+        public Integer getBgcolor() {
             return bgcolor;
         }
 
-        public void setBgcolor(int bgcolor) {
+        public void setBgcolor(Integer bgcolor) {
             this.bgcolor = bgcolor;
         }
 
@@ -170,8 +176,8 @@ public class VCommander extends CustomElement {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Item item = (Item) o;
-            return color == item.color &&
-                    bgcolor == item.bgcolor &&
+            return Objects.equals(color, item.color) &&
+                    Objects.equals(bgcolor, item.bgcolor) &&
                     shadowed == item.shadowed &&
                     value == item.value;
         }

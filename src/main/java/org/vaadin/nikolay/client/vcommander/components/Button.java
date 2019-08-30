@@ -51,8 +51,8 @@ public class Button extends Component {
 
     @Override
     public void render(APIBridge api) {
-        int color = isFocused() ? 0 : getStyle().getColor();
-        int bgcolor = isFocused() ? 7 : getStyle().getBgcolor();
+        Integer color = isFocused() ? (Integer) 0 : getStyle().getColor();
+        Integer bgcolor = isFocused() ? (Integer) 7 : getStyle().getBgcolor();
         int width = getWidth();
 
         for(int i = 0; i < width; ++i) {
