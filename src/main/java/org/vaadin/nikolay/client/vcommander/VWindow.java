@@ -1,5 +1,8 @@
 package org.vaadin.nikolay.client.vcommander;
 
+/**
+ *
+ */
 public class VWindow extends Plugin {
 
     static {

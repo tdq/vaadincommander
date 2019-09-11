@@ -12,6 +12,8 @@ public abstract class Component {
     private int width;
     private int height;
     private boolean focused;
+    private boolean preventDefault;
+    private boolean visible = true;
     private Style style = new Style();
 
     /**
@@ -66,6 +68,8 @@ public abstract class Component {
      */
     public void setFocused(boolean focused) {
         this.focused = focused;
+
+        this.markAsDirty();
     }
 
     /**
@@ -74,6 +78,38 @@ public abstract class Component {
      */
     public Style getStyle() {
         return style;
+    }
+
+    /**
+     *
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isPreventDefault() {
+        return preventDefault;
+    }
+
+    /**
+     *
+     * @param preventDefault
+     */
+    protected void setPreventDefault(boolean preventDefault) {
+        this.preventDefault = preventDefault;
     }
 
     /**

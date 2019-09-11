@@ -17,11 +17,13 @@ public class TextField extends Component {
     private int carretPos = 0;
     private boolean editMode;
     private ValueChangeListener<String> changeListener;
+    private ValueChangeListener<String> editListener;
 
     {
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.editMode = !this.editMode;
+                setPreventDefault(!isPreventDefault());
 
                 // TODO check if value was changed
                 if(!this.editMode && this.changeListener != null) {
@@ -29,7 +31,8 @@ public class TextField extends Component {
                 }
 
                 if(this.editMode) {
-                    this.cursorPos = Math.min(this.value.length(), getWidth() - 1);
+                    //this.cursorPos = Math.min(this.value.length(), getWidth() - 1);
+                    setCarretPos(0);
                 }
 
                 this.renderValuePos = 0;
@@ -46,18 +49,34 @@ public class TextField extends Component {
                     this.setCarretPos(this.carretPos - 1);
 
                     super.markAsDirty();
+                } else if("Home".equals(e.getKey())) {
+                    this.setCarretPos(0);
+
+                    super.markAsDirty();
+                } else if("End".equals(e.getKey())) {
+                    this.setCarretPos(this.value.length());
+
+                    super.markAsDirty();
                 } else if("Backspace".equals(e.getKey())) {
                     if(this.carretPos > 0) {
                         this.value.deleteCharAt(this.carretPos - 1);
                         this.setCarretPos(this.carretPos - 1);
 
                         super.markAsDirty();
+
+                        if(editListener != null) {
+                            editListener.onChange(getValue());
+                        }
                     }
                 } else if("Delete".equals(e.getKey())) {
                     if(this.value.length() > 0) {
                         this.value.deleteCharAt(this.carretPos);
 
                         super.markAsDirty();
+
+                        if(editListener != null) {
+                            editListener.onChange(getValue());
+                        }
                     }
                 } else if(e.getKey().length() == 1) {
                     // Printable symbol, add it into value
@@ -65,6 +84,10 @@ public class TextField extends Component {
                     this.setCarretPos(this.carretPos + 1);
 
                     super.markAsDirty();
+
+                    if(editListener != null) {
+                        editListener.onChange(getValue());
+                    }
                 }
             }
         });
@@ -107,6 +130,14 @@ public class TextField extends Component {
         this.changeListener = Objects.requireNonNull(listener);
     }
 
+    /**
+     *
+     * @param listener
+     */
+    public void setValueEditListener(ValueChangeListener<String> listener) {
+        this.editListener = Objects.requireNonNull(listener);
+    }
+
     private void setCarretPos(int pos) {
         if(pos < 0) {
             this.carretPos = 0;
@@ -143,15 +174,16 @@ public class TextField extends Component {
 
         int width = getWidth();
         int valueSize = text.length();
-        Integer bgcolor = editMode ? (Integer) 0 : getStyle().getBgcolor();
+        Integer color = editMode ? (Integer) 15 : isFocused() ? (Integer) 0 : getStyle().getColor();
+        Integer bgcolor = editMode ? (Integer) 0 : isFocused() ? (Integer) 7 : getStyle().getBgcolor();
 
         for(int i = 0; i < width; ++i) {
             int currentPos = renderValuePos + i;
 
             if(currentPos < valueSize && currentPos >= 0) {
-                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), getStyle().getColor(), i == cursorPos && editMode ? 2 : bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), color, i == cursorPos && editMode ? 2 : bgcolor, false));
             } else {
-                api.setItem(i, 0, new VCommander.Item((char) 0, getStyle().getColor(), i == cursorPos && editMode ? 2 : bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item((char) 0, color, i == cursorPos && editMode ? 2 : bgcolor, false));
             }
         }
     }

@@ -20,6 +20,7 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.selectMode = !this.selectMode;
+                setPreventDefault(!isPreventDefault());
 
                 // TODO check if value was changed
                 if(!this.selectMode && this.changeListener != null) {
@@ -60,6 +61,14 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
      *
      * @return
      */
+    public List<T> getItems() {
+        return items;
+    }
+
+    /**
+     *
+     * @return
+     */
     public Optional<T> getSelectedItem() {
         return Optional.ofNullable(!items.isEmpty() ? items.get(currentItemId) : null);
     }
@@ -84,7 +93,7 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
 
         for(int i = 0; i < items.size(); ++i) {
             if(items.get(i).equals(item)) {
-                currentItemId = i;
+                setCurrentItemId(i);
 
                 super.markAsDirty();
                 return;
@@ -142,6 +151,11 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
             Label itemCaption = new Label();
             itemCaption.setValue(items.get(itemId).getCaption());
             itemCaption.setWidth(width);
+
+            if(isFocused()) {
+                itemCaption.getStyle().setColor(0);
+                itemCaption.getStyle().setBgcolor(7);
+            }
 
             if(i + scrollPos == currentItemId && selectMode) {
                 itemCaption.getStyle().setBgcolor(2);

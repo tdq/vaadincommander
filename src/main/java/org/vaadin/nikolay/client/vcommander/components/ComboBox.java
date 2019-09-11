@@ -19,18 +19,27 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.activeMode = !activeMode;
+                setPreventDefault(!isPreventDefault());
 
-                // TODO show popup with items or hide it
+                // TODO use popup for items list
+                itemsList.setVisible(activeMode);
             }
         });
 
-        captionField.setValueChangeListener(value -> {
-            // TODO find item by caption and select first one
+        captionField.setValueEditListener(value -> {
+            itemsList.getItems().stream()
+                .filter(item -> value.equals(item.getCaption()))
+                .findFirst().ifPresent(item -> itemsList.setSelectedItem(item));
+        });
+
+        itemsList.setValueChangeListener(value -> {
+            captionField.setValue(value.getCaption());
         });
 
         getStyle().setColor(7);
         setWidth(15);
         captionField.setPlaceHolder("Type here");
+        itemsList.setVisible(activeMode);
     }
 
     /**
@@ -81,6 +90,7 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
         }
 
         captionField.setWidth(width - 3);
+        itemsList.setWidth(width);
     }
 
     @Override
@@ -100,14 +110,17 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
 
         Label dropDownIcon = new Label();
         dropDownIcon.setValue("[v]");
-        dropDownIcon.getStyle().setColor(15);
+        dropDownIcon.getStyle().setColor(captionField.getStyle().getColor());
         dropDownIcon.getStyle().setBgcolor(captionField.getStyle().getBgcolor());
 
         layout.add(captionField);
         layout.add(dropDownIcon);
 
         content.add(layout);
-        content.add(itemsList);
+
+        if(itemsList.isVisible()) {
+            content.add(itemsList);
+        }
 
         content.render(api);
     }

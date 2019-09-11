@@ -119,7 +119,7 @@ public class VCommander extends CustomElement {
         Window.current().getDocument().addEventListener(type, listener);
     }
 
-    private void removeEvemtListener(String type, EventListener listener) {
+    private void removeEventListener(String type, EventListener listener) {
         Window.current().getDocument().removeEventListener(type, listener);
     }
 
@@ -226,7 +226,7 @@ public class VCommander extends CustomElement {
 
         @Override
         public <E extends Event> void removeEventListener(String eventType, EventListener<E> action) {
-            this.commander.removeEvemtListener(eventType, action);
+            this.commander.removeEventListener(eventType, action);
         }
     }
 }
