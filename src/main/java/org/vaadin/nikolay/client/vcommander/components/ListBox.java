@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Navigation;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
     private ValueChangeListener<T> changeListener;
 
     {
+        VCommander.getPlugin(Navigation.class).registerComponent(this);
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.selectMode = !this.selectMode;

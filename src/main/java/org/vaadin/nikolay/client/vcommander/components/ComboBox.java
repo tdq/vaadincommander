@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Navigation;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -16,6 +17,13 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
     private boolean activeMode;
 
     {
+        VCommander.getPlugin(Navigation.class).registerComponent(this);
+
+        // FIXME the problem is that list box is in the same window with combobox.
+        // Should be resolved after popup will be implemented
+        VCommander.getPlugin(Navigation.class).unregisterComponent(itemsList);
+        VCommander.getPlugin(Navigation.class).unregisterComponent(captionField);
+
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.activeMode = !activeMode;

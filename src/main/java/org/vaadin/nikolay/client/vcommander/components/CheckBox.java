@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Navigation;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -15,6 +16,7 @@ public class CheckBox extends Component {
     private ValueChangeListener<Boolean> changeListener;
 
     {
+        VCommander.getPlugin(Navigation.class).registerComponent(this);
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.setChecked(!this.checked);

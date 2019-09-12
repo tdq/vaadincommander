@@ -1,10 +1,8 @@
 package org.vaadin.nikolay.client.vcommander;
 
-import org.teavm.jso.dom.events.KeyboardEvent;
 import org.vaadin.nikolay.client.vcommander.components.Button;
 import org.vaadin.nikolay.client.vcommander.components.CheckBox;
 import org.vaadin.nikolay.client.vcommander.components.ComboBox;
-import org.vaadin.nikolay.client.vcommander.components.Component;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
 import org.vaadin.nikolay.client.vcommander.components.ListBox;
@@ -13,14 +11,7 @@ import org.vaadin.nikolay.client.vcommander.components.TextField;
 import org.vaadin.nikolay.client.vcommander.components.TextItem;
 import org.vaadin.nikolay.client.vcommander.components.VerticalLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main extends Application {
-
-    // This should be done in some automatic way
-    private List<Component> focusableComponents = new ArrayList<>();
-    private int focusId = 0;
 
     public Main(APIBridge apiBridge) {
         super(apiBridge);
@@ -64,17 +55,14 @@ public class Main extends Application {
             label2.getStyle().setBgcolor(1);
             label2.getStyle().setColor(4);
         });
-        focusableComponents.add(button);
 
         CheckBox checkBox = new CheckBox();
         checkBox.setCaption("Check box");
         checkBox.setValueChangeListener(value -> label1.setValue(value ? "Checked" : "Unchecked"));
-        focusableComponents.add(checkBox);
 
         TextField textField = new TextField();
         textField.setValue("Text Field test. This value should be very long!");
         textField.setWidth(20);
-        focusableComponents.add(textField);
 
         ListBox<TextItem> listBox = new ListBox<>();
         listBox.addItem(new TextItem("Line 1"));
@@ -89,7 +77,6 @@ public class Main extends Application {
         listBox.addItem(new TextItem("Line 0000000000"));
         listBox.setWidth(13);
         listBox.setHeight(8);
-        focusableComponents.add(listBox);
 
         Panel listBoxPanel = new Panel();
         listBoxPanel.setContent(listBox);
@@ -109,7 +96,6 @@ public class Main extends Application {
         comboBox.addItem(new TextItem("Item 9"));
         comboBox.addItem(new TextItem("Item 10"));
         comboBox.setValue(currentItem);
-        focusableComponents.add(comboBox);
 
         listBox.setValueChangeListener(value -> comboBox.setPlaceHolder(value.getCaption()));
         textField.setValueChangeListener(value -> {
@@ -144,48 +130,5 @@ public class Main extends Application {
         leftPanel.setContent(leftContent);
 
         setContent(content);
-
-        // Should be implemented in some navigation plugin
-        getApi().addEventListener("keydown", e -> {
-            KeyboardEvent event = (KeyboardEvent) e;
-
-            if(focusableComponents.isEmpty()) {
-                return;
-            }
-
-            Component currentComponent = focusableComponents.get(focusId);
-
-            if(currentComponent.isPreventDefault()) {
-                return;
-            }
-
-            if("ArrowRight".equals(event.getKey()) || "Tab".equals(event.getKey())) {
-                if(currentComponent.isFocused()) {
-                    currentComponent.setFocused(false);
-                    focusId++;
-
-                    if(focusId >= focusableComponents.size()) {
-                        focusId = 0;
-                    }
-
-                    focusableComponents.get(focusId).setFocused(true);
-                } else {
-                    currentComponent.setFocused(true);
-                }
-            } else if("ArrowLeft".equals(event.getKey())) {
-                if(currentComponent.isFocused()) {
-                    currentComponent.setFocused(false);
-                    focusId--;
-
-                    if(focusId < 0) {
-                        focusId = focusableComponents.size() - 1;
-                    }
-
-                    focusableComponents.get(focusId).setFocused(true);
-                } else {
-                    currentComponent.setFocused(true);
-                }
-            }
-        });
     }
 }

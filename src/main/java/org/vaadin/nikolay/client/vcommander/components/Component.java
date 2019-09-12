@@ -4,6 +4,8 @@ import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.RenderRegistry;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
+import java.util.Objects;
+
 /**
  *
  */
@@ -122,9 +124,10 @@ public abstract class Component {
     /**
      *
      */
-    public class Style {
+    public static class Style {
         private Integer color = 7;
         private Integer bgcolor;
+        private TextAlign textAlign = TextAlign.LEFT;
 
         public Integer getColor() {
             return color;
@@ -140,6 +143,21 @@ public abstract class Component {
 
         public void setBgcolor(Integer bgcolor) {
             this.bgcolor = bgcolor;
+        }
+
+        public void setTextAlign(TextAlign textAlign) {
+            this.textAlign = Objects.requireNonNull(textAlign);
+        }
+
+        public TextAlign getTextAlign() {
+            return textAlign;
+        }
+
+        /**
+         * Text align
+         */
+        public static enum TextAlign {
+            LEFT, CENTER, RIGHT
         }
     }
 }

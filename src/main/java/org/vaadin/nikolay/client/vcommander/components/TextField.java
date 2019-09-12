@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Navigation;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class TextField extends Component {
     private ValueChangeListener<String> editListener;
 
     {
+        VCommander.getPlugin(Navigation.class).registerComponent(this);
         VCommander.getPlugin(EventBus.class).registerEvent(this, e -> {
             if("Enter".equals(e.getKey())) {
                 this.editMode = !this.editMode;
@@ -92,6 +94,7 @@ public class TextField extends Component {
             }
         });
 
+        setWidth(10);
         getStyle().setColor(15);
         getStyle().setBgcolor(5);
     }

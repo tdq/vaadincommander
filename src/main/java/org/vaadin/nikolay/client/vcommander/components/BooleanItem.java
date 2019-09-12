@@ -5,25 +5,29 @@ import java.util.Objects;
 /**
  *
  */
-public class TextItem implements ListBox.ListBoxItem {
+public class BooleanItem implements ListBox.ListBoxItem {
 
-    private String value;
+    private boolean value;
 
-    public TextItem(String value) {
-        this.value = Objects.requireNonNull(value);
+    /**
+     *
+     * @param value
+     */
+    public BooleanItem(boolean value) {
+        this.value = value;
     }
 
     @Override
     public String getCaption() {
-        return value;
+        return value ? "Yes" : "No";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TextItem textItem = (TextItem) o;
-        return value.equals(textItem.value);
+        BooleanItem that = (BooleanItem) o;
+        return value == that.value;
     }
 
     @Override

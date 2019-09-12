@@ -6,6 +6,7 @@ import org.teavm.jso.dom.events.EventListener;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
 import org.vaadin.nikolay.client.CustomElement;
+import org.vaadin.nikolay.client.vcommander.cfdemo.CFDemo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class VCommander extends CustomElement {
             System.err.println("Register plugin: " + plugin.getClass().getName());
         });
 
-        Application application = new Main(apiBridge);
+        Application application = new CFDemo(apiBridge);
 
         application.exec();
     }
@@ -119,7 +120,7 @@ public class VCommander extends CustomElement {
         Window.current().getDocument().addEventListener(type, listener);
     }
 
-    private void removeEvemtListener(String type, EventListener listener) {
+    private void removeEventListener(String type, EventListener listener) {
         Window.current().getDocument().removeEventListener(type, listener);
     }
 
@@ -226,7 +227,7 @@ public class VCommander extends CustomElement {
 
         @Override
         public <E extends Event> void removeEventListener(String eventType, EventListener<E> action) {
-            this.commander.removeEvemtListener(eventType, action);
+            this.commander.removeEventListener(eventType, action);
         }
     }
 }
