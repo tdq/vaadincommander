@@ -51,4 +51,9 @@ public interface APIBridge {
      * @param <E>
      */
     <E extends Event> void removeEventListener(String eventType, EventListener<E> action);
+
+    /**
+     *
+     */
+    void clearBuffer();
 }

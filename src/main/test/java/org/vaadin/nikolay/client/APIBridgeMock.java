@@ -38,4 +38,9 @@ public class APIBridgeMock implements APIBridge {
     public <E extends Event> void removeEventListener(String eventType, EventListener<E> action) {
 
     }
+
+    @Override
+    public void clearBuffer() {
+
+    }
 }

@@ -153,6 +153,9 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
             Label itemCaption = new Label();
             itemCaption.setValue(items.get(itemId).getCaption());
             itemCaption.setWidth(width);
+            itemCaption.getStyle().setZindex(getStyle().getZindex());
+            itemCaption.setVisible(isVisible());
+            itemCaption.getStyle().setColor(getStyle().getColor());
 
             if(isFocused()) {
                 itemCaption.getStyle().setColor(0);

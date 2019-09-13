@@ -88,6 +88,8 @@ public abstract class Component {
      */
     public void setVisible(boolean visible) {
         this.visible = visible;
+
+        markAsDirty();
     }
 
     /**
@@ -128,6 +130,7 @@ public abstract class Component {
         private Integer color = 7;
         private Integer bgcolor;
         private TextAlign textAlign = TextAlign.LEFT;
+        private int zindex = 0;
 
         public Integer getColor() {
             return color;
@@ -151,6 +154,14 @@ public abstract class Component {
 
         public TextAlign getTextAlign() {
             return textAlign;
+        }
+
+        public int getZindex() {
+            return zindex;
+        }
+
+        public void setZindex(int zindex) {
+            this.zindex = zindex;
         }
 
         /**

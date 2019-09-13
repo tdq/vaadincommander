@@ -52,7 +52,9 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
         getStyle().setColor(7);
         setWidth(15);
         captionField.setPlaceHolder("Type here");
-        itemsList.setVisible(activeMode);
+        itemsList.setVisible(false);
+        itemsList.getStyle().setZindex(1);
+        itemsList.getStyle().setColor(0);
     }
 
     /**

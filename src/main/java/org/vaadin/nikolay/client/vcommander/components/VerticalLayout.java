@@ -78,5 +78,10 @@ public class VerticalLayout extends Layout {
         public <E extends Event> void removeEventListener(String eventType, EventListener<E> action) {
             this.api.removeEventListener(eventType, action);
         }
+
+        @Override
+        public void clearBuffer() {
+
+        }
     }
 }

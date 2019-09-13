@@ -43,6 +43,8 @@ public class RenderRegistry extends Plugin {
                 @Override
                 public void run() {
                     if(application != null) {
+                        getApi().clearBuffer();
+
                         application.render();
                     }
 

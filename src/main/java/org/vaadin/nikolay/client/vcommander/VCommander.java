@@ -5,17 +5,15 @@ import org.teavm.jso.dom.events.Event;
 import org.teavm.jso.dom.events.EventListener;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
-import org.teavm.platform.Platform;
-import org.teavm.platform.PlatformClass;
 import org.vaadin.nikolay.client.CustomElement;
 import org.vaadin.nikolay.client.vcommander.cfdemo.CFDemo;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Timer;
 import java.util.function.Function;
 
 /**
@@ -28,9 +26,11 @@ public class VCommander extends CustomElement {
     private static Map<String, Plugin> plugins = new HashMap<>();
 
     private Item[][] buffer = new Item[0][0];
+    private Item[][] doubleBuffer = new Item[0][0];
     private int width = 80;
     private int height = 25;
     private HTMLElement content;
+    private Timer renderTimer;
 
     /**
      *
@@ -62,6 +62,7 @@ public class VCommander extends CustomElement {
         this.getElement().appendChild(content);
 
         this.buffer = new Item[this.height][this.width];
+        this.doubleBuffer = new Item[this.height][this.width];
 
         HTMLDocument document = Window.current().getDocument();
 
@@ -70,6 +71,7 @@ public class VCommander extends CustomElement {
                 HTMLElement item = document.createElement("span");
                 item.setInnerHTML("");
                 this.buffer[j][i] = new Item('\0', 15, 0);
+                this.doubleBuffer[j][i] = this.buffer[j][i];
 
                 this.content.appendChild(item);
             }
@@ -98,7 +100,7 @@ public class VCommander extends CustomElement {
 
         Item currentItem = getItem(x, y);
 
-        if(Objects.equals(currentItem, item)) {
+        if(Objects.equals(currentItem, item) || (currentItem.zindex > item.zindex && currentItem.isVisible() && item.isVisible())) {
             return;
         }
 
@@ -119,6 +121,14 @@ public class VCommander extends CustomElement {
         }
     }
 
+    private void clearBuffer() {
+        for(int j = 0; j < height; ++j) {
+            for(int i = 0; i < width; ++i) {
+                buffer[j][i] = new Item('\0', 15, 0);
+            }
+        }
+    }
+
     private void addEventListener(String type, EventListener listener) {
         Window.current().getDocument().addEventListener(type, listener);
     }
@@ -136,6 +146,7 @@ public class VCommander extends CustomElement {
         private Integer bgcolor;
         private boolean shadowed;
         private int zindex = 0;
+        private boolean visible = true;
 
         public Item(char value, Integer color, Integer bgcolor) {
             this.value = value;
@@ -198,15 +209,27 @@ public class VCommander extends CustomElement {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Item item = (Item) o;
-            return Objects.equals(color, item.color) &&
-                    Objects.equals(bgcolor, item.bgcolor) &&
+            return value == item.value &&
                     shadowed == item.shadowed &&
-                    value == item.value;
+                    zindex == item.zindex &&
+                    visible == item.visible &&
+                    Objects.equals(color, item.color) &&
+                    Objects.equals(bgcolor, item.bgcolor);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(value, color, bgcolor, shadowed);
+            return Objects.hash(value, color, bgcolor, shadowed, zindex, visible);
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        public Item setVisible(boolean visible) {
+            this.visible = visible;
+
+            return this;
         }
     }
 
@@ -249,6 +272,11 @@ public class VCommander extends CustomElement {
         @Override
         public <E extends Event> void removeEventListener(String eventType, EventListener<E> action) {
             this.commander.removeEventListener(eventType, action);
+        }
+
+        @Override
+        public void clearBuffer() {
+            this.commander.clearBuffer();
         }
     }
 }
