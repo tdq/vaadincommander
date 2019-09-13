@@ -5,9 +5,12 @@ import org.teavm.jso.dom.events.Event;
 import org.teavm.jso.dom.events.EventListener;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
+import org.teavm.platform.Platform;
+import org.teavm.platform.PlatformClass;
 import org.vaadin.nikolay.client.CustomElement;
 import org.vaadin.nikolay.client.vcommander.cfdemo.CFDemo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +69,7 @@ public class VCommander extends CustomElement {
             for(int i = 0; i < this.width; ++i) {
                 HTMLElement item = document.createElement("span");
                 item.setInnerHTML("");
-                this.buffer[j][i] = new Item('\0', 15, 0, false);
+                this.buffer[j][i] = new Item('\0', 15, 0);
 
                 this.content.appendChild(item);
             }
@@ -132,44 +135,62 @@ public class VCommander extends CustomElement {
         private Integer color;
         private Integer bgcolor;
         private boolean shadowed;
+        private int zindex = 0;
 
-        public Item(char value, Integer color, Integer bgcolor, boolean shadowed) {
+        public Item(char value, Integer color, Integer bgcolor) {
             this.value = value;
             this.color = color;
             this.bgcolor = bgcolor;
-            this.shadowed = shadowed;
         }
 
         public char getValue() {
             return value;
         }
 
-        public void setValue(char value) {
+        public Item setValue(char value) {
             this.value = value;
+
+            return this;
         }
 
         public Integer getColor() {
             return color;
         }
 
-        public void setColor(Integer color) {
+        public Item setColor(Integer color) {
             this.color = color;
+
+            return this;
         }
 
         public Integer getBgcolor() {
             return bgcolor;
         }
 
-        public void setBgcolor(Integer bgcolor) {
+        public Item setBgcolor(Integer bgcolor) {
             this.bgcolor = bgcolor;
+
+            return this;
         }
 
         public boolean isShadowed() {
             return shadowed;
         }
 
-        public void setShadowed(boolean shadowed) {
+        public Item setShadowed(boolean shadowed) {
             this.shadowed = shadowed;
+
+            return this;
+        }
+
+        public Item setZindex(int index) {
+            this.zindex = index;
+
+            return this;
+        }
+
+        public int getZindex() {
+            return zindex;
         }
 
         @Override

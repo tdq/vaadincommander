@@ -1,18 +1,21 @@
 package org.vaadin.nikolay.client.vcommander.cfdemo;
 
-import org.vaadin.nikolay.client.vcommander.components.BooleanItem;
+import org.teavm.jso.json.JSON;
+import org.vaadin.nikolay.client.vcommander.components.Button;
+import org.vaadin.nikolay.client.vcommander.components.CheckBox;
 import org.vaadin.nikolay.client.vcommander.components.ComboBox;
 import org.vaadin.nikolay.client.vcommander.components.Component;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
+import org.vaadin.nikolay.client.vcommander.components.ListBox;
 import org.vaadin.nikolay.client.vcommander.components.Panel;
 import org.vaadin.nikolay.client.vcommander.components.TextField;
 import org.vaadin.nikolay.client.vcommander.components.TextItem;
 import org.vaadin.nikolay.client.vcommander.components.VerticalLayout;
 
-import java.util.stream.Stream;
-
 class Content extends Panel {
+
+    private CFDemoModel model = new CFDemoModel();
 
     Content(int width, int height) {
         this.getStyle().setBgcolor(1);
@@ -21,143 +24,115 @@ class Content extends Panel {
 
         VerticalLayout contentLayout = new VerticalLayout();
 
-        contentLayout.add(numeroLine());
-        contentLayout.add(tipoLine());
-        contentLayout.add(matriculaLine());
+        contentLayout.add(new NumeroLine(model));
+        contentLayout.add(new TipoLine(model));
+        contentLayout.add(new MatriculaLine(model));
+        contentLayout.add(new ZonaLine(model));
+        contentLayout.add(new ClasificadorLine(model));
+        contentLayout.add(new FechaLine(model));
+        contentLayout.add(new NumeroTarjetaLine(model));
+        contentLayout.add(new CaracteristicasLine(model));
+        contentLayout.add(demoLine());
 
         this.setContent(contentLayout);
     }
 
-    private Component numeroLine() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
+    private Component demoLine() {
+        VerticalLayout content = new VerticalLayout();
+        content.setSpacing(true);
 
-        Label numeroDeBus = new Label("NUMERO DE BUS...");
-        numeroDeBus.setWidth(18);
-        numeroDeBus.getStyle().setTextAlign(Component.Style.TextAlign.RIGHT);
+        Label label1 = new Label();
+        label1.setValue("Hello, World!");
+        label1.setWidth(15);
 
-        Label numeroDeBusValue = new Label("422");
-        numeroDeBusValue.setWidth(41);
+        Label label2 = new Label();
+        label2.setValue("Label2");
+        label2.getStyle().setColor(1);
+        label2.getStyle().setBgcolor(4);
 
-        Label esGenerico = new Label("ES GENERICO.:");
+        Button button = new Button();
+        button.setCaption("Press enter");
+        button.setClickListener(() -> {
+            label2.setValue("Pressed button");
+            label2.getStyle().setBgcolor(1);
+            label2.getStyle().setColor(4);
+        });
 
-        BooleanItem yesValue = new BooleanItem(true);
-        BooleanItem noValue = new BooleanItem(false);
+        CheckBox checkBox = new CheckBox();
+        checkBox.setCaption("Check box");
+        checkBox.setValueChangeListener(value -> label1.setValue(value ? "Checked" : "Unchecked"));
 
-        ComboBox<BooleanItem> esGenericoValue = new ComboBox<>();
-        esGenericoValue.addItem(yesValue);
-        esGenericoValue.addItem(noValue);
-        esGenericoValue.setValue(noValue);
-        esGenericoValue.setWidth(4);
+        TextField textField = new TextField();
+        textField.setValue("Text Field test. This value should be very long!");
+        textField.setWidth(20);
 
-        Label esReserva = new Label("ES RESERVA:");
+        ListBox<TextItem> listBox = new ListBox<>();
+        listBox.addItem(new TextItem("Line 1"));
+        listBox.addItem(new TextItem("Line 22"));
+        listBox.addItem(new TextItem("Line 333"));
+        listBox.addItem(new TextItem("Line 4444"));
+        listBox.addItem(new TextItem("Line 55555"));
+        listBox.addItem(new TextItem("Line 666666"));
+        listBox.addItem(new TextItem("Line 7777777"));
+        listBox.addItem(new TextItem("Line 88888888"));
+        listBox.addItem(new TextItem("Line 999999999"));
+        listBox.addItem(new TextItem("Line 0000000000"));
+        listBox.setWidth(13);
+        listBox.setHeight(8);
 
-        ComboBox<BooleanItem> esReservaValue = new ComboBox<>();
-        esReservaValue.addItem(yesValue);
-        esReservaValue.addItem(noValue);
-        esReservaValue.setValue(noValue);
-        esReservaValue.setWidth(4);
+        Panel listBoxPanel = new Panel();
+        listBoxPanel.setContent(listBox);
+        listBoxPanel.setWidth(listBox.getWidth() + 2);
+        listBoxPanel.setHeight(listBox.getHeight() + 2);
 
-        layout.add(numeroDeBus);
-        layout.add(numeroDeBusValue);
-        layout.add(esGenerico);
-        layout.add(esGenericoValue);
-        layout.add(esReserva);
-        layout.add(esReservaValue);
+        TextItem currentItem = new TextItem("Item 2");
+        ComboBox<TextItem> comboBox = new ComboBox<>();
+        comboBox.addItem(new TextItem("Item 1"));
+        comboBox.addItem(currentItem);
+        comboBox.addItem(new TextItem("Item 3"));
+        comboBox.addItem(new TextItem("Item 4"));
+        comboBox.addItem(new TextItem("Item 5"));
+        comboBox.addItem(new TextItem("Item 6"));
+        comboBox.addItem(new TextItem("Item 7"));
+        comboBox.addItem(new TextItem("Item 8"));
+        comboBox.addItem(new TextItem("Item 9"));
+        comboBox.addItem(new TextItem("Item 10"));
+        comboBox.setValue(currentItem);
 
-        return layout;
-    }
+        listBox.setValueChangeListener(value -> comboBox.setPlaceHolder(value.getCaption()));
+        textField.setValueChangeListener(value -> {
+            TextItem item = new TextItem(value);
+            listBox.addItem(item);
+            listBox.setSelectedItem(item);
+        });
 
-    private Component tipoLine() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
+        Button commit = new Button("Commit");
+        commit.setClickListener(() -> System.err.println("CFDemo model: " + JSON.stringify(model)));
 
-        Label tipo = new Label("TIPO.:");
-        tipo.setWidth(8);
-        tipo.getStyle().setTextAlign(Style.TextAlign.RIGHT);
+        HorizontalLayout layout1 = new HorizontalLayout();
+        layout1.setSpacing(true);
+        layout1.add(label1);
+        layout1.add(label2);
+        layout1.add(button);
 
-        ComboBox<VehicleTypeItem> tipoValue = new ComboBox<>();
-        Stream.of(VehicleTypeItem.VehicleType.values()).forEach(type -> tipoValue.addItem(new VehicleTypeItem(type)));
-        tipoValue.setValue(new VehicleTypeItem(VehicleTypeItem.VehicleType.CAR));
+        HorizontalLayout layout2 = new HorizontalLayout();
+        layout2.setSpacing(true);
+        layout2.add(checkBox);
+        layout2.add(textField);
 
-        Label base = new Label("BASE.:");
-        base.getStyle().setTextAlign(Style.TextAlign.RIGHT);
-        base.setWidth(28);
+        HorizontalLayout layout3 = new HorizontalLayout();
+        layout3.setSpacing(true);
+        layout3.add(listBoxPanel);
+        layout3.add(comboBox);
 
-        TextField baseValue = new TextField();
-        baseValue.setValue("0800");
-        baseValue.setWidth(4);
+        HorizontalLayout footer = new HorizontalLayout();
+        footer.add(commit);
 
-        Label nadaDep = new Label("9999=Nada/9000=Dep.");
-        Label baseLibres = new Label("BASE LIBRES:");
+        content.add(layout1);
+        content.add(layout2);
+        content.add(layout3);
+        content.add(footer);
 
-        TextField baseLibresValue = new TextField();
-        baseLibresValue.setValue("0800");
-        baseLibresValue.setWidth(4);
-
-        layout.add(tipo);
-        layout.add(tipoValue);
-        layout.add(base);
-        layout.add(baseValue);
-        layout.add(nadaDep);
-        layout.add(baseLibres);
-        layout.add(baseLibresValue);
-
-        return layout;
-    }
-
-    private Component matriculaLine() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
-
-        Label matricula = new Label("MATRICULA.......");
-        matricula.setWidth(18);
-        matricula.getStyle().setTextAlign(Style.TextAlign.RIGHT);
-
-        TextField matriculaValue = new TextField();
-        matriculaValue.setValue("3671-FMX");
-
-        Label bato = new Label("BATO:");
-
-        ComboBox<TextItem> batoValue = new ComboBox<>();
-        batoValue.addItem(new TextItem("S"));
-        batoValue.addItem(new TextItem("N"));
-        batoValue.addItem(new TextItem("O"));
-        batoValue.setValue(new TextItem("S"));
-        batoValue.setWidth(4);
-
-        Label dobleTanque = new Label("DOBLE TANQUE:");
-
-        BooleanItem yesValue = new BooleanItem(true);
-        BooleanItem noValue = new BooleanItem(false);
-
-        ComboBox<BooleanItem> dobleTanqueValue = new ComboBox<>();
-        dobleTanqueValue.addItem(yesValue);
-        dobleTanqueValue.addItem(noValue);
-        dobleTanqueValue.setValue(noValue);
-        dobleTanqueValue.setWidth(4);
-
-        Label esBus = new Label("ES BUS:");
-
-        ComboBox<TextItem> esBusValue = new ComboBox<>();
-        esBusValue.addItem(new TextItem("S"));
-        esBusValue.addItem(new TextItem("N"));
-        esBusValue.addItem(new TextItem("O"));
-        esBusValue.setValue(new TextItem("S"));
-        esBusValue.setWidth(4);
-
-        Label esBusDesc = new Label("S/N/O");
-
-        layout.add(matricula);
-        layout.add(matriculaValue);
-        layout.add(bato);
-        layout.add(batoValue);
-        layout.add(dobleTanque);
-        layout.add(dobleTanqueValue);
-        layout.add(esBus);
-        layout.add(esBusValue);
-        layout.add(esBusDesc);
-
-        return layout;
+        return content;
     }
 }

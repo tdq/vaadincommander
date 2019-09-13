@@ -68,7 +68,7 @@ public class Label extends Component {
         }
 
         for(int i = 0; i < width; ++i) {
-            api.setItem(i, 0, new VCommander.Item(align.apply(i), getStyle().getColor(), getStyle().getBgcolor(), false));
+            api.setItem(i, 0, new VCommander.Item(align.apply(i), getStyle().getColor(), getStyle().getBgcolor()));
         }
     }
 

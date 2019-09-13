@@ -918,7 +918,9 @@ function ovnc_Client_main($args) {
     jl_Character__clinit_();
     ovncv_VCommander__clinit_();
     ovncvc_Component$Style$TextAlign__clinit_();
+    jl_Boolean__clinit_();
     ovncvc_VehicleTypeItem$VehicleType__clinit_();
+    ovncvc_SNCTypeItem$SNCType__clinit_();
     ovncv_Navigation__clinit_();
     ovncvc_EventBus__clinit_();
     jusi_SimpleStreamImpl__clinit_();
@@ -1997,19 +1999,19 @@ function ovncv_VCommander_getPlugin($name) {
     return ju_HashMap_get(ovncv_VCommander_plugins, jl_Class_getName($name));
 }
 function ovncv_VCommander_init($this) {
-    var $application, $document, $apiBridge, $item, $j, $i;
+    var $document, $application, $apiBridge, var$4, $j, $i, $item;
     $this.$width = jl_Integer_valueOf($rt_str($this.$jsInstance.getAttribute("width"))).$value;
     $this.$height = jl_Integer_valueOf($rt_str($this.$jsInstance.getAttribute("height"))).$value;
-    $application = $this.$jsInstance.style;
-    $document = jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder__init_(), $this.$width), $rt_s(11)));
-    $application.setProperty("width", $rt_ustr($document));
+    $document = $this.$jsInstance.style;
+    $application = jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder__init_(), $this.$width), $rt_s(11)));
+    $document.setProperty("width", $rt_ustr($application));
     $this.$content = window.document.createElement("div");
     $apiBridge = $this.$content;
-    $document = "commander";
-    $apiBridge.className = $document;
-    $item = $this.$jsInstance;
+    $application = "commander";
+    $apiBridge.className = $application;
+    var$4 = $this.$jsInstance;
     $apiBridge = $this.$content;
-    $item.appendChild($apiBridge);
+    var$4.appendChild($apiBridge);
     $this.$buffer0 = $rt_createMultiArray($rt_arraycls($rt_arraycls(ovncv_VCommander$Item)), [$this.$width, $this.$height]);
     $document = window.document;
     $j = 0;
@@ -2019,7 +2021,7 @@ function ovncv_VCommander_init($this) {
             $item = $document.createElement("span");
             $apiBridge = "";
             $item.innerHTML = $apiBridge;
-            $this.$buffer0.data[$j].data[$i] = ovncv_VCommander$Item__init_(0, jl_Integer_valueOf0(15), jl_Integer_valueOf0(0), 0);
+            $this.$buffer0.data[$j].data[$i] = ovncv_VCommander$Item__init_(0, jl_Integer_valueOf0(15), jl_Integer_valueOf0(0));
             $this.$content.appendChild($item);
             $i = $i + 1 | 0;
         }
@@ -2028,10 +2030,10 @@ function ovncv_VCommander_init($this) {
     $apiBridge = new ovncv_VCommander$VAPIBridge;
     $apiBridge.$this$0 = $this;
     $apiBridge.$commander = ju_Objects_requireNonNull($this);
-    $document = ovncv_VCommander_pluginsProviders;
-    $item = new ovncv_VCommander$init$lambda$_3_0;
-    $item.$_02 = $apiBridge;
-    jl_Iterable_forEach($document, $item);
+    $application = ovncv_VCommander_pluginsProviders;
+    var$4 = new ovncv_VCommander$init$lambda$_3_0;
+    var$4.$_02 = $apiBridge;
+    jl_Iterable_forEach($application, var$4);
     $application = new ovncvc_CFDemo;
     $application.$api = $apiBridge;
     ovncvc_CFDemo_exec($application);
@@ -2046,17 +2048,18 @@ function ovncv_VCommander$Item() {
     a.$color = null;
     a.$bgcolor = null;
     a.$shadowed = 0;
+    a.$zindex = 0;
 }
-function ovncv_VCommander$Item__init_(var_0, var_1, var_2, var_3) {
-    var var_4 = new ovncv_VCommander$Item();
-    ovncv_VCommander$Item__init_0(var_4, var_0, var_1, var_2, var_3);
-    return var_4;
+function ovncv_VCommander$Item__init_(var_0, var_1, var_2) {
+    var var_3 = new ovncv_VCommander$Item();
+    ovncv_VCommander$Item__init_0(var_3, var_0, var_1, var_2);
+    return var_3;
 }
-function ovncv_VCommander$Item__init_0($this, $value, $color, $bgcolor, $shadowed) {
+function ovncv_VCommander$Item__init_0($this, $value, $color, $bgcolor) {
+    $this.$zindex = 0;
     $this.$value1 = $value;
     $this.$color = $color;
     $this.$bgcolor = $bgcolor;
-    $this.$shadowed = $shadowed;
 }
 function ovncv_VCommander$Item_equals($this, $o) {
     var $item;
@@ -2516,31 +2519,9 @@ function ovncv_VCommander$init$lambda$_3_0() {
     this.$_02 = null;
 }
 function ovncv_VCommander$init$lambda$_3_0_accept(var$0, var$1) {
-    var var$2, var$3, var$4, var$5, var$6, var$7;
     var$1 = var$1.$apply(var$0.$_02);
     ju_HashMap_putImpl(ovncv_VCommander_plugins, jl_Class_getName(jl_Object_getClass(var$1)), var$1);
-    if (jl_System_errCache === null) {
-        var$2 = new ji_PrintStream;
-        var$2.$out = new jl_ConsoleOutputStreamStderr;
-        var$2.$sb = jl_StringBuilder__init_();
-        var$2.$buffer1 = $rt_createCharArray(32);
-        var$2.$autoFlush = 0;
-        var$3 = new jnci_UTF8Charset;
-        var$4 = $rt_createArray(jl_String, 0);
-        var$5 = var$4.data;
-        jnc_Charset_checkCanonicalName($rt_s(12));
-        var$6 = var$5.length;
-        var$7 = 0;
-        while (var$7 < var$6) {
-            jnc_Charset_checkCanonicalName(var$5[var$7]);
-            var$7 = var$7 + 1 | 0;
-        }
-        var$3.$canonicalName = $rt_s(12);
-        var$3.$aliases = var$4.$clone();
-        var$2.$charset = var$3;
-        jl_System_errCache = var$2;
-    }
-    ji_PrintStream_println(jl_System_errCache, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(13)), jl_Class_getName(jl_Object_getClass(var$1)))));
+    ji_PrintStream_println(jl_System_err(), jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(12)), jl_Class_getName(jl_Object_getClass(var$1)))));
 }
 function ovncv_Application() {
     var a = this; jl_Object.call(a);
@@ -2562,7 +2543,7 @@ function ovncvc_CFDemo() {
     ovncv_Application.call(this);
 }
 function ovncvc_CFDemo_exec($this) {
-    var $width, $height, $page, $header, var$5, $content, var$7, var$8, var$9, var$10, var$11, var$12, var$13, var$14, var$15, var$16, var$17, var$18, var$19;
+    var $width, $height, $page, $header, var$5, $content, var$7, var$8, var$9, var$10, var$11, var$12, var$13, var$14, var$15, var$16, var$17;
     $width = ovncv_VCommander$VAPIBridge_getBufferWidth($this.$api);
     $height = ovncv_VCommander$VAPIBridge_getBufferHeight($this.$api);
     $page = new ovncvc_VerticalLayout;
@@ -2575,127 +2556,128 @@ function ovncvc_CFDemo_exec($this) {
     $header.$width0 = $width;
     $header.$height0 = 3;
     var$5 = ovncvc_Label__init_();
-    ovncvc_Label_setValue(var$5, $rt_s(14));
+    ovncvc_Label_setValue(var$5, $rt_s(13));
     var$5.$width0 = $width - 2 | 0;
     ovncvc_Component$Style_setTextAlign(var$5.$style, ovncvc_Component$Style$TextAlign_CENTER);
     ovncvc_Panel_setContent($header, var$5);
     $content = new ovncvc_Content;
-    $height = $height - $header.$height0 | 0;
+    var$7 = $height - $header.$height0 | 0;
     ovncvc_Component__init_($content);
+    var$8 = new ovncvc_CFDemoModel;
+    var$8.$esGenerico = jl_Boolean_valueOf(0);
+    var$8.$esReserva = jl_Boolean_valueOf(0);
+    $content.$model = var$8;
     $content.$style.$bgcolor0 = jl_Integer_valueOf0(1);
     $content.$width0 = $width;
-    $content.$height0 = $height;
-    var$7 = new ovncvc_VerticalLayout;
-    ovncvc_Layout__init_(var$7);
-    var$8 = new ovncvc_HorizontalLayout;
-    ovncvc_Layout__init_(var$8);
-    var$8.$spacing = 1;
-    var$9 = ovncvc_Label__init_0($rt_s(15));
-    var$9.$width0 = 18;
-    ovncvc_Component$Style_setTextAlign(var$9.$style, ovncvc_Component$Style$TextAlign_RIGHT);
-    var$10 = ovncvc_Label__init_0($rt_s(16));
-    var$10.$width0 = 41;
-    var$11 = ovncvc_Label__init_0($rt_s(17));
-    var$5 = ovncvc_BooleanItem__init_(1);
-    var$12 = ovncvc_BooleanItem__init_(0);
-    var$13 = ovncvc_ComboBox__init_();
-    ovncvc_ComboBox_addItem(var$13, var$5);
-    ovncvc_ComboBox_addItem(var$13, var$12);
-    ovncvc_ComboBox_setValue(var$13, var$12);
-    ovncvc_ComboBox_setWidth(var$13, 4);
-    var$14 = ovncvc_Label__init_0($rt_s(18));
-    var$15 = ovncvc_ComboBox__init_();
-    ovncvc_ComboBox_addItem(var$15, var$5);
-    ovncvc_ComboBox_addItem(var$15, var$12);
-    ovncvc_ComboBox_setValue(var$15, var$12);
-    ovncvc_ComboBox_setWidth(var$15, 4);
-    ovncvc_Layout_add(var$8, var$9);
-    ovncvc_Layout_add(var$8, var$10);
-    ovncvc_Layout_add(var$8, var$11);
-    ovncvc_Layout_add(var$8, var$13);
-    ovncvc_Layout_add(var$8, var$14);
-    ovncvc_Layout_add(var$8, var$15);
-    ovncvc_Layout_add(var$7, var$8);
-    var$5 = new ovncvc_HorizontalLayout;
-    ovncvc_Layout__init_(var$5);
-    var$5.$spacing = 1;
-    var$13 = ovncvc_Label__init_0($rt_s(19));
-    var$13.$width0 = 8;
-    ovncvc_Component$Style_setTextAlign(var$13.$style, ovncvc_Component$Style$TextAlign_RIGHT);
-    var$14 = ovncvc_ComboBox__init_();
-    var$16 = ovncvc_VehicleTypeItem$VehicleType_$VALUES.$clone();
-    var$17 = var$16.data;
-    var$15 = new jusi_ArrayStreamImpl;
-    $height = var$17.length;
-    var$15.$array0 = var$16;
-    var$15.$index = 0;
-    var$15.$end = $height;
-    var$15.$size3 = $height - 0 | 0;
-    var$12 = new ovncvc_Content$tipoLine$lambda$_2_0;
-    var$12.$_03 = var$14;
-    jusi_SimpleStreamImpl_forEachOrdered(var$15, var$12);
-    ovncvc_ComboBox_setValue(var$14, ovncvc_VehicleTypeItem__init_(ovncvc_VehicleTypeItem$VehicleType_CAR));
-    var$12 = ovncvc_Label__init_0($rt_s(20));
-    ovncvc_Component$Style_setTextAlign(var$12.$style, ovncvc_Component$Style$TextAlign_RIGHT);
-    var$12.$width0 = 28;
-    var$15 = ovncvc_TextField__init_();
-    ovncvc_TextField_setValue(var$15, $rt_s(21));
-    var$15.$width0 = 4;
-    var$8 = ovncvc_Label__init_0($rt_s(22));
-    var$9 = ovncvc_Label__init_0($rt_s(23));
-    var$10 = ovncvc_TextField__init_();
-    ovncvc_TextField_setValue(var$10, $rt_s(21));
-    var$10.$width0 = 4;
-    ovncvc_Layout_add(var$5, var$13);
-    ovncvc_Layout_add(var$5, var$14);
-    ovncvc_Layout_add(var$5, var$12);
-    ovncvc_Layout_add(var$5, var$15);
-    ovncvc_Layout_add(var$5, var$8);
-    ovncvc_Layout_add(var$5, var$9);
-    ovncvc_Layout_add(var$5, var$10);
-    ovncvc_Layout_add(var$7, var$5);
-    var$10 = new ovncvc_HorizontalLayout;
+    $content.$height0 = var$7;
+    var$9 = new ovncvc_VerticalLayout;
+    ovncvc_Layout__init_(var$9);
+    var$10 = new ovncvc_NumeroLine;
+    var$11 = $content.$model;
     ovncvc_Layout__init_(var$10);
     var$10.$spacing = 1;
-    var$11 = ovncvc_Label__init_0($rt_s(24));
-    ovncvc_Component_setWidth(var$11, 18);
-    ovncvc_Component$Style_setTextAlign(ovncvc_Component_getStyle(var$11), ovncvc_Component$Style$TextAlign_RIGHT);
-    var$18 = ovncvc_TextField__init_();
-    ovncvc_TextField_setValue(var$18, $rt_s(25));
-    var$19 = ovncvc_Label__init_0($rt_s(26));
-    var$9 = ovncvc_ComboBox__init_();
-    ovncvc_ComboBox_addItem(var$9, ovncvc_TextItem__init_($rt_s(27)));
-    ovncvc_ComboBox_addItem(var$9, ovncvc_TextItem__init_($rt_s(28)));
-    ovncvc_ComboBox_addItem(var$9, ovncvc_TextItem__init_($rt_s(29)));
-    ovncvc_ComboBox_setValue(var$9, ovncvc_TextItem__init_($rt_s(27)));
-    ovncvc_ComboBox_setWidth(var$9, 4);
-    var$5 = ovncvc_Label__init_0($rt_s(30));
-    var$12 = ovncvc_BooleanItem__init_(1);
-    var$13 = ovncvc_BooleanItem__init_(0);
-    var$14 = ovncvc_ComboBox__init_();
-    ovncvc_ComboBox_addItem(var$14, var$12);
-    ovncvc_ComboBox_addItem(var$14, var$13);
-    ovncvc_ComboBox_setValue(var$14, var$13);
-    ovncvc_ComboBox_setWidth(var$14, 4);
-    var$12 = ovncvc_Label__init_0($rt_s(31));
-    var$13 = ovncvc_ComboBox__init_();
-    ovncvc_ComboBox_addItem(var$13, ovncvc_TextItem__init_($rt_s(27)));
-    ovncvc_ComboBox_addItem(var$13, ovncvc_TextItem__init_($rt_s(28)));
-    ovncvc_ComboBox_addItem(var$13, ovncvc_TextItem__init_($rt_s(29)));
-    ovncvc_ComboBox_setValue(var$13, ovncvc_TextItem__init_($rt_s(27)));
-    ovncvc_ComboBox_setWidth(var$13, 4);
-    var$15 = ovncvc_Label__init_0($rt_s(32));
-    ovncvc_Layout_add(var$10, var$11);
-    ovncvc_Layout_add(var$10, var$18);
-    ovncvc_Layout_add(var$10, var$19);
-    ovncvc_Layout_add(var$10, var$9);
-    ovncvc_Layout_add(var$10, var$5);
-    ovncvc_Layout_add(var$10, var$14);
+    var$12 = ovncvc_Label__init_0($rt_s(14));
+    var$12.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign(var$12.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    var$13 = ovncvc_Label__init_0($rt_s(15));
+    var$13.$width0 = 41;
+    var$14 = ovncvc_Label__init_0($rt_s(16));
+    var$5 = ovncvc_BooleanItem__init_(1);
+    var$8 = ovncvc_BooleanItem__init_(0);
+    var$15 = ovncvc_ComboBox__init_();
+    ovncvc_ComboBox_addItem(var$15, var$5);
+    ovncvc_ComboBox_addItem(var$15, var$8);
+    ovncvc_ComboBox_setValue(var$15, var$8);
+    ovncvc_ComboBox_setWidth(var$15, 4);
+    var$16 = new ovncvc_NumeroLine$_init_$lambda$_0_0;
+    var$16.$_03 = var$11;
+    ovncvc_ComboBox_setValueChangeLister(var$15, var$16);
+    var$16 = ovncvc_Label__init_0($rt_s(17));
+    var$17 = ovncvc_ComboBox__init_();
+    ovncvc_ComboBox_addItem(var$17, var$5);
+    ovncvc_ComboBox_addItem(var$17, var$8);
+    ovncvc_ComboBox_setValue(var$17, var$8);
+    ovncvc_ComboBox_setWidth(var$17, 4);
+    var$5 = new ovncvc_NumeroLine$_init_$lambda$_0_1;
+    var$5.$_04 = var$11;
+    ovncvc_ComboBox_setValueChangeLister(var$17, var$5);
     ovncvc_Layout_add(var$10, var$12);
     ovncvc_Layout_add(var$10, var$13);
+    ovncvc_Layout_add(var$10, var$14);
     ovncvc_Layout_add(var$10, var$15);
-    ovncvc_Layout_add(var$7, var$10);
-    ovncvc_Panel_setContent($content, var$7);
+    ovncvc_Layout_add(var$10, var$16);
+    ovncvc_Layout_add(var$10, var$17);
+    ovncvc_Layout_add(var$9, var$10);
+    var$10 = new ovncvc_TipoLine;
+    var$11 = $content.$model;
+    ovncvc_Layout__init_(var$10);
+    var$10.$spacing = 1;
+    var$15 = ovncvc_Label__init_0($rt_s(18));
+    var$15.$width0 = 8;
+    ovncvc_Component$Style_setTextAlign(var$15.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    var$16 = ovncvc_ComboBox__init_();
+    var$8 = jus_Stream_of(ovncvc_VehicleTypeItem$VehicleType_$VALUES.$clone());
+    var$5 = new ovncvc_TipoLine$_init_$lambda$_0_0;
+    var$5.$_05 = var$16;
+    jusi_SimpleStreamImpl_forEachOrdered(var$8, var$5);
+    ovncvc_ComboBox_setValue(var$16, ovncvc_VehicleTypeItem__init_(ovncvc_VehicleTypeItem$VehicleType_CAR));
+    var$5 = new ovncvc_TipoLine$_init_$lambda$_0_1;
+    var$5.$_06 = var$11;
+    ovncvc_ComboBox_setValueChangeLister(var$16, var$5);
+    var$17 = ovncvc_Label__init_0($rt_s(19));
+    ovncvc_Component$Style_setTextAlign(var$17.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    var$17.$width0 = 28;
+    var$12 = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue(var$12, $rt_s(20));
+    var$12.$width0 = 4;
+    jl_Object_getClass(var$11);
+    var$5 = new ovncvc_TipoLine$_init_$lambda$_0_2;
+    var$5.$_07 = var$11;
+    ovncvc_TextField_setValueChangeListener(var$12, var$5);
+    var$13 = ovncvc_Label__init_0($rt_s(21));
+    var$14 = ovncvc_Label__init_0($rt_s(22));
+    var$5 = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue(var$5, $rt_s(20));
+    var$5.$width0 = 4;
+    jl_Object_getClass(var$11);
+    var$8 = new ovncvc_TipoLine$_init_$lambda$_0_3;
+    var$8.$_08 = var$11;
+    ovncvc_TextField_setValueChangeListener(var$5, var$8);
+    ovncvc_Layout_add(var$10, var$15);
+    ovncvc_Layout_add(var$10, var$16);
+    ovncvc_Layout_add(var$10, var$17);
+    ovncvc_Layout_add(var$10, var$12);
+    ovncvc_Layout_add(var$10, var$13);
+    ovncvc_Layout_add(var$10, var$14);
+    ovncvc_Layout_add(var$10, var$5);
+    ovncvc_Layout_add(var$9, var$10);
+    ovncvc_Layout_add(var$9, ovncvc_MatriculaLine__init_($content.$model));
+    ovncvc_Layout_add(var$9, ovncvc_ZonaLine__init_($content.$model));
+    ovncvc_Layout_add(var$9, ovncvc_ClasificadorLine__init_($content.$model));
+    ovncvc_Layout_add(var$9, ovncvc_FechaLine__init_($content.$model));
+    var$15 = new ovncvc_NumeroTarjetaLine;
+    var$16 = $content.$model;
+    ovncvc_Layout__init_(var$15);
+    var$15.$spacing = 1;
+    var$17 = ovncvc_Label__init_0($rt_s(23));
+    ovncvc_Component_setWidth(var$17, 18);
+    ovncvc_Component$Style_setTextAlign(ovncvc_Component_getStyle(var$17), ovncvc_Component$Style$TextAlign_RIGHT);
+    var$12 = ovncvc_TextField__init_();
+    jl_Object_getClass(var$16);
+    ovncvc_TextField_setValueChangeListener(var$12, ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0__init_(var$16));
+    var$13 = ovncvc_Label__init_0($rt_s(24));
+    var$5 = ovncvc_TextField__init_();
+    ovncvc_Component_setWidth(var$5, 3);
+    jl_Object_getClass(var$16);
+    ovncvc_TextField_setValueChangeListener(var$5, ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1__init_(var$16));
+    ovncvc_Layout_add(var$15, var$17);
+    ovncvc_Layout_add(var$15, var$12);
+    ovncvc_Layout_add(var$15, var$13);
+    ovncvc_Layout_add(var$15, var$5);
+    ovncvc_Layout_add(var$9, var$15);
+    ovncvc_Layout_add(var$9, ovncvc_CaracteristicasLine__init_($content.$model));
+    ovncvc_Layout_add(var$9, ovncvc_Content_demoLine($content));
+    ovncvc_Panel_setContent($content, var$9);
     ovncvc_Layout_add($page, $header);
     ovncvc_Layout_add($page, $content);
     ovncv_Application_setContent($this, $page);
@@ -2724,7 +2706,7 @@ function ju_Objects_requireNonNull($obj) {
     if ($obj !== null)
         return $obj;
     $obj = new jl_NullPointerException;
-    jl_Throwable__init_($obj, $rt_s(33));
+    jl_Throwable__init_($obj, $rt_s(25));
     $rt_throw($obj);
 }
 function jl_NumberFormatException() {
@@ -2889,7 +2871,7 @@ function ovncvc_Panel_setContent($this, $content) {
     $this.$content1 = ju_Objects_requireNonNull($content);
 }
 function ovncvc_Panel_render($this, $api) {
-    var $width, $height, $borderX, $borderY, $color, $bgcolor, $j, $i, $length, var$11, var$12, $start, var$14;
+    var $width, $height, $borderX, $borderY, $color, $bgcolor, $j, $i, $length, var$11, $start, var$13;
     $width = $this.$width0;
     $height = $this.$height0;
     $borderX = $width - 1 | 0;
@@ -2901,21 +2883,21 @@ function ovncvc_Panel_render($this, $api) {
         $i = 0;
         while ($i < $width) {
             if (!$i && !$j)
-                $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9556, $color, $bgcolor, 0));
+                $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9556, $color, $bgcolor));
             else {
                 $length = $rt_compare($i, $borderX);
                 if (!$length && !$j)
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9559, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9559, $color, $bgcolor));
                 else if (!$i && $j == $borderY)
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9562, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9562, $color, $bgcolor));
                 else if (!$length && $j == $borderY)
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9565, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9565, $color, $bgcolor));
                 else if ($i > 0 && $length < 0 && !($j && $j != $borderY))
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9552, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9552, $color, $bgcolor));
                 else if ($i && $length)
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(0, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(0, $color, $bgcolor));
                 else
-                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9553, $color, $bgcolor, 0));
+                    $api.$setItem($i, $j, ovncv_VCommander$Item__init_(9553, $color, $bgcolor));
             }
             $i = $i + 1 | 0;
         }
@@ -2924,21 +2906,21 @@ function ovncvc_Panel_render($this, $api) {
     if ($this.$title !== null) {
         $length = jl_Math_min($this.$title.$length(), $width - 2 | 0);
         var$11 = ($width / 2 | 0) - ($length / 2 | 0) | 0;
-        var$12 = $rt_compare(var$11, 0.0);
-        $start = var$11 + (var$12 > 0 ? 1.0 : var$12 >= 0 ? var$11 : (-1.0)) * 0.5 | 0;
-        var$14 = $this.$title;
-        var$12 = 0;
-        while (var$12 < $length) {
-            $api.$setItem($start + var$12 | 0, 0, ovncv_VCommander$Item__init_(var$14.$charAt(var$12), $color, $bgcolor, 0));
-            var$12 = var$12 + 1 | 0;
+        $borderX = $rt_compare(var$11, 0.0);
+        $start = var$11 + ($borderX > 0 ? 1.0 : $borderX >= 0 ? var$11 : (-1.0)) * 0.5 | 0;
+        var$13 = $this.$title;
+        $i = 0;
+        while ($i < $length) {
+            $api.$setItem($start + $i | 0, 0, ovncv_VCommander$Item__init_(var$13.$charAt($i), $color, $bgcolor));
+            $i = $i + 1 | 0;
         }
     }
     if ($this.$content1 !== null) {
-        var$14 = $this.$content1;
+        var$13 = $this.$content1;
         $bgcolor = new ovncvc_Panel$PAPIWrapper;
         $bgcolor.$this$03 = $this;
         $bgcolor.$api1 = $api;
-        var$14.$render($bgcolor);
+        var$13.$render($bgcolor);
     }
 }
 function ovncvc_Header() {
@@ -2946,6 +2928,118 @@ function ovncvc_Header() {
 }
 function ovncvc_Content() {
     ovncvc_Panel.call(this);
+    this.$model = null;
+}
+function ovncvc_Content_demoLine($this) {
+    var $content, $label1, $label2, $button, $commit, $checkBox, $layout1, $textField, $listBox, $listBoxPanel, $currentItem, $comboBox, $layout2, $layout3, $footer;
+    $content = new ovncvc_VerticalLayout;
+    ovncvc_Layout__init_($content);
+    $content.$spacing = 1;
+    $label1 = ovncvc_Label__init_();
+    ovncvc_Label_setValue($label1, $rt_s(26));
+    $label1.$width0 = 15;
+    $label2 = ovncvc_Label__init_();
+    ovncvc_Label_setValue($label2, $rt_s(27));
+    $label2.$style.$color0 = jl_Integer_valueOf0(1);
+    $label2.$style.$bgcolor0 = jl_Integer_valueOf0(4);
+    $button = new ovncvc_Button;
+    ovncvc_Component__init_($button);
+    ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $button);
+    $commit = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
+    $checkBox = new ovncvc_Button$_init_$lambda$_0_0;
+    $checkBox.$_09 = $button;
+    ovncvc_EventBus_registerEvent($commit, $button, $checkBox);
+    ovncvc_Button_setCaption($button, $rt_s(28));
+    $commit = new ovncvc_Content$demoLine$lambda$_1_0;
+    $commit.$_010 = $label2;
+    ovncvc_Button_setClickListener($button, $commit);
+    $checkBox = new ovncvc_CheckBox;
+    ovncvc_Component__init_($checkBox);
+    $checkBox.$caption = $rt_s(25);
+    ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $checkBox);
+    $commit = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
+    $layout1 = new ovncvc_CheckBox$_init_$lambda$_0_0;
+    $layout1.$_011 = $checkBox;
+    ovncvc_EventBus_registerEvent($commit, $checkBox, $layout1);
+    ovncvc_CheckBox_setCaption($checkBox, $rt_s(29));
+    $commit = new ovncvc_Content$demoLine$lambda$_1_1;
+    $commit.$_012 = $label1;
+    ovncvc_CheckBox_setValueChangeListener($checkBox, $commit);
+    $textField = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($textField, $rt_s(30));
+    $textField.$width0 = 20;
+    $listBox = ovncvc_ListBox__init_();
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(31)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(32)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(33)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(34)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(35)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(36)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(37)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(38)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(39)));
+    ovncvc_ListBox_addItem($listBox, ovncvc_TextItem__init_($rt_s(40)));
+    $listBox.$width0 = 13;
+    $listBox.$height0 = 8;
+    $listBoxPanel = new ovncvc_Panel;
+    ovncvc_Component__init_($listBoxPanel);
+    ovncvc_Panel_setContent($listBoxPanel, $listBox);
+    $listBoxPanel.$width0 = ovncvc_ListBox_getWidth($listBox) + 2 | 0;
+    $listBoxPanel.$height0 = $listBox.$height0 + 2 | 0;
+    $currentItem = ovncvc_TextItem__init_($rt_s(41));
+    $comboBox = ovncvc_ComboBox__init_();
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(42)));
+    ovncvc_ComboBox_addItem($comboBox, $currentItem);
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(43)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(44)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(45)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(46)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(47)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(48)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(49)));
+    ovncvc_ComboBox_addItem($comboBox, ovncvc_TextItem__init_($rt_s(50)));
+    ovncvc_ComboBox_setValue($comboBox, $currentItem);
+    $commit = new ovncvc_Content$demoLine$lambda$_1_2;
+    $commit.$_013 = $comboBox;
+    ovncvc_ListBox_setValueChangeListener($listBox, $commit);
+    $commit = new ovncvc_Content$demoLine$lambda$_1_3;
+    $commit.$_014 = $listBox;
+    ovncvc_TextField_setValueChangeListener($textField, $commit);
+    $commit = new ovncvc_Button;
+    ovncvc_Component__init_($commit);
+    ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $commit);
+    $layout2 = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
+    $listBox = new ovncvc_Button$_init_$lambda$_1_0;
+    $listBox.$_015 = $commit;
+    ovncvc_EventBus_registerEvent($layout2, $commit, $listBox);
+    $commit.$caption0 = ju_Objects_requireNonNull($rt_s(51));
+    $layout1 = new ovncvc_Content$demoLine$lambda$_1_4;
+    $layout1.$_016 = $this;
+    ovncvc_Button_setClickListener($commit, $layout1);
+    $layout1 = new ovncvc_HorizontalLayout;
+    ovncvc_Layout__init_($layout1);
+    $layout1.$spacing = 1;
+    ovncvc_Layout_add($layout1, $label1);
+    ovncvc_Layout_add($layout1, $label2);
+    ovncvc_Layout_add($layout1, $button);
+    $layout2 = new ovncvc_HorizontalLayout;
+    ovncvc_Layout__init_($layout2);
+    $layout2.$spacing = 1;
+    ovncvc_Layout_add($layout2, $checkBox);
+    ovncvc_Layout_add($layout2, $textField);
+    $layout3 = new ovncvc_HorizontalLayout;
+    ovncvc_Layout__init_($layout3);
+    $layout3.$spacing = 1;
+    ovncvc_Layout_add($layout3, $listBoxPanel);
+    ovncvc_Layout_add($layout3, $comboBox);
+    $footer = new ovncvc_HorizontalLayout;
+    ovncvc_Layout__init_($footer);
+    ovncvc_Layout_add($footer, $commit);
+    ovncvc_Layout_add($content, $layout1);
+    ovncvc_Layout_add($content, $layout2);
+    ovncvc_Layout_add($content, $layout3);
+    ovncvc_Layout_add($content, $footer);
+    return $content;
 }
 function ovncvc_Label() {
     ovncvc_Component.call(this);
@@ -2990,23 +3084,23 @@ function ovncvc_Label_render($this, $api) {
         switch (ovncvc_Label$1_$SwitchMap$org$vaadin$nikolay$client$vcommander$components$Component$Style$TextAlign.data[$this.$style.$textAlign.$ordinal]) {
             case 1:
                 $align = new ovncvc_Label$render$lambda$_6_0;
-                $align.$_04 = $this;
+                $align.$_017 = $this;
                 $align.$_10 = $width;
                 break a;
             case 2:
                 $align = new ovncvc_Label$render$lambda$_6_1;
-                $align.$_05 = $this;
+                $align.$_018 = $this;
                 $align.$_11 = $width;
                 break a;
             default:
         }
         $align = new ovncvc_Label$render$lambda$_6_2;
-        $align.$_06 = $this;
+        $align.$_019 = $this;
         $align.$_12 = $width;
     }
     $i = 0;
     while ($i < $width) {
-        $api.$setItem($i, 0, ovncv_VCommander$Item__init_($align.$apply(jl_Integer_valueOf0($i)).$value0, $this.$style.$color0, $this.$style.$bgcolor0, 0));
+        $api.$setItem($i, 0, ovncv_VCommander$Item__init_($align.$apply(jl_Integer_valueOf0($i)).$value0, $this.$style.$color0, $this.$style.$bgcolor0));
         $i = $i + 1 | 0;
     }
 }
@@ -3024,6 +3118,9 @@ function jl_Enum__init_0($this, $name, $ordinal) {
     $this.$name0 = $name;
     $this.$ordinal = $ordinal;
 }
+function jl_Enum_name($this) {
+    return $this.$name0;
+}
 function jl_Enum_ordinal($this) {
     return $this.$ordinal;
 }
@@ -3040,13 +3137,13 @@ var ovncvc_Component$Style$TextAlign_$VALUES = null;
 function ovncvc_Component$Style$TextAlign__clinit_() {
     var var$1, var$2, var$3;
     var$1 = new ovncvc_Component$Style$TextAlign;
-    jl_Enum__init_0(var$1, $rt_s(34), 0);
+    jl_Enum__init_0(var$1, $rt_s(52), 0);
     ovncvc_Component$Style$TextAlign_LEFT = var$1;
     var$1 = new ovncvc_Component$Style$TextAlign;
-    jl_Enum__init_0(var$1, $rt_s(35), 1);
+    jl_Enum__init_0(var$1, $rt_s(53), 1);
     ovncvc_Component$Style$TextAlign_CENTER = var$1;
     var$1 = new ovncvc_Component$Style$TextAlign;
-    jl_Enum__init_0(var$1, $rt_s(36), 2);
+    jl_Enum__init_0(var$1, $rt_s(54), 2);
     ovncvc_Component$Style$TextAlign_RIGHT = var$1;
     var$2 = $rt_createArray(ovncvc_Component$Style$TextAlign, 3);
     var$3 = var$2.data;
@@ -3054,6 +3151,420 @@ function ovncvc_Component$Style$TextAlign__clinit_() {
     var$3[1] = ovncvc_Component$Style$TextAlign_CENTER;
     var$3[2] = ovncvc_Component$Style$TextAlign_RIGHT;
     ovncvc_Component$Style$TextAlign_$VALUES = var$2;
+}
+function ovncvc_CFDemoModel() {
+    var a = this; jl_Object.call(a);
+    a.$esGenerico = null;
+    a.$esReserva = null;
+    a.$tipo = null;
+    a.$base = null;
+    a.$baseLibres = null;
+    a.$matricula = null;
+    a.$bato = null;
+    a.$dobleTanque = null;
+    a.$esBus = null;
+    a.$zona = null;
+    a.$subZona = null;
+    a.$alq = null;
+    a.$aquien = null;
+    a.$clasificador = null;
+    a.$escolar = null;
+    a.$fecha = null;
+    a.$discrecional = null;
+    a.$aSae = null;
+    a.$conFlex = null;
+    a.$numeroTarjeta = null;
+    a.$serieTarjeta = null;
+    a.$value10 = null;
+    a.$value20 = null;
+    a.$value30 = null;
+    a.$value4 = null;
+    a.$value5 = null;
+}
+function ovncvc_CFDemoModel_setEsGenerico($this, $esGenerico) {
+    $this.$esGenerico = $esGenerico;
+}
+function ovncvc_CFDemoModel_setEsReserva($this, $esReserva) {
+    $this.$esReserva = jl_Boolean_valueOf($esReserva);
+}
+function ovncvc_CFDemoModel_setTipo($this, $tipo) {
+    $this.$tipo = $tipo;
+}
+function ovncvc_CFDemoModel_setBase($this, $base) {
+    $this.$base = $base;
+}
+function ovncvc_CFDemoModel_setBaseLibres($this, $baseLibres) {
+    $this.$baseLibres = $baseLibres;
+}
+function ovncvc_CFDemoModel_setMatricula($this, $matricula) {
+    $this.$matricula = $matricula;
+}
+function ovncvc_CFDemoModel_setBato($this, $bato) {
+    $this.$bato = $bato;
+}
+function ovncvc_CFDemoModel_setDobleTanque($this, $dobleTanque) {
+    $this.$dobleTanque = $dobleTanque;
+}
+function ovncvc_CFDemoModel_setEsBus($this, $esBus) {
+    $this.$esBus = $esBus;
+}
+function ovncvc_CFDemoModel_setZona($this, $zona) {
+    $this.$zona = $zona;
+}
+function ovncvc_CFDemoModel_setSubZona($this, $subZona) {
+    $this.$subZona = $subZona;
+}
+function ovncvc_CFDemoModel_setAlq($this, $alq) {
+    $this.$alq = $alq;
+}
+function ovncvc_CFDemoModel_setAquien($this, $aquien) {
+    $this.$aquien = $aquien;
+}
+function ovncvc_CFDemoModel_setClasificador($this, $clasificador) {
+    $this.$clasificador = $clasificador;
+}
+function ovncvc_CFDemoModel_setEscolar($this, $escolar) {
+    $this.$escolar = $escolar;
+}
+function ovncvc_CFDemoModel_setFecha($this, $fecha) {
+    $this.$fecha = $fecha;
+}
+function ovncvc_CFDemoModel_setDiscrecional($this, $discrecional) {
+    $this.$discrecional = $discrecional;
+}
+function ovncvc_CFDemoModel_setaSae($this, $aSae) {
+    $this.$aSae = $aSae;
+}
+function ovncvc_CFDemoModel_setConFlex($this, $conFlex) {
+    $this.$conFlex = $conFlex;
+}
+function ovncvc_CFDemoModel_setNumeroTarjeta($this, $numeroTarjeta) {
+    $this.$numeroTarjeta = $numeroTarjeta;
+}
+function ovncvc_CFDemoModel_setSerieTarjeta($this, $serieTarjeta) {
+    $this.$serieTarjeta = $serieTarjeta;
+}
+function ovncvc_CFDemoModel_setValue1($this, $value1) {
+    $this.$value10 = $value1;
+}
+function ovncvc_CFDemoModel_setValue2($this, $value2) {
+    $this.$value20 = $value2;
+}
+function ovncvc_CFDemoModel_setValue3($this, $value3) {
+    $this.$value30 = $value3;
+}
+function ovncvc_CFDemoModel_setValue4($this, $value4) {
+    $this.$value4 = $value4;
+}
+function ovncvc_CFDemoModel_setValue5($this, $value5) {
+    $this.$value5 = $value5;
+}
+function ovncvc_HorizontalLayout() {
+    ovncvc_Layout.call(this);
+}
+function ovncvc_HorizontalLayout_getWidth($this) {
+    return jusi_SimpleStreamImpl_reduce(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$components), new ovncvc_HorizontalLayout$getWidth$lambda$_1_0), jl_Integer_valueOf0(0), new ovncvc_HorizontalLayout$getWidth$lambda$_1_1).$value;
+}
+function ovncvc_HorizontalLayout_getHeight($this) {
+    return jusi_SimpleStreamImpl_reduce(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$components), new ovncvc_HorizontalLayout$getHeight$lambda$_2_0), jl_Integer_valueOf0(0), new ovncvc_HorizontalLayout$getHeight$lambda$_2_1).$value;
+}
+function ovncvc_HorizontalLayout_render($this, $api) {
+    var $offset, var$3, $component, $childWidth, $wrapper;
+    $offset = 0;
+    var$3 = ju_AbstractList_iterator($this.$components);
+    while (ju_AbstractList$1_hasNext(var$3)) {
+        $component = ju_AbstractList$1_next(var$3);
+        $childWidth = $component.$getWidth();
+        $wrapper = new ovncvc_HorizontalLayout$HLAPIWrapper;
+        $wrapper.$this$04 = $this;
+        $wrapper.$api2 = $api;
+        $wrapper.$width1 = $childWidth;
+        $wrapper.$offset0 = $offset;
+        $offset = $offset + $childWidth | 0;
+        if ($this.$spacing)
+            $offset = $offset + 1 | 0;
+        $component.$render($wrapper);
+    }
+}
+function ovncvc_NumeroLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_TipoLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_MatriculaLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_MatriculaLine__init_(var_0) {
+    var var_1 = new ovncvc_MatriculaLine();
+    ovncvc_MatriculaLine__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_MatriculaLine__init_0($this, $model) {
+    var $matricula, $matriculaValue, $yesValue, $bato, $batoValue, $dobleTanque, $noValue, $dobleTanqueValue, $esBus, $esBusValue, $esBusDesc;
+    ovncvc_Layout__init_($this);
+    $this.$spacing = 1;
+    $matricula = ovncvc_Label__init_0($rt_s(55));
+    $matricula.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign($matricula.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    $matriculaValue = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($matriculaValue, $rt_s(56));
+    jl_Object_getClass($model);
+    $yesValue = new ovncvc_MatriculaLine$_init_$lambda$_0_0;
+    $yesValue.$_020 = $model;
+    ovncvc_TextField_setValueChangeListener($matriculaValue, $yesValue);
+    $bato = ovncvc_Label__init_0($rt_s(57));
+    $batoValue = ovncvc_ComboBox__init_();
+    $yesValue = jus_Stream_of(ovncvc_SNCTypeItem$SNCType_values());
+    $dobleTanque = new ovncvc_MatriculaLine$_init_$lambda$_0_1;
+    $dobleTanque.$_021 = $batoValue;
+    jusi_SimpleStreamImpl_forEachOrdered($yesValue, $dobleTanque);
+    ovncvc_ComboBox_setValue($batoValue, ovncvc_SNCTypeItem__init_(ovncvc_SNCTypeItem$SNCType_S));
+    ovncvc_ComboBox_setWidth($batoValue, 4);
+    $yesValue = new ovncvc_MatriculaLine$_init_$lambda$_0_2;
+    $yesValue.$_022 = $model;
+    ovncvc_ComboBox_setValueChangeLister($batoValue, $yesValue);
+    $dobleTanque = ovncvc_Label__init_0($rt_s(58));
+    $yesValue = ovncvc_BooleanItem__init_(1);
+    $noValue = ovncvc_BooleanItem__init_(0);
+    $dobleTanqueValue = ovncvc_ComboBox__init_();
+    ovncvc_ComboBox_addItem($dobleTanqueValue, $yesValue);
+    ovncvc_ComboBox_addItem($dobleTanqueValue, $noValue);
+    ovncvc_ComboBox_setValue($dobleTanqueValue, $noValue);
+    ovncvc_ComboBox_setWidth($dobleTanqueValue, 4);
+    $yesValue = new ovncvc_MatriculaLine$_init_$lambda$_0_3;
+    $yesValue.$_023 = $model;
+    ovncvc_ComboBox_setValueChangeLister($dobleTanqueValue, $yesValue);
+    $esBus = ovncvc_Label__init_0($rt_s(59));
+    $esBusValue = ovncvc_ComboBox__init_();
+    $noValue = jus_Stream_of(ovncvc_SNCTypeItem$SNCType_values());
+    $yesValue = new ovncvc_MatriculaLine$_init_$lambda$_0_4;
+    $yesValue.$_024 = $esBusValue;
+    jusi_SimpleStreamImpl_forEachOrdered($noValue, $yesValue);
+    ovncvc_ComboBox_setValue($esBusValue, ovncvc_SNCTypeItem__init_(ovncvc_SNCTypeItem$SNCType_S));
+    ovncvc_ComboBox_setWidth($esBusValue, 4);
+    $yesValue = new ovncvc_MatriculaLine$_init_$lambda$_0_5;
+    $yesValue.$_025 = $model;
+    ovncvc_ComboBox_setValueChangeLister($esBusValue, $yesValue);
+    $esBusDesc = ovncvc_Label__init_0($rt_s(60));
+    ovncvc_Layout_add($this, $matricula);
+    ovncvc_Layout_add($this, $matriculaValue);
+    ovncvc_Layout_add($this, $bato);
+    ovncvc_Layout_add($this, $batoValue);
+    ovncvc_Layout_add($this, $dobleTanque);
+    ovncvc_Layout_add($this, $dobleTanqueValue);
+    ovncvc_Layout_add($this, $esBus);
+    ovncvc_Layout_add($this, $esBusValue);
+    ovncvc_Layout_add($this, $esBusDesc);
+}
+function ovncvc_ZonaLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_ZonaLine__init_(var_0) {
+    var var_1 = new ovncvc_ZonaLine();
+    ovncvc_ZonaLine__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_ZonaLine__init_0($this, $model) {
+    var $zona, $zonaValue, $subZonaValue, $subZona, $alq, $alqValue, $aquien, $aquienValue, var$10;
+    ovncvc_Layout__init_($this);
+    $this.$spacing = 1;
+    $zona = ovncvc_Label__init_0($rt_s(61));
+    $zona.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign($zona.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    $zonaValue = ovncvc_TextField__init_();
+    $zonaValue.$width0 = 4;
+    jl_Object_getClass($model);
+    $subZonaValue = new ovncvc_ZonaLine$_init_$lambda$_0_0;
+    $subZonaValue.$_026 = $model;
+    ovncvc_TextField_setValueChangeListener($zonaValue, $subZonaValue);
+    $subZona = ovncvc_Label__init_0($rt_s(62));
+    $subZonaValue = ovncvc_TextField__init_();
+    $subZonaValue.$width0 = 4;
+    jl_Object_getClass($model);
+    $alq = new ovncvc_ZonaLine$_init_$lambda$_0_1;
+    $alq.$_027 = $model;
+    ovncvc_TextField_setValueChangeListener($subZonaValue, $alq);
+    $alq = ovncvc_Label__init_0($rt_s(63));
+    $alqValue = ovncvc_TextField__init_();
+    $alqValue.$width0 = 1;
+    jl_Object_getClass($model);
+    $aquien = new ovncvc_ZonaLine$_init_$lambda$_0_2;
+    $aquien.$_028 = $model;
+    ovncvc_TextField_setValueChangeListener($alqValue, $aquien);
+    $aquien = ovncvc_Label__init_0($rt_s(64));
+    $aquienValue = ovncvc_TextField__init_();
+    $aquienValue.$width0 = 20;
+    jl_Object_getClass($model);
+    var$10 = new ovncvc_ZonaLine$_init_$lambda$_0_3;
+    var$10.$_029 = $model;
+    ovncvc_TextField_setValueChangeListener($aquienValue, var$10);
+    ovncvc_Layout_add($this, $zona);
+    ovncvc_Layout_add($this, $zonaValue);
+    ovncvc_Layout_add($this, $subZona);
+    ovncvc_Layout_add($this, $subZonaValue);
+    ovncvc_Layout_add($this, $alq);
+    ovncvc_Layout_add($this, $alqValue);
+    ovncvc_Layout_add($this, $aquien);
+    ovncvc_Layout_add($this, $aquienValue);
+}
+function ovncvc_ClasificadorLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_ClasificadorLine__init_(var_0) {
+    var var_1 = new ovncvc_ClasificadorLine();
+    ovncvc_ClasificadorLine__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_ClasificadorLine__init_0($this, $model) {
+    var $clasificador, $clasificadorValue, $today, $itv, $itvValue, $escolar, $escolarValue;
+    ovncvc_Layout__init_($this);
+    $this.$spacing = 1;
+    $clasificador = ovncvc_Label__init_0($rt_s(65));
+    $clasificador.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign($clasificador.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    $clasificadorValue = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($clasificadorValue, $rt_s(66));
+    $clasificadorValue.$width0 = 3;
+    jl_Object_getClass($model);
+    $today = new ovncvc_ClasificadorLine$_init_$lambda$_0_0;
+    $today.$_030 = $model;
+    ovncvc_TextField_setValueChangeListener($clasificadorValue, $today);
+    $itv = ovncvc_Label__init_0($rt_s(67));
+    $today = new ju_Date;
+    $today.$value6 = jl_System_currentTimeMillis();
+    $itvValue = ovncvc_Label__init_0(ju_Date_toGMTString($today));
+    $escolar = ovncvc_Label__init_0($rt_s(68));
+    $escolarValue = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($escolarValue, $rt_s(69));
+    jl_Object_getClass($model);
+    $today = new ovncvc_ClasificadorLine$_init_$lambda$_0_1;
+    $today.$_031 = $model;
+    ovncvc_TextField_setValueChangeListener($escolarValue, $today);
+    ovncvc_Layout_add($this, $clasificador);
+    ovncvc_Layout_add($this, $clasificadorValue);
+    ovncvc_Layout_add($this, $itv);
+    ovncvc_Layout_add($this, $itvValue);
+    ovncvc_Layout_add($this, $escolar);
+    ovncvc_Layout_add($this, $escolarValue);
+}
+function ovncvc_FechaLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_FechaLine__init_(var_0) {
+    var var_1 = new ovncvc_FechaLine();
+    ovncvc_FechaLine__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_FechaLine__init_0($this, $model) {
+    var $fecha, $fechaValue, var$4, $discrecional, $discrecionalValue, $discrecionalDesc, $asae, $aSaeValue, $conFlex, $conFlexValue;
+    ovncvc_Layout__init_($this);
+    $this.$spacing = 1;
+    $fecha = ovncvc_Label__init_0($rt_s(70));
+    $fecha.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign($fecha.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    $fechaValue = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($fechaValue, $rt_s(71));
+    $fechaValue.$width0 = 8;
+    jl_Object_getClass($model);
+    var$4 = new ovncvc_FechaLine$_init_$lambda$_0_0;
+    var$4.$_032 = $model;
+    ovncvc_TextField_setValueChangeListener($fechaValue, var$4);
+    $discrecional = ovncvc_Label__init_0($rt_s(72));
+    $discrecionalValue = ovncvc_ComboBox__init_();
+    var$4 = jus_Stream_of(ovncvc_SNCTypeItem$SNCType_values());
+    $discrecionalDesc = new ovncvc_FechaLine$_init_$lambda$_0_1;
+    $discrecionalDesc.$_033 = $discrecionalValue;
+    jusi_SimpleStreamImpl_forEachOrdered(var$4, $discrecionalDesc);
+    ovncvc_ComboBox_setValue($discrecionalValue, ovncvc_SNCTypeItem__init_(ovncvc_SNCTypeItem$SNCType_S));
+    ovncvc_ComboBox_setWidth($discrecionalValue, 4);
+    var$4 = new ovncvc_FechaLine$_init_$lambda$_0_2;
+    var$4.$_034 = $model;
+    ovncvc_ComboBox_setValueChangeLister($discrecionalValue, var$4);
+    $discrecionalDesc = ovncvc_Label__init_0($rt_s(73));
+    $asae = ovncvc_Label__init_0($rt_s(74));
+    $aSaeValue = ovncvc_ComboBox__init_();
+    $conFlex = jus_Stream_of(ovncvc_SNCTypeItem$SNCType_values());
+    var$4 = new ovncvc_FechaLine$_init_$lambda$_0_3;
+    var$4.$_035 = $aSaeValue;
+    jusi_SimpleStreamImpl_forEachOrdered($conFlex, var$4);
+    ovncvc_ComboBox_setValue($aSaeValue, ovncvc_SNCTypeItem__init_(ovncvc_SNCTypeItem$SNCType_S));
+    ovncvc_ComboBox_setWidth($aSaeValue, 4);
+    var$4 = new ovncvc_FechaLine$_init_$lambda$_0_4;
+    var$4.$_036 = $model;
+    ovncvc_ComboBox_setValueChangeLister($aSaeValue, var$4);
+    $conFlex = ovncvc_Label__init_0($rt_s(75));
+    $conFlexValue = ovncvc_TextField__init_();
+    $conFlexValue.$width0 = 1;
+    jl_Object_getClass($model);
+    var$4 = new ovncvc_FechaLine$_init_$lambda$_0_5;
+    var$4.$_037 = $model;
+    ovncvc_TextField_setValueChangeListener($conFlexValue, var$4);
+    ovncvc_Layout_add($this, $fecha);
+    ovncvc_Layout_add($this, $fechaValue);
+    ovncvc_Layout_add($this, $discrecional);
+    ovncvc_Layout_add($this, $discrecionalValue);
+    ovncvc_Layout_add($this, $discrecionalDesc);
+    ovncvc_Layout_add($this, $asae);
+    ovncvc_Layout_add($this, $aSaeValue);
+    ovncvc_Layout_add($this, $conFlex);
+    ovncvc_Layout_add($this, $conFlexValue);
+}
+function ovncvc_NumeroTarjetaLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_CaracteristicasLine() {
+    ovncvc_HorizontalLayout.call(this);
+}
+function ovncvc_CaracteristicasLine__init_(var_0) {
+    var var_1 = new ovncvc_CaracteristicasLine();
+    ovncvc_CaracteristicasLine__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_CaracteristicasLine__init_0($this, $model) {
+    var $caracteristicas, $value1, $value3, $value2, $value4, $value5, var$8;
+    ovncvc_Layout__init_($this);
+    $this.$spacing = 1;
+    $caracteristicas = ovncvc_Label__init_0($rt_s(76));
+    $caracteristicas.$width0 = 18;
+    ovncvc_Component$Style_setTextAlign($caracteristicas.$style, ovncvc_Component$Style$TextAlign_RIGHT);
+    $value1 = ovncvc_TextField__init_();
+    ovncvc_TextField_setValue($value1, $rt_s(77));
+    $value1.$width0 = 3;
+    jl_Object_getClass($model);
+    $value3 = new ovncvc_CaracteristicasLine$_init_$lambda$_0_0;
+    $value3.$_038 = $model;
+    ovncvc_TextField_setValueChangeListener($value1, $value3);
+    $value2 = ovncvc_TextField__init_();
+    $value2.$width0 = 3;
+    jl_Object_getClass($model);
+    $value3 = new ovncvc_CaracteristicasLine$_init_$lambda$_0_1;
+    $value3.$_039 = $model;
+    ovncvc_TextField_setValueChangeListener($value2, $value3);
+    $value3 = ovncvc_TextField__init_();
+    $value3.$width0 = 3;
+    jl_Object_getClass($model);
+    $value4 = new ovncvc_CaracteristicasLine$_init_$lambda$_0_2;
+    $value4.$_040 = $model;
+    ovncvc_TextField_setValueChangeListener($value3, $value4);
+    $value4 = ovncvc_TextField__init_();
+    $value4.$width0 = 3;
+    jl_Object_getClass($model);
+    $value5 = new ovncvc_CaracteristicasLine$_init_$lambda$_0_3;
+    $value5.$_041 = $model;
+    ovncvc_TextField_setValueChangeListener($value4, $value5);
+    $value5 = ovncvc_TextField__init_();
+    $value5.$width0 = 3;
+    jl_Object_getClass($model);
+    var$8 = new ovncvc_CaracteristicasLine$_init_$lambda$_0_4;
+    var$8.$_042 = $model;
+    ovncvc_TextField_setValueChangeListener($value5, var$8);
+    ovncvc_Layout_add($this, $caracteristicas);
+    ovncvc_Layout_add($this, $value1);
+    ovncvc_Layout_add($this, $value2);
+    ovncvc_Layout_add($this, $value3);
+    ovncvc_Layout_add($this, $value4);
+    ovncvc_Layout_add($this, $value5);
 }
 function jl_Math() {
     jl_Object.call(this);
@@ -3095,38 +3606,37 @@ function ovncvc_Component$Style_setTextAlign($this, $textAlign) {
 function ovncvc_Component$Style_getTextAlign($this) {
     return $this.$textAlign;
 }
-function ovncvc_HorizontalLayout() {
-    ovncvc_Layout.call(this);
+function jl_Boolean() {
+    jl_Object.call(this);
+    this.$value7 = 0;
 }
-function ovncvc_HorizontalLayout_getWidth($this) {
-    return jusi_SimpleStreamImpl_reduce(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$components), new ovncvc_HorizontalLayout$getWidth$lambda$_1_0), jl_Integer_valueOf0(0), new ovncvc_HorizontalLayout$getWidth$lambda$_1_1).$value;
+var jl_Boolean_TRUE = null;
+var jl_Boolean_FALSE = null;
+var jl_Boolean_TYPE = null;
+function jl_Boolean__init_(var_0) {
+    var var_1 = new jl_Boolean();
+    jl_Boolean__init_0(var_1, var_0);
+    return var_1;
 }
-function ovncvc_HorizontalLayout_getHeight($this) {
-    return jusi_SimpleStreamImpl_reduce(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$components), new ovncvc_HorizontalLayout$getHeight$lambda$_2_0), jl_Integer_valueOf0(0), new ovncvc_HorizontalLayout$getHeight$lambda$_2_1).$value;
+function jl_Boolean__init_0($this, $value) {
+    $this.$value7 = $value;
 }
-function ovncvc_HorizontalLayout_render($this, $api) {
-    var $offset, var$3, $component, $childWidth, $wrapper;
-    $offset = 0;
-    var$3 = ju_AbstractList_iterator($this.$components);
-    while (ju_AbstractList$1_hasNext(var$3)) {
-        $component = ju_AbstractList$1_next(var$3);
-        $childWidth = $component.$getWidth();
-        $wrapper = new ovncvc_HorizontalLayout$HLAPIWrapper;
-        $wrapper.$this$04 = $this;
-        $wrapper.$api2 = $api;
-        $wrapper.$width1 = $childWidth;
-        $wrapper.$offset0 = $offset;
-        $offset = $offset + $childWidth | 0;
-        if ($this.$spacing)
-            $offset = $offset + 1 | 0;
-        $component.$render($wrapper);
-    }
+function jl_Boolean_booleanValue($this) {
+    return $this.$value7;
+}
+function jl_Boolean_valueOf($value) {
+    return !$value ? jl_Boolean_FALSE : jl_Boolean_TRUE;
+}
+function jl_Boolean__clinit_() {
+    jl_Boolean_TRUE = jl_Boolean__init_(1);
+    jl_Boolean_FALSE = jl_Boolean__init_(0);
+    jl_Boolean_TYPE = $rt_cls($rt_booleancls());
 }
 function ovncvc_ListBox$ListBoxItem() {
 }
 function ovncvc_BooleanItem() {
     jl_Object.call(this);
-    this.$value4 = 0;
+    this.$value8 = 0;
 }
 function ovncvc_BooleanItem__init_(var_0) {
     var var_1 = new ovncvc_BooleanItem();
@@ -3134,10 +3644,13 @@ function ovncvc_BooleanItem__init_(var_0) {
     return var_1;
 }
 function ovncvc_BooleanItem__init_0($this, $value) {
-    $this.$value4 = $value;
+    $this.$value8 = $value;
 }
 function ovncvc_BooleanItem_getCaption($this) {
-    return !$this.$value4 ? $rt_s(37) : $rt_s(38);
+    return !$this.$value8 ? $rt_s(78) : $rt_s(79);
+}
+function ovncvc_BooleanItem_getValue($this) {
+    return jl_Boolean_valueOf($this.$value8);
 }
 function ovncvc_BooleanItem_equals($this, $o) {
     var $that;
@@ -3145,7 +3658,7 @@ function ovncvc_BooleanItem_equals($this, $o) {
         return 1;
     if ($o !== null && jl_Object_getClass($this) === jl_Object_getClass($o)) {
         $that = $o;
-        return $this.$value4 != $that.$value4 ? 0 : 1;
+        return $this.$value8 != $that.$value8 ? 0 : 1;
     }
     return 0;
 }
@@ -3154,6 +3667,7 @@ function ovncvc_ComboBox() {
     a.$itemsList = null;
     a.$captionField = null;
     a.$activeMode = 0;
+    a.$valueChangeListener = null;
 }
 function ovncvc_ComboBox__init_() {
     var var_0 = new ovncvc_ComboBox();
@@ -3161,48 +3675,45 @@ function ovncvc_ComboBox__init_() {
     return var_0;
 }
 function ovncvc_ComboBox__init_0($this) {
-    var var$1, var$2, var$3;
+    var var$1, var$2;
     ovncvc_Component__init_($this);
-    var$1 = new ovncvc_ListBox;
-    ovncvc_Component__init_(var$1);
-    var$1.$items = new ju_LinkedList;
-    var$1.$currentItemId = 0;
-    var$1.$scrollPos = 0;
-    ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), var$1);
-    var$2 = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
-    var$3 = new ovncvc_ListBox$_init_$lambda$_0_0;
-    var$3.$_07 = var$1;
-    ovncvc_EventBus_registerEvent(var$2, var$1, var$3);
-    var$1.$style.$color0 = jl_Integer_valueOf0(7);
-    var$1.$height0 = 3;
-    $this.$itemsList = var$1;
+    $this.$itemsList = ovncvc_ListBox__init_();
     $this.$captionField = ovncvc_TextField__init_();
     ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $this);
     ovncv_Navigation_unregisterComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $this.$itemsList);
     ovncv_Navigation_unregisterComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $this.$captionField);
     var$1 = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
     var$2 = new ovncvc_ComboBox$_init_$lambda$_0_0;
-    var$2.$_08 = $this;
+    var$2.$_043 = $this;
     ovncvc_EventBus_registerEvent(var$1, $this, var$2);
     var$1 = $this.$captionField;
     var$2 = new ovncvc_ComboBox$_init_$lambda$_0_1;
-    var$2.$_09 = $this;
+    var$2.$_044 = $this;
     ovncvc_TextField_setValueEditListener(var$1, var$2);
     var$1 = $this.$itemsList;
     var$2 = new ovncvc_ComboBox$_init_$lambda$_0_2;
-    var$2.$_010 = $this;
+    var$2.$_045 = $this;
     ovncvc_ListBox_setValueChangeListener(var$1, var$2);
     $this.$style.$color0 = jl_Integer_valueOf0(7);
     ovncvc_ComboBox_setWidth($this, 15);
-    ovncvc_TextField_setPlaceHolder($this.$captionField, $rt_s(39));
+    ovncvc_TextField_setPlaceHolder($this.$captionField, $rt_s(80));
     $this.$itemsList.$visible = $this.$activeMode;
 }
 function ovncvc_ComboBox_setValue($this, $value) {
     ovncvc_ListBox_setSelectedItem($this.$itemsList, ju_Objects_requireNonNull($value));
     ovncvc_TextField_setValue($this.$captionField, $value.$getCaption());
 }
+function ovncvc_ComboBox_getValue($this) {
+    return ovncvc_ListBox_getSelectedItem($this.$itemsList);
+}
+function ovncvc_ComboBox_setPlaceHolder($this, $placeHolder) {
+    ovncvc_TextField_setPlaceHolder($this.$captionField, $placeHolder);
+}
 function ovncvc_ComboBox_addItem($this, $item) {
     ovncvc_ListBox_addItem($this.$itemsList, $item);
+}
+function ovncvc_ComboBox_setValueChangeLister($this, $listener) {
+    $this.$valueChangeListener = ju_Objects_requireNonNull($listener);
 }
 function ovncvc_ComboBox_setFocused($this, $focused) {
     ovncvc_Component_setFocused($this, $focused);
@@ -3213,7 +3724,7 @@ function ovncvc_ComboBox_setWidth($this, $width) {
     var var$2;
     if ($width < 3) {
         var$2 = new jl_IllegalArgumentException;
-        jl_Throwable__init_(var$2, $rt_s(40));
+        jl_Throwable__init_(var$2, $rt_s(81));
         $rt_throw(var$2);
     }
     $this.$captionField.$width0 = $width - 3 | 0;
@@ -3232,7 +3743,7 @@ function ovncvc_ComboBox_render($this, $api) {
     $layout = new ovncvc_HorizontalLayout;
     ovncvc_Layout__init_($layout);
     $dropDownIcon = ovncvc_Label__init_();
-    ovncvc_Label_setValue($dropDownIcon, $rt_s(41));
+    ovncvc_Label_setValue($dropDownIcon, $rt_s(82));
     $dropDownIcon.$style.$color0 = $this.$captionField.$style.$color0;
     $dropDownIcon.$style.$bgcolor0 = $this.$captionField.$style.$bgcolor0;
     ovncvc_Layout_add($layout, $this.$captionField);
@@ -3242,9 +3753,27 @@ function ovncvc_ComboBox_render($this, $api) {
         ovncvc_Layout_add($content, $this.$itemsList);
     ovncvc_VerticalLayout_render($content, $api);
 }
+function ovncvc_ValueChangeListener() {
+}
+function ovncvc_NumeroLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_03 = null;
+}
+function ovncvc_NumeroLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_03.$esGenerico = ovncvc_BooleanItem_getValue(var$1);
+}
+function ovncvc_NumeroLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_04 = null;
+}
+function ovncvc_NumeroLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_CFDemoModel_setEsReserva(var$0.$_04, ovncvc_BooleanItem_getValue(var$1).$value7);
+}
 function ovncvc_VehicleTypeItem$VehicleType() {
     jl_Enum.call(this);
-    this.$caption = null;
+    this.$caption1 = null;
 }
 var ovncvc_VehicleTypeItem$VehicleType_CAR = null;
 var ovncvc_VehicleTypeItem$VehicleType_MOTOCICLE = null;
@@ -3258,17 +3787,17 @@ function ovncvc_VehicleTypeItem$VehicleType__init_(var_0, var_1, var_2) {
 }
 function ovncvc_VehicleTypeItem$VehicleType__init_0($this, var$1, var$2, $caption) {
     jl_Enum__init_0($this, var$1, var$2);
-    $this.$caption = $caption;
+    $this.$caption1 = $caption;
 }
 function ovncvc_VehicleTypeItem$VehicleType_getCaption($this) {
-    return $this.$caption;
+    return $this.$caption1;
 }
 function ovncvc_VehicleTypeItem$VehicleType__clinit_() {
     var var$1, var$2;
-    ovncvc_VehicleTypeItem$VehicleType_CAR = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(42), 0, $rt_s(43));
-    ovncvc_VehicleTypeItem$VehicleType_MOTOCICLE = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(44), 1, $rt_s(45));
-    ovncvc_VehicleTypeItem$VehicleType_BUS = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(46), 2, $rt_s(47));
-    ovncvc_VehicleTypeItem$VehicleType_TRUCK = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(48), 3, $rt_s(49));
+    ovncvc_VehicleTypeItem$VehicleType_CAR = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(83), 0, $rt_s(84));
+    ovncvc_VehicleTypeItem$VehicleType_MOTOCICLE = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(85), 1, $rt_s(86));
+    ovncvc_VehicleTypeItem$VehicleType_BUS = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(87), 2, $rt_s(88));
+    ovncvc_VehicleTypeItem$VehicleType_TRUCK = ovncvc_VehicleTypeItem$VehicleType__init_($rt_s(89), 3, $rt_s(90));
     var$1 = $rt_createArray(ovncvc_VehicleTypeItem$VehicleType, 4);
     var$2 = var$1.data;
     var$2[0] = ovncvc_VehicleTypeItem$VehicleType_CAR;
@@ -3283,13 +3812,24 @@ function jus_BaseStream() {
 }
 function jus_Stream() {
 }
-function ovncvc_Content$tipoLine$lambda$_2_0() {
-    jl_Object.call(this);
-    this.$_03 = null;
+function jus_Stream_of($values) {
+    var var$2, var$3, var$4;
+    var$2 = $values.data;
+    var$3 = new jusi_ArrayStreamImpl;
+    var$4 = var$2.length;
+    var$3.$array0 = $values;
+    var$3.$index = 0;
+    var$3.$end = var$4;
+    var$3.$size3 = var$4 - 0 | 0;
+    return var$3;
 }
-function ovncvc_Content$tipoLine$lambda$_2_0_accept(var$0, var$1) {
+function ovncvc_TipoLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_05 = null;
+}
+function ovncvc_TipoLine$_init_$lambda$_0_0_accept(var$0, var$1) {
     var$1 = var$1;
-    ovncvc_ComboBox_addItem(var$0.$_03, ovncvc_VehicleTypeItem__init_(var$1));
+    ovncvc_ComboBox_addItem(var$0.$_05, ovncvc_VehicleTypeItem__init_(var$1));
 }
 function ovncvc_VehicleTypeItem() {
     jl_Object.call(this);
@@ -3304,7 +3844,10 @@ function ovncvc_VehicleTypeItem__init_0($this, $vehicleType) {
     $this.$vehicleType = ju_Objects_requireNonNull($vehicleType);
 }
 function ovncvc_VehicleTypeItem_getCaption($this) {
-    return $this.$vehicleType.$caption;
+    return $this.$vehicleType.$caption1;
+}
+function ovncvc_VehicleTypeItem_getValue($this) {
+    return $this.$vehicleType;
 }
 function ovncvc_VehicleTypeItem_equals($this, $o) {
     var $that;
@@ -3316,9 +3859,17 @@ function ovncvc_VehicleTypeItem_equals($this, $o) {
     }
     return 0;
 }
+function ovncvc_TipoLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_06 = null;
+}
+function ovncvc_TipoLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_06.$tipo = var$1.$vehicleType;
+}
 function ovncvc_TextField() {
     var a = this; ovncvc_Component.call(a);
-    a.$value5 = null;
+    a.$value9 = null;
     a.$placeHolder = null;
     a.$renderValuePos = 0;
     a.$cursorPos = 0;
@@ -3335,14 +3886,15 @@ function ovncvc_TextField__init_() {
 function ovncvc_TextField__init_0($this) {
     var var$1, var$2;
     ovncvc_Component__init_($this);
-    $this.$value5 = jl_StringBuilder__init_();
+    $this.$value9 = jl_StringBuilder__init_();
+    $this.$placeHolder = $rt_s(25);
     $this.$renderValuePos = 0;
     $this.$cursorPos = 0;
     $this.$carretPos = 0;
     ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $this);
     var$1 = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
     var$2 = new ovncvc_TextField$_init_$lambda$_0_0;
-    var$2.$_011 = $this;
+    var$2.$_046 = $this;
     ovncvc_EventBus_registerEvent(var$1, $this, var$2);
     $this.$width0 = 10;
     $this.$style.$color0 = jl_Integer_valueOf0(15);
@@ -3359,14 +3911,17 @@ function ovncvc_TextField_setValue($this, $value) {
         var$3 = var$3 + 1 | 0;
     }
     var$2.$length0 = jl_String_length($value);
-    $this.$value5 = var$2;
+    $this.$value9 = var$2;
     ovncvc_Component_markAsDirty($this);
 }
 function ovncvc_TextField_getValue($this) {
-    return jl_StringBuilder_toString($this.$value5);
+    return jl_StringBuilder_toString($this.$value9);
 }
 function ovncvc_TextField_setPlaceHolder($this, $placeHolder) {
     $this.$placeHolder = ju_Objects_requireNonNull($placeHolder);
+}
+function ovncvc_TextField_setValueChangeListener($this, $listener) {
+    $this.$changeListener = ju_Objects_requireNonNull($listener);
 }
 function ovncvc_TextField_setValueEditListener($this, $listener) {
     $this.$editListener = ju_Objects_requireNonNull($listener);
@@ -3375,10 +3930,10 @@ function ovncvc_TextField_setCarretPos($this, $pos) {
     var $width;
     if ($pos < 0)
         $this.$carretPos = 0;
-    else if ($pos <= jl_StringBuilder_length($this.$value5))
+    else if ($pos <= jl_StringBuilder_length($this.$value9))
         $this.$carretPos = $pos;
     else
-        $this.$carretPos = jl_StringBuilder_length($this.$value5);
+        $this.$carretPos = jl_StringBuilder_length($this.$value9);
     $width = $this.$width0;
     if ($this.$carretPos >= $this.$renderValuePos && $this.$carretPos < ($this.$renderValuePos + $width | 0))
         $this.$cursorPos = $this.$carretPos - $this.$renderValuePos | 0;
@@ -3395,7 +3950,7 @@ function ovncvc_TextField_getHeight($this) {
 }
 function ovncvc_TextField_render($this, $api) {
     var $text, $width, $valueSize, $color, $bgcolor, $i, $currentPos;
-    $text = !jl_StringBuilder_length($this.$value5) && !$this.$editMode ? $this.$placeHolder : jl_StringBuilder_toString($this.$value5);
+    $text = !jl_StringBuilder_length($this.$value9) && !$this.$editMode ? $this.$placeHolder : jl_StringBuilder_toString($this.$value9);
     $width = $this.$width0;
     $valueSize = jl_String_length($text);
     $color = $this.$editMode ? jl_Integer_valueOf0(15) : $this.$focused ? jl_Integer_valueOf0(0) : $this.$style.$color0;
@@ -3404,18 +3959,18 @@ function ovncvc_TextField_render($this, $api) {
     while ($i < $width) {
         $currentPos = $this.$renderValuePos + $i | 0;
         if ($currentPos < $valueSize && $currentPos >= 0)
-            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($text, $currentPos), $color, jl_Integer_valueOf0($i == $this.$cursorPos && $this.$editMode ? 2 : $bgcolor.$value), 0));
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($text, $currentPos), $color, jl_Integer_valueOf0($i == $this.$cursorPos && $this.$editMode ? 2 : $bgcolor.$value)));
         else
-            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(0, $color, jl_Integer_valueOf0($i == $this.$cursorPos && $this.$editMode ? 2 : $bgcolor.$value), 0));
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(0, $color, jl_Integer_valueOf0($i == $this.$cursorPos && $this.$editMode ? 2 : $bgcolor.$value)));
         $i = $i + 1 | 0;
     }
 }
 function ovncvc_TextField_lambda$new$0($this, $e) {
-    if (jl_String_equals($rt_s(50), $rt_str($e.key))) {
+    if (jl_String_equals($rt_s(91), $rt_str($e.key))) {
         $this.$editMode = $this.$editMode ? 0 : 1;
         $this.$preventDefault = $this.$preventDefault ? 0 : 1;
         if (!$this.$editMode && $this.$changeListener !== null)
-            $this.$changeListener.$onChange(jl_StringBuilder_toString($this.$value5));
+            $this.$changeListener.$onChange(jl_StringBuilder_toString($this.$value9));
         if ($this.$editMode)
             ovncvc_TextField_setCarretPos($this, 0);
         $this.$renderValuePos = 0;
@@ -3424,30 +3979,30 @@ function ovncvc_TextField_lambda$new$0($this, $e) {
     a: {
         if (!$this.$editMode)
             break a;
-        if (jl_String_equals($rt_s(51), $rt_str($e.key))) {
+        if (jl_String_equals($rt_s(92), $rt_str($e.key))) {
             ovncvc_TextField_setCarretPos($this, $this.$carretPos + 1 | 0);
             ovncvc_Component_markAsDirty($this);
             break a;
         }
-        if (jl_String_equals($rt_s(52), $rt_str($e.key))) {
+        if (jl_String_equals($rt_s(93), $rt_str($e.key))) {
             ovncvc_TextField_setCarretPos($this, $this.$carretPos - 1 | 0);
             ovncvc_Component_markAsDirty($this);
             break a;
         }
-        if (jl_String_equals($rt_s(53), $rt_str($e.key))) {
+        if (jl_String_equals($rt_s(94), $rt_str($e.key))) {
             ovncvc_TextField_setCarretPos($this, 0);
             ovncvc_Component_markAsDirty($this);
             break a;
         }
-        if (jl_String_equals($rt_s(54), $rt_str($e.key))) {
-            ovncvc_TextField_setCarretPos($this, jl_StringBuilder_length($this.$value5));
+        if (jl_String_equals($rt_s(95), $rt_str($e.key))) {
+            ovncvc_TextField_setCarretPos($this, jl_StringBuilder_length($this.$value9));
             ovncvc_Component_markAsDirty($this);
             break a;
         }
-        if (jl_String_equals($rt_s(55), $rt_str($e.key))) {
+        if (jl_String_equals($rt_s(96), $rt_str($e.key))) {
             if ($this.$carretPos <= 0)
                 break a;
-            jl_StringBuilder_deleteCharAt($this.$value5, $this.$carretPos - 1 | 0);
+            jl_StringBuilder_deleteCharAt($this.$value9, $this.$carretPos - 1 | 0);
             ovncvc_TextField_setCarretPos($this, $this.$carretPos - 1 | 0);
             ovncvc_Component_markAsDirty($this);
             if ($this.$editListener === null)
@@ -3455,10 +4010,10 @@ function ovncvc_TextField_lambda$new$0($this, $e) {
             $this.$editListener.$onChange(ovncvc_TextField_getValue($this));
             break a;
         }
-        if (jl_String_equals($rt_s(56), $rt_str($e.key))) {
-            if (jl_StringBuilder_length($this.$value5) <= 0)
+        if (jl_String_equals($rt_s(97), $rt_str($e.key))) {
+            if (jl_StringBuilder_length($this.$value9) <= 0)
                 break a;
-            jl_StringBuilder_deleteCharAt($this.$value5, $this.$carretPos);
+            jl_StringBuilder_deleteCharAt($this.$value9, $this.$carretPos);
             ovncvc_Component_markAsDirty($this);
             if ($this.$editListener === null)
                 break a;
@@ -3467,7 +4022,7 @@ function ovncvc_TextField_lambda$new$0($this, $e) {
         }
         if (jl_String_length($rt_str($e.key)) != 1)
             break a;
-        jl_StringBuilder_insert($this.$value5, $this.$carretPos, $rt_str($e.key));
+        jl_StringBuilder_insert($this.$value9, $this.$carretPos, $rt_str($e.key));
         ovncvc_TextField_setCarretPos($this, $this.$carretPos + 1 | 0);
         ovncvc_Component_markAsDirty($this);
         if ($this.$editListener === null)
@@ -3475,30 +4030,403 @@ function ovncvc_TextField_lambda$new$0($this, $e) {
         $this.$editListener.$onChange(ovncvc_TextField_getValue($this));
     }
 }
-function ovncvc_TextItem() {
+function ovncvc_TipoLine$_init_$lambda$_0_2() {
     jl_Object.call(this);
-    this.$value6 = null;
+    this.$_07 = null;
 }
-function ovncvc_TextItem__init_(var_0) {
-    var var_1 = new ovncvc_TextItem();
-    ovncvc_TextItem__init_0(var_1, var_0);
+function ovncvc_TipoLine$_init_$lambda$_0_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_07.$base = var$1;
+}
+function ovncvc_TipoLine$_init_$lambda$_0_3() {
+    jl_Object.call(this);
+    this.$_08 = null;
+}
+function ovncvc_TipoLine$_init_$lambda$_0_3_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_08.$baseLibres = var$1;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_020 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_020.$matricula = var$1;
+}
+function ovncvc_SNCTypeItem$SNCType() {
+    jl_Enum.call(this);
+}
+var ovncvc_SNCTypeItem$SNCType_S = null;
+var ovncvc_SNCTypeItem$SNCType_N = null;
+var ovncvc_SNCTypeItem$SNCType_C = null;
+var ovncvc_SNCTypeItem$SNCType_$VALUES = null;
+function ovncvc_SNCTypeItem$SNCType_values() {
+    return ovncvc_SNCTypeItem$SNCType_$VALUES.$clone();
+}
+function ovncvc_SNCTypeItem$SNCType__clinit_() {
+    var var$1, var$2, var$3;
+    var$1 = new ovncvc_SNCTypeItem$SNCType;
+    jl_Enum__init_0(var$1, $rt_s(98), 0);
+    ovncvc_SNCTypeItem$SNCType_S = var$1;
+    var$1 = new ovncvc_SNCTypeItem$SNCType;
+    jl_Enum__init_0(var$1, $rt_s(99), 1);
+    ovncvc_SNCTypeItem$SNCType_N = var$1;
+    var$1 = new ovncvc_SNCTypeItem$SNCType;
+    jl_Enum__init_0(var$1, $rt_s(100), 2);
+    ovncvc_SNCTypeItem$SNCType_C = var$1;
+    var$2 = $rt_createArray(ovncvc_SNCTypeItem$SNCType, 3);
+    var$3 = var$2.data;
+    var$3[0] = ovncvc_SNCTypeItem$SNCType_S;
+    var$3[1] = ovncvc_SNCTypeItem$SNCType_N;
+    var$3[2] = ovncvc_SNCTypeItem$SNCType_C;
+    ovncvc_SNCTypeItem$SNCType_$VALUES = var$2;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_021 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_1_accept(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_ComboBox_addItem(var$0.$_021, ovncvc_SNCTypeItem__init_(var$1));
+}
+function ovncvc_SNCTypeItem() {
+    jl_Object.call(this);
+    this.$type = null;
+}
+function ovncvc_SNCTypeItem__init_(var_0) {
+    var var_1 = new ovncvc_SNCTypeItem();
+    ovncvc_SNCTypeItem__init_0(var_1, var_0);
     return var_1;
 }
-function ovncvc_TextItem__init_0($this, $value) {
-    $this.$value6 = ju_Objects_requireNonNull($value);
+function ovncvc_SNCTypeItem__init_0($this, $type) {
+    $this.$type = ju_Objects_requireNonNull($type);
 }
-function ovncvc_TextItem_getCaption($this) {
-    return $this.$value6;
+function ovncvc_SNCTypeItem_getCaption($this) {
+    return $this.$type.$name0;
 }
-function ovncvc_TextItem_equals($this, $o) {
-    var $textItem;
+function ovncvc_SNCTypeItem_getValue($this) {
+    return $this.$type;
+}
+function ovncvc_SNCTypeItem_equals($this, $o) {
+    var $that;
     if ($this === $o)
         return 1;
     if ($o !== null && jl_Object_getClass($this) === jl_Object_getClass($o)) {
-        $textItem = $o;
-        return jl_String_equals($this.$value6, $textItem.$value6);
+        $that = $o;
+        return $this.$type !== $that.$type ? 0 : 1;
     }
     return 0;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_2() {
+    jl_Object.call(this);
+    this.$_022 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_022.$bato = var$1.$type;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_3() {
+    jl_Object.call(this);
+    this.$_023 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_3_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_023.$dobleTanque = ovncvc_BooleanItem_getValue(var$1);
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_4() {
+    jl_Object.call(this);
+    this.$_024 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_4_accept(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_ComboBox_addItem(var$0.$_024, ovncvc_SNCTypeItem__init_(var$1));
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_5() {
+    jl_Object.call(this);
+    this.$_025 = null;
+}
+function ovncvc_MatriculaLine$_init_$lambda$_0_5_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_025.$esBus = var$1.$type;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_026 = null;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_026.$zona = var$1;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_027 = null;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_027.$subZona = var$1;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_2() {
+    jl_Object.call(this);
+    this.$_028 = null;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_028.$alq = var$1;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_3() {
+    jl_Object.call(this);
+    this.$_029 = null;
+}
+function ovncvc_ZonaLine$_init_$lambda$_0_3_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_029.$aquien = var$1;
+}
+function ovncvc_ClasificadorLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_030 = null;
+}
+function ovncvc_ClasificadorLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_030.$clasificador = var$1;
+}
+function ju_Date() {
+    jl_Object.call(this);
+    this.$value6 = Long_ZERO;
+}
+function ju_Date_toGMTString($this) {
+    return $rt_str((new Date(Long_toNumber($this.$value6))).toUTCString());
+}
+function ju_Date__clinit_() {
+    return;
+}
+function ovncvc_ClasificadorLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_031 = null;
+}
+function ovncvc_ClasificadorLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_031.$escolar = var$1;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_032 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_032.$fecha = var$1;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_033 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_1_accept(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_ComboBox_addItem(var$0.$_033, ovncvc_SNCTypeItem__init_(var$1));
+}
+function ovncvc_FechaLine$_init_$lambda$_0_2() {
+    jl_Object.call(this);
+    this.$_034 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_034.$discrecional = var$1.$type;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_3() {
+    jl_Object.call(this);
+    this.$_035 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_3_accept(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_ComboBox_addItem(var$0.$_035, ovncvc_SNCTypeItem__init_(var$1));
+}
+function ovncvc_FechaLine$_init_$lambda$_0_4() {
+    jl_Object.call(this);
+    this.$_036 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_4_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_036.$aSae = var$1.$type;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_5() {
+    jl_Object.call(this);
+    this.$_037 = null;
+}
+function ovncvc_FechaLine$_init_$lambda$_0_5_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_037.$conFlex = var$1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_047 = null;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0__init_(var_0) {
+    var var_1 = new ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0();
+    ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0__init_0(var$0, var$1) {
+    var$0.$_047 = var$1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_047.$numeroTarjeta = var$1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_048 = null;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1__init_(var_0) {
+    var var_1 = new ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1();
+    ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1__init_0(var$0, var$1) {
+    var$0.$_048 = var$1;
+}
+function ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_048.$serieTarjeta = var$1;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_038 = null;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_0_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_038.$value10 = var$1;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_1() {
+    jl_Object.call(this);
+    this.$_039 = null;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_039.$value20 = var$1;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_2() {
+    jl_Object.call(this);
+    this.$_040 = null;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_040.$value30 = var$1;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_3() {
+    jl_Object.call(this);
+    this.$_041 = null;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_3_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_041.$value4 = var$1;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_4() {
+    jl_Object.call(this);
+    this.$_042 = null;
+}
+function ovncvc_CaracteristicasLine$_init_$lambda$_0_4_onChange(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_042.$value5 = var$1;
+}
+function ovncvc_Button() {
+    var a = this; ovncvc_Component.call(a);
+    a.$caption0 = null;
+    a.$clickListener = null;
+}
+function ovncvc_Button_setCaption($this, $caption) {
+    $this.$caption0 = $caption;
+    ovncvc_Component_markAsDirty($this);
+}
+function ovncvc_Button_setClickListener($this, $listener) {
+    $this.$clickListener = ju_Objects_requireNonNull($listener);
+}
+function ovncvc_Button_getWidth($this) {
+    return $this.$caption0 === null ? 1 : jl_String_length($this.$caption0) + 4 | 0;
+}
+function ovncvc_Button_getHeight($this) {
+    return 1;
+}
+function ovncvc_Button_render($this, $api) {
+    var $color, $bgcolor, $width, $i, var$6, var$7;
+    $color = $this.$focused ? jl_Integer_valueOf0(0) : $this.$style.$color0;
+    $bgcolor = $this.$focused ? jl_Integer_valueOf0(7) : $this.$style.$bgcolor0;
+    $width = ovncvc_Button_getWidth($this);
+    $i = 0;
+    var$6 = $width - 1 | 0;
+    var$7 = $width - 2 | 0;
+    while ($i < $width) {
+        if (!$i)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(91, $color, $bgcolor));
+        else if ($i == var$6)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(93, $color, $bgcolor));
+        else if ($i != 1 && $i != var$7)
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(jl_String_charAt($this.$caption0, $i - 2 | 0), $color, $bgcolor));
+        else
+            $api.$setItem($i, 0, ovncv_VCommander$Item__init_(0, $color, $bgcolor));
+        $i = $i + 1 | 0;
+    }
+}
+function ovncvc_Button_lambda$new$0($this, $e) {
+    if (jl_String_equals($rt_s(91), $rt_str($e.key)) && $this.$clickListener !== null)
+        $this.$clickListener.$run();
+}
+function jl_Runnable() {
+}
+function ovncvc_Content$demoLine$lambda$_1_0() {
+    jl_Object.call(this);
+    this.$_010 = null;
+}
+function ovncvc_Content$demoLine$lambda$_1_0_run(var$0) {
+    var var$1;
+    var$1 = var$0.$_010;
+    ovncvc_Label_setValue(var$1, $rt_s(101));
+    var$1.$style.$bgcolor0 = jl_Integer_valueOf0(1);
+    var$1.$style.$color0 = jl_Integer_valueOf0(4);
+}
+function ovncvc_CheckBox() {
+    var a = this; ovncvc_Component.call(a);
+    a.$caption = null;
+    a.$checked = 0;
+    a.$changeListener0 = null;
+}
+function ovncvc_CheckBox_setCaption($this, $caption) {
+    $this.$caption = ju_Objects_requireNonNull($caption);
+    ovncvc_Component_markAsDirty($this);
+}
+function ovncvc_CheckBox_setValueChangeListener($this, $listener) {
+    $this.$changeListener0 = ju_Objects_requireNonNull($listener);
+}
+function ovncvc_CheckBox_setChecked($this, $checked) {
+    $this.$checked = $checked;
+    ovncvc_Component_markAsDirty($this);
+}
+function ovncvc_CheckBox_getWidth($this) {
+    return jl_String_length($this.$caption) + 4 | 0;
+}
+function ovncvc_CheckBox_getHeight($this) {
+    return 1;
+}
+function ovncvc_CheckBox_render($this, $api) {
+    var $color, $bgcolor, $i;
+    $color = $this.$focused ? jl_Integer_valueOf0(0) : $this.$style.$color0;
+    $bgcolor = $this.$focused ? jl_Integer_valueOf0(7) : $this.$style.$bgcolor0;
+    $api.$setItem(0, 0, ovncv_VCommander$Item__init_(91, $color, $bgcolor));
+    $api.$setItem(1, 0, ovncv_VCommander$Item__init_(!$this.$checked ? 0 : 9632, $color, $bgcolor));
+    $api.$setItem(2, 0, ovncv_VCommander$Item__init_(93, $color, $bgcolor));
+    $api.$setItem(3, 0, ovncv_VCommander$Item__init_(0, $color, $bgcolor));
+    $i = 0;
+    while ($i < jl_String_length($this.$caption)) {
+        $api.$setItem($i + 4 | 0, 0, ovncv_VCommander$Item__init_(jl_String_charAt($this.$caption, $i), $color, $bgcolor));
+        $i = $i + 1 | 0;
+    }
+}
+function ovncvc_Content$demoLine$lambda$_1_1() {
+    jl_Object.call(this);
+    this.$_012 = null;
+}
+function ovncvc_Content$demoLine$lambda$_1_1_onChange(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_Label_setValue(var$0.$_012, !var$1.$value7 ? $rt_s(102) : $rt_s(103));
 }
 function ovncvc_ListBox() {
     var a = this; ovncvc_Component.call(a);
@@ -3506,7 +4434,26 @@ function ovncvc_ListBox() {
     a.$currentItemId = 0;
     a.$scrollPos = 0;
     a.$selectMode = 0;
-    a.$changeListener0 = null;
+    a.$changeListener1 = null;
+}
+function ovncvc_ListBox__init_() {
+    var var_0 = new ovncvc_ListBox();
+    ovncvc_ListBox__init_0(var_0);
+    return var_0;
+}
+function ovncvc_ListBox__init_0($this) {
+    var var$1, var$2;
+    ovncvc_Component__init_($this);
+    $this.$items = new ju_LinkedList;
+    $this.$currentItemId = 0;
+    $this.$scrollPos = 0;
+    ovncv_Navigation_registerComponent(ovncv_VCommander_getPlugin($rt_cls(ovncv_Navigation)), $this);
+    var$1 = ovncv_VCommander_getPlugin($rt_cls(ovncvc_EventBus));
+    var$2 = new ovncvc_ListBox$_init_$lambda$_0_0;
+    var$2.$_049 = $this;
+    ovncvc_EventBus_registerEvent(var$1, $this, var$2);
+    $this.$style.$color0 = jl_Integer_valueOf0(7);
+    $this.$height0 = 3;
 }
 function ovncvc_ListBox_addItem($this, $item) {
     ju_AbstractList_add($this.$items, ju_Objects_requireNonNull($item));
@@ -3532,7 +4479,7 @@ function ovncvc_ListBox_setSelectedItem($this, $item) {
     }
 }
 function ovncvc_ListBox_setValueChangeListener($this, $listener) {
-    $this.$changeListener0 = ju_Objects_requireNonNull($listener);
+    $this.$changeListener1 = ju_Objects_requireNonNull($listener);
 }
 function ovncvc_ListBox_setCurrentItemId($this, $id) {
     var $height;
@@ -3549,7 +4496,7 @@ function ovncvc_ListBox_getWidth($this) {
     $width = $this.$width0;
     if ($width > 0)
         return $width;
-    return jl_String_length(ju_Optional_orElse(jusi_SimpleStreamImpl_max(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$items), new ovncvc_ListBox$getWidth$lambda$_8_0), new ovncvc_ListBox$getWidth$lambda$_8_1), $rt_s(33)));
+    return jl_String_length(ju_Optional_orElse(jusi_SimpleStreamImpl_max(jusi_SimpleStreamImpl_map(ju_Collection_stream($this.$items), new ovncvc_ListBox$getWidth$lambda$_8_0), new ovncvc_ListBox$getWidth$lambda$_8_1), $rt_s(25)));
 }
 function ovncvc_ListBox_render($this, $api) {
     var $width, $height, $layout, $i, $itemId, $itemCaption;
@@ -3575,6 +4522,60 @@ function ovncvc_ListBox_render($this, $api) {
         $i = $i + 1 | 0;
     }
     ovncvc_VerticalLayout_render($layout, $api);
+}
+function ovncvc_TextItem() {
+    jl_Object.call(this);
+    this.$value11 = null;
+}
+function ovncvc_TextItem__init_(var_0) {
+    var var_1 = new ovncvc_TextItem();
+    ovncvc_TextItem__init_0(var_1, var_0);
+    return var_1;
+}
+function ovncvc_TextItem__init_0($this, $value) {
+    $this.$value11 = ju_Objects_requireNonNull($value);
+}
+function ovncvc_TextItem_getCaption($this) {
+    return $this.$value11;
+}
+function ovncvc_TextItem_equals($this, $o) {
+    var $textItem;
+    if ($this === $o)
+        return 1;
+    if ($o !== null && jl_Object_getClass($this) === jl_Object_getClass($o)) {
+        $textItem = $o;
+        return jl_String_equals($this.$value11, $textItem.$value11);
+    }
+    return 0;
+}
+function ovncvc_Content$demoLine$lambda$_1_2() {
+    jl_Object.call(this);
+    this.$_013 = null;
+}
+function ovncvc_Content$demoLine$lambda$_1_2_onChange(var$0, var$1) {
+    var$1 = var$1;
+    ovncvc_ComboBox_setPlaceHolder(var$0.$_013, var$1.$value11);
+}
+function ovncvc_Content$demoLine$lambda$_1_3() {
+    jl_Object.call(this);
+    this.$_014 = null;
+}
+function ovncvc_Content$demoLine$lambda$_1_3_onChange(var$0, var$1) {
+    var var$2, var$3;
+    var$1 = var$1;
+    var$2 = var$0.$_014;
+    var$3 = ovncvc_TextItem__init_(var$1);
+    ovncvc_ListBox_addItem(var$2, var$3);
+    ovncvc_ListBox_setSelectedItem(var$2, var$3);
+}
+function ovncvc_Content$demoLine$lambda$_1_4() {
+    jl_Object.call(this);
+    this.$_016 = null;
+}
+function ovncvc_Content$demoLine$lambda$_1_4_run(var$0) {
+    var var$1;
+    var$1 = var$0.$_016;
+    ji_PrintStream_println(jl_System_err(), jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(104)), $rt_str(JSON.stringify(var$1.$model)))));
 }
 function ovncv_Plugin() {
     jl_Object.call(this);
@@ -3618,42 +4619,48 @@ function ovncvc_EventBus$ComponentEvent() {
 }
 function ovncvc_ComboBox$_init_$lambda$_0_0() {
     jl_Object.call(this);
-    this.$_08 = null;
+    this.$_043 = null;
 }
 function ovncvc_ComboBox$_init_$lambda$_0_0_call(var$0, var$1) {
-    var var$2;
-    var$2 = var$0.$_08;
-    if (jl_String_equals($rt_s(50), $rt_str(var$1.key))) {
+    var var$2, var$3;
+    var$2 = var$0.$_043;
+    if (jl_String_equals($rt_s(91), $rt_str(var$1.key))) {
         var$2.$activeMode = var$2.$activeMode ? 0 : 1;
         var$2.$preventDefault = var$2.$preventDefault ? 0 : 1;
         var$2.$itemsList.$visible = var$2.$activeMode;
+        if (!var$2.$activeMode && var$2.$valueChangeListener !== null) {
+            var$1 = ovncvc_ComboBox_getValue(var$2);
+            var$2 = var$2.$valueChangeListener;
+            jl_Object_getClass(var$2);
+            var$3 = new ovncvc_ComboBox$lambda$new$0$lambda$_15_0;
+            var$3.$_050 = var$2;
+            ju_Optional_ifPresent(var$1, var$3);
+        }
     }
-}
-function ovncvc_ValueChangeListener() {
 }
 function ovncvc_ComboBox$_init_$lambda$_0_1() {
     jl_Object.call(this);
-    this.$_09 = null;
+    this.$_044 = null;
 }
 function ovncvc_ComboBox$_init_$lambda$_0_1_onChange(var$0, var$1) {
     var var$2, var$3, var$4;
     var$1 = var$1;
-    var$2 = var$0.$_09;
+    var$2 = var$0.$_044;
     var$3 = ju_Collection_stream(var$2.$itemsList.$items);
-    var$4 = new ovncvc_ComboBox$lambda$new$3$lambda$_11_0;
-    var$4.$_012 = var$1;
+    var$4 = new ovncvc_ComboBox$lambda$new$3$lambda$_12_0;
+    var$4.$_051 = var$1;
     var$1 = jusi_SimpleStreamImpl_findFirst(jusi_SimpleStreamImpl_filter(var$3, var$4));
-    var$3 = new ovncvc_ComboBox$lambda$new$3$lambda$_11_1;
-    var$3.$_013 = var$2;
+    var$3 = new ovncvc_ComboBox$lambda$new$3$lambda$_12_1;
+    var$3.$_052 = var$2;
     ju_Optional_ifPresent(var$1, var$3);
 }
 function ovncvc_ComboBox$_init_$lambda$_0_2() {
     jl_Object.call(this);
-    this.$_010 = null;
+    this.$_045 = null;
 }
 function ovncvc_ComboBox$_init_$lambda$_0_2_onChange(var$0, var$1) {
     var$1 = var$1;
-    ovncvc_TextField_setValue(var$0.$_010.$captionField, var$1.$getCaption());
+    ovncvc_TextField_setValue(var$0.$_045.$captionField, var$1.$getCaption());
 }
 function jusi_SimpleStreamImpl() {
     jl_Object.call(this);
@@ -3679,7 +4686,7 @@ function jusi_SimpleStreamImpl_forEach($this, $action) {
 function jusi_SimpleStreamImpl_forEachOrdered($this, $action) {
     var var$2;
     var$2 = new jusi_SimpleStreamImpl$forEachOrdered$lambda$_17_0;
-    var$2.$_014 = $action;
+    var$2.$_053 = $action;
     jusi_ArrayStreamImpl_next($this, var$2);
 }
 function jusi_SimpleStreamImpl_reduce($this, $identity, $accumulator) {
@@ -3687,7 +4694,7 @@ function jusi_SimpleStreamImpl_reduce($this, $identity, $accumulator) {
     $consumer = jusi_ReducingConsumer__init_($accumulator, $identity, 1);
     $wantsMore = jusi_WrappingStreamImpl_next($this, $consumer);
     if (!jusi_SimpleStreamImpl_$assertionsDisabled && $wantsMore)
-        $rt_throw(jl_AssertionError__init_($rt_s(57)));
+        $rt_throw(jl_AssertionError__init_($rt_s(105)));
     return $consumer.$result;
 }
 function jusi_SimpleStreamImpl_reduce0($this, $accumulator) {
@@ -3695,13 +4702,13 @@ function jusi_SimpleStreamImpl_reduce0($this, $accumulator) {
     $consumer = jusi_ReducingConsumer__init_($accumulator, null, 0);
     $wantsMore = jusi_WrappingStreamImpl_next($this, $consumer);
     if (!jusi_SimpleStreamImpl_$assertionsDisabled && $wantsMore)
-        $rt_throw(jl_AssertionError__init_($rt_s(57)));
+        $rt_throw(jl_AssertionError__init_($rt_s(105)));
     return ju_Optional_ofNullable($consumer.$result);
 }
 function jusi_SimpleStreamImpl_max($this, $comparator) {
     var var$2;
     var$2 = new jusi_SimpleStreamImpl$max$lambda$_26_0;
-    var$2.$_015 = $comparator;
+    var$2.$_054 = $comparator;
     return jusi_SimpleStreamImpl_reduce0($this, var$2);
 }
 function jusi_SimpleStreamImpl_findFirst($this) {
@@ -3739,10 +4746,62 @@ function jusi_ArrayStreamImpl_next($this, $consumer) {
 }
 function ovncvc_TextField$_init_$lambda$_0_0() {
     jl_Object.call(this);
-    this.$_011 = null;
+    this.$_046 = null;
 }
 function ovncvc_TextField$_init_$lambda$_0_0_call(var$0, var$1) {
-    ovncvc_TextField_lambda$new$0(var$0.$_011, var$1);
+    ovncvc_TextField_lambda$new$0(var$0.$_046, var$1);
+}
+function jl_System() {
+    jl_Object.call(this);
+}
+var jl_System_errCache = null;
+function jl_System_err() {
+    var var$1, var$2, var$3, var$4, var$5, var$6;
+    if (jl_System_errCache === null) {
+        var$1 = new ji_PrintStream;
+        var$1.$out = new jl_ConsoleOutputStreamStderr;
+        var$1.$sb = jl_StringBuilder__init_();
+        var$1.$buffer1 = $rt_createCharArray(32);
+        var$1.$autoFlush = 0;
+        var$2 = new jnci_UTF8Charset;
+        var$3 = $rt_createArray(jl_String, 0);
+        var$4 = var$3.data;
+        jnc_Charset_checkCanonicalName($rt_s(106));
+        var$5 = var$4.length;
+        var$6 = 0;
+        while (var$6 < var$5) {
+            jnc_Charset_checkCanonicalName(var$4[var$6]);
+            var$6 = var$6 + 1 | 0;
+        }
+        var$2.$canonicalName = $rt_s(106);
+        var$2.$aliases = var$3.$clone();
+        var$1.$charset = var$2;
+        jl_System_errCache = var$1;
+    }
+    return jl_System_errCache;
+}
+function jl_System_currentTimeMillis() {
+    return Long_fromNumber(new Date().getTime());
+}
+function ovncvc_Button$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_09 = null;
+}
+function ovncvc_Button$_init_$lambda$_0_0_call(var$0, var$1) {
+    ovncvc_Button_lambda$new$0(var$0.$_09, var$1);
+}
+function ovncvc_CheckBox$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_011 = null;
+}
+function ovncvc_CheckBox$_init_$lambda$_0_0_call(var$0, var$1) {
+    var var$2;
+    var$2 = var$0.$_011;
+    if (jl_String_equals($rt_s(91), $rt_str(var$1.key))) {
+        ovncvc_CheckBox_setChecked(var$2, var$2.$checked ? 0 : 1);
+        if (var$2.$changeListener0 !== null)
+            var$2.$changeListener0.$onChange(jl_Boolean_valueOf(var$2.$checked));
+    }
 }
 function ju_AbstractSequentialList() {
     ju_AbstractList.call(this);
@@ -3814,33 +4873,40 @@ function ju_LinkedList_listIterator($this, $index) {
 }
 function ovncvc_ListBox$_init_$lambda$_0_0() {
     jl_Object.call(this);
-    this.$_07 = null;
+    this.$_049 = null;
 }
 function ovncvc_ListBox$_init_$lambda$_0_0_call(var$0, var$1) {
     var var$2, var$3, var$4, var$5;
-    var$2 = var$0.$_07;
-    if (jl_String_equals($rt_s(50), $rt_str(var$1.key))) {
+    var$2 = var$0.$_049;
+    if (jl_String_equals($rt_s(91), $rt_str(var$1.key))) {
         var$2.$selectMode = var$2.$selectMode ? 0 : 1;
         var$2.$preventDefault = var$2.$preventDefault ? 0 : 1;
-        if (!var$2.$selectMode && var$2.$changeListener0 !== null) {
+        if (!var$2.$selectMode && var$2.$changeListener1 !== null) {
             var$3 = ovncvc_ListBox_getSelectedItem(var$2);
-            var$4 = var$2.$changeListener0;
+            var$4 = var$2.$changeListener1;
             jl_Object_getClass(var$4);
             var$5 = new ovncvc_ListBox$lambda$new$0$lambda$_10_0;
-            var$5.$_016 = var$4;
+            var$5.$_055 = var$4;
             ju_Optional_ifPresent(var$3, var$5);
         }
         ovncvc_Component_markAsDirty(var$2);
     }
     if (var$2.$selectMode) {
-        if (jl_String_equals($rt_s(58), $rt_str(var$1.key))) {
+        if (jl_String_equals($rt_s(107), $rt_str(var$1.key))) {
             ovncvc_ListBox_setCurrentItemId(var$2, var$2.$currentItemId + 1 | 0);
             ovncvc_Component_markAsDirty(var$2);
-        } else if (jl_String_equals($rt_s(59), $rt_str(var$1.key))) {
+        } else if (jl_String_equals($rt_s(108), $rt_str(var$1.key))) {
             ovncvc_ListBox_setCurrentItemId(var$2, var$2.$currentItemId - 1 | 0);
             ovncvc_Component_markAsDirty(var$2);
         }
     }
+}
+function ovncvc_Button$_init_$lambda$_1_0() {
+    jl_Object.call(this);
+    this.$_015 = null;
+}
+function ovncvc_Button$_init_$lambda$_1_0_call(var$0, var$1) {
+    ovncvc_Button_lambda$new$0(var$0.$_015, var$1);
 }
 function jl_CloneNotSupportedException() {
     jl_Exception.call(this);
@@ -3858,8 +4924,8 @@ function ovncv_Navigation$_clinit_$lambda$_4_0_apply(var$0, var$1) {
     var$2.$focusableComponents = ju_ArrayList__init_();
     var$2.$focusId = 0;
     var$3 = new ovncv_Navigation$_init_$lambda$_0_0;
-    var$3.$_017 = var$2;
-    ovncv_VCommander$VAPIBridge_addEventListener(var$1, $rt_s(60), var$3);
+    var$3.$_056 = var$2;
+    ovncv_VCommander$VAPIBridge_addEventListener(var$1, $rt_s(109), var$3);
     return var$2;
 }
 function ovncvc_EventBus$_clinit_$lambda$_5_0() {
@@ -3872,8 +4938,8 @@ function ovncvc_EventBus$_clinit_$lambda$_5_0_apply(var$0, var$1) {
     ovncv_Plugin__init_0(var$2, var$1);
     var$2.$events = ju_HashMap__init_();
     var$3 = new ovncvc_EventBus$_init_$lambda$_0_0;
-    var$3.$_018 = var$2;
-    ovncv_VCommander$VAPIBridge_addEventListener(var$1, $rt_s(60), var$3);
+    var$3.$_057 = var$2;
+    ovncv_VCommander$VAPIBridge_addEventListener(var$1, $rt_s(109), var$3);
     return var$2;
 }
 function ju_Iterator() {
@@ -3927,12 +4993,53 @@ function ovncv_RenderRegistry_invokeRender($this) {
 function ovncv_RenderRegistry__clinit_() {
     ovncv_VCommander_registerPlugin(new ovncv_RenderRegistry$_clinit_$lambda$_5_0);
 }
-function jl_System() {
+function otjc_JSDate() {
     jl_Object.call(this);
 }
-var jl_System_errCache = null;
-function jl_System_currentTimeMillis() {
-    return Long_fromNumber(new Date().getTime());
+function ovncvc_ListBox$getWidth$lambda$_8_0() {
+    jl_Object.call(this);
+}
+function ovncvc_ListBox$getWidth$lambda$_8_0_apply(var$0, var$1) {
+    return var$1.$getCaption();
+}
+function ovncvc_ListBox$getWidth$lambda$_8_1() {
+    jl_Object.call(this);
+}
+function ovncvc_ListBox$getWidth$lambda$_8_1_compare(var$0, var$1, var$2) {
+    return jl_String_compareTo(var$1, var$2);
+}
+function ju_Optional() {
+    jl_Object.call(this);
+    this.$value12 = null;
+}
+var ju_Optional_emptyInstance = null;
+function ju_Optional__init_(var_0) {
+    var var_1 = new ju_Optional();
+    ju_Optional__init_0(var_1, var_0);
+    return var_1;
+}
+function ju_Optional__init_0($this, $value) {
+    $this.$value12 = $value;
+}
+function ju_Optional_ofNullable($value) {
+    var var$2;
+    if ($value !== null)
+        var$2 = ju_Optional__init_(ju_Objects_requireNonNull($value));
+    else {
+        if (ju_Optional_emptyInstance === null)
+            ju_Optional_emptyInstance = ju_Optional__init_(null);
+        var$2 = ju_Optional_emptyInstance;
+    }
+    return var$2;
+}
+function ju_Optional_ifPresent($this, $consumer) {
+    if ($this.$value12 !== null)
+        $consumer.$accept($this.$value12);
+}
+function ju_Optional_orElse($this, $other) {
+    if ($this.$value12 !== null)
+        $other = $this.$value12;
+    return $other;
 }
 function ji_Closeable() {
 }
@@ -4100,7 +5207,7 @@ function jnci_UTF8Charset_newEncoder($this) {
         return var$1;
     }
     var$5 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$5, $rt_s(61));
+    jl_Throwable__init_(var$5, $rt_s(110));
     $rt_throw(var$5);
 }
 function jnc_IllegalCharsetNameException() {
@@ -4120,11 +5227,27 @@ function juf_Predicate() {
 }
 function jusi_SimpleStreamImpl$forEachOrdered$lambda$_17_0() {
     jl_Object.call(this);
-    this.$_014 = null;
+    this.$_053 = null;
 }
 function jusi_SimpleStreamImpl$forEachOrdered$lambda$_17_0_test(var$0, var$1) {
-    ovncvc_Content$tipoLine$lambda$_2_0_accept(var$0.$_014, var$1);
+    var$0.$_053.$accept(var$1);
     return 1;
+}
+function jusi_StreamOverSpliterator() {
+    jusi_SimpleStreamImpl.call(this);
+    this.$spliterator = null;
+}
+function jusi_StreamOverSpliterator_next($this, $consumer) {
+    var $action;
+    $action = new jusi_StreamOverSpliterator$AdapterAction;
+    $action.$consumer = $consumer;
+    while (jusi_SpliteratorOverCollection_tryAdvance($this.$spliterator, $action)) {
+        if ($action.$wantsMore)
+            continue;
+        else
+            return 1;
+    }
+    return 0;
 }
 function ju_ConcurrentModificationException() {
     jl_RuntimeException.call(this);
@@ -4191,7 +5314,7 @@ function jn_Buffer_position0($this, $newPosition) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(62)), $newPosition), $rt_s(63)), $this.$limit), $rt_s(64))));
+    jl_Throwable__init_(var$2, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(111)), $newPosition), $rt_s(112)), $this.$limit), $rt_s(113))));
     $rt_throw(var$2);
 }
 function jn_Buffer_clear($this) {
@@ -4220,7 +5343,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
             $pos = $offset + $length | 0;
             if ($pos > var$5) {
                 var$7 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(65)), $pos), $rt_s(66)), var$5)));
+                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(114)), $pos), $rt_s(115)), var$5)));
                 $rt_throw(var$7);
             }
             if (jn_Buffer_remaining($this) < $length) {
@@ -4230,7 +5353,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
             }
             if ($length < 0) {
                 var$7 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(67)), $length), $rt_s(68))));
+                jl_Throwable__init_(var$7, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(116)), $length), $rt_s(117))));
                 $rt_throw(var$7);
             }
             $pos = $this.$position;
@@ -4249,7 +5372,7 @@ function jn_CharBuffer_get($this, $dst, $offset, $length) {
     }
     $dst = $dst.data;
     var$10 = new jl_IndexOutOfBoundsException;
-    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(69)), $offset), $rt_s(63)), $dst.length), $rt_s(70))));
+    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(118)), $offset), $rt_s(112)), $dst.length), $rt_s(119))));
     $rt_throw(var$10);
 }
 function jn_ByteBuffer() {
@@ -4279,12 +5402,12 @@ function jn_ByteBuffer_put($this, $src, $offset, $length) {
             $pos = $offset + $length | 0;
             if ($pos > var$6) {
                 var$4 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(71)), $pos), $rt_s(66)), var$6)));
+                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(120)), $pos), $rt_s(115)), var$6)));
                 $rt_throw(var$4);
             }
             if ($length < 0) {
                 var$4 = new jl_IndexOutOfBoundsException;
-                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(67)), $length), $rt_s(68))));
+                jl_Throwable__init_(var$4, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(116)), $length), $rt_s(117))));
                 $rt_throw(var$4);
             }
             $pos = $this.$position + $this.$start0 | 0;
@@ -4304,7 +5427,7 @@ function jn_ByteBuffer_put($this, $src, $offset, $length) {
     }
     $src = $src.data;
     var$10 = new jl_IndexOutOfBoundsException;
-    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(69)), $offset), $rt_s(63)), $src.length), $rt_s(70))));
+    jl_Throwable__init_(var$10, jl_StringBuilder_toString(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder_append0(jl_StringBuilder_append(jl_StringBuilder__init_(), $rt_s(118)), $offset), $rt_s(112)), $src.length), $rt_s(119))));
     $rt_throw(var$10);
 }
 function jn_ByteBuffer_put0($this, $src) {
@@ -4326,9 +5449,9 @@ function jnc_CodingErrorAction__init_0($this, $name) {
     $this.$name1 = $name;
 }
 function jnc_CodingErrorAction__clinit_() {
-    jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(72));
-    jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(73));
-    jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(74));
+    jnc_CodingErrorAction_IGNORE = jnc_CodingErrorAction__init_($rt_s(121));
+    jnc_CodingErrorAction_REPLACE = jnc_CodingErrorAction__init_($rt_s(122));
+    jnc_CodingErrorAction_REPORT = jnc_CodingErrorAction__init_($rt_s(123));
 }
 function jl_NegativeArraySizeException() {
     jl_RuntimeException.call(this);
@@ -4362,7 +5485,7 @@ function jnc_CharsetEncoder_onMalformedInput($this, $newAction) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, $rt_s(75));
+    jl_Throwable__init_(var$2, $rt_s(124));
     $rt_throw(var$2);
 }
 function jnc_CharsetEncoder_implOnMalformedInput($this, $newAction) {
@@ -4375,7 +5498,7 @@ function jnc_CharsetEncoder_onUnmappableCharacter($this, $newAction) {
         return $this;
     }
     var$2 = new jl_IllegalArgumentException;
-    jl_Throwable__init_(var$2, $rt_s(75));
+    jl_Throwable__init_(var$2, $rt_s(124));
     $rt_throw(var$2);
 }
 function jnc_CharsetEncoder_implOnUnmappableCharacter($this, $newAction) {
@@ -4520,8 +5643,49 @@ function jn_ByteOrder__init_0($this, $name) {
     $this.$name2 = $name;
 }
 function jn_ByteOrder__clinit_() {
-    jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(76));
-    jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(77));
+    jn_ByteOrder_BIG_ENDIAN = jn_ByteOrder__init_($rt_s(125));
+    jn_ByteOrder_LITTLE_ENDIAN = jn_ByteOrder__init_($rt_s(126));
+}
+function jusi_WrappingStreamImpl() {
+    jusi_SimpleStreamImpl.call(this);
+    this.$sourceStream = null;
+}
+function jusi_WrappingStreamImpl__init_0(var_0) {
+    var var_1 = new jusi_WrappingStreamImpl();
+    jusi_WrappingStreamImpl__init_(var_1, var_0);
+    return var_1;
+}
+function jusi_WrappingStreamImpl__init_($this, $sourceStream) {
+    $this.$sourceStream = $sourceStream;
+}
+function jusi_WrappingStreamImpl_next($this, $consumer) {
+    return jusi_StreamOverSpliterator_next($this.$sourceStream, $this.$wrap($consumer));
+}
+function jusi_MappingStreamImpl() {
+    jusi_WrappingStreamImpl.call(this);
+    this.$mapper = null;
+}
+function jusi_MappingStreamImpl_wrap($this, $consumer) {
+    var var$2;
+    var$2 = new jusi_MappingStreamImpl$wrap$lambda$_1_0;
+    var$2.$_058 = $this;
+    var$2.$_13 = $consumer;
+    return var$2;
+}
+function ju_Spliterator() {
+}
+function jusi_SpliteratorOverCollection() {
+    var a = this; jl_Object.call(a);
+    a.$collection = null;
+    a.$iterator0 = null;
+}
+function jusi_SpliteratorOverCollection_tryAdvance($this, $action) {
+    if ($this.$iterator0 === null)
+        $this.$iterator0 = $this.$collection.$iterator();
+    if (!$this.$iterator0.$hasNext())
+        return 0;
+    jusi_StreamOverSpliterator$AdapterAction_accept($action, $this.$iterator0.$next());
+    return 1;
 }
 function jnci_BufferedEncoder() {
     jnc_CharsetEncoder.call(this);
@@ -4663,6 +5827,19 @@ function jnci_UTF8Encoder_arrayEncode($this, $inArray, $inPos, $inSize, $outArra
 function ji_IOException() {
     jl_Exception.call(this);
 }
+function juf_BiFunction() {
+}
+function juf_BinaryOperator() {
+}
+function jusi_SimpleStreamImpl$max$lambda$_26_0() {
+    jl_Object.call(this);
+    this.$_054 = null;
+}
+function jusi_SimpleStreamImpl$max$lambda$_26_0_apply(var$0, var$1, var$2) {
+    if (ovncvc_ListBox$getWidth$lambda$_8_1_compare(var$0.$_054, var$1, var$2) > 0)
+        var$2 = var$1;
+    return var$2;
+}
 function ju_ListIterator() {
 }
 function ju_LinkedList$SequentialListIterator() {
@@ -4743,35 +5920,19 @@ function ju_LinkedList$Entry() {
 }
 function otjde_EventListener() {
 }
-function ovncvc_EventBus$_init_$lambda$_0_0() {
-    jl_Object.call(this);
-    this.$_018 = null;
-}
-function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1) {
-    var var$2, var$3, var$4;
-    var$2 = var$0.$_018;
-    var$3 = ju_HashMap_keySet(var$2.$events);
-    var$4 = new ovncvc_EventBus$lambda$new$1$lambda$_3_0;
-    var$4.$_019 = var$2;
-    var$4.$_13 = var$1;
-    jl_Iterable_forEach(var$3, var$4);
-}
-function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(var$0, var$1) {
-    ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1);
-}
 function ovncv_Navigation$_init_$lambda$_0_0() {
     jl_Object.call(this);
-    this.$_017 = null;
+    this.$_056 = null;
 }
 function ovncv_Navigation$_init_$lambda$_0_0_handleEvent(var$0, var$1) {
     var var$2, var$3;
-    var$2 = var$0.$_017;
+    var$2 = var$0.$_056;
     var$1 = var$1;
     if (!ju_AbstractCollection_isEmpty(var$2.$focusableComponents)) {
         var$3 = ju_ArrayList_get(var$2.$focusableComponents, var$2.$focusId);
         if (!var$3.$preventDefault) {
-            if (!jl_String_equals($rt_s(51), $rt_str(var$1.key)) && !jl_String_equals($rt_s(78), $rt_str(var$1.key))) {
-                if (jl_String_equals($rt_s(52), $rt_str(var$1.key))) {
+            if (!jl_String_equals($rt_s(92), $rt_str(var$1.key)) && !jl_String_equals($rt_s(127), $rt_str(var$1.key))) {
+                if (jl_String_equals($rt_s(93), $rt_str(var$1.key))) {
                     if (!var$3.$focused)
                         var$3.$setFocused(1);
                     else {
@@ -4797,6 +5958,22 @@ function ovncv_Navigation$_init_$lambda$_0_0_handleEvent(var$0, var$1) {
 function ovncv_Navigation$_init_$lambda$_0_0_handleEvent$exported$0(var$0, var$1) {
     ovncv_Navigation$_init_$lambda$_0_0_handleEvent(var$0, var$1);
 }
+function ovncvc_EventBus$_init_$lambda$_0_0() {
+    jl_Object.call(this);
+    this.$_057 = null;
+}
+function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1) {
+    var var$2, var$3, var$4;
+    var$2 = var$0.$_057;
+    var$3 = ju_HashMap_keySet(var$2.$events);
+    var$4 = new ovncvc_EventBus$lambda$new$1$lambda$_3_0;
+    var$4.$_059 = var$2;
+    var$4.$_14 = var$1;
+    jl_Iterable_forEach(var$3, var$4);
+}
+function ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(var$0, var$1) {
+    ovncvc_EventBus$_init_$lambda$_0_0_handleEvent(var$0, var$1);
+}
 function ju_NoSuchElementException() {
     jl_RuntimeException.call(this);
 }
@@ -4810,8 +5987,8 @@ function ju_Timer_schedule($this, $task, $delay) {
     if (!$this.$cancelled && $task.$timer === null && $task.$nativeTimerId < 0) {
         $task.$timer = $this;
         var$3 = new ju_Timer$schedule$lambda$_3_0;
-        var$3.$_020 = $this;
-        var$3.$_14 = $task;
+        var$3.$_060 = $this;
+        var$3.$_15 = $task;
         var$4 = $delay.lo;
         $task.$nativeTimerId = setTimeout(otji_JS_function(var$3, "onTimer"), var$4);
         return;
@@ -4819,8 +5996,6 @@ function ju_Timer_schedule($this, $task, $delay) {
     $task = new jl_IllegalStateException;
     jl_Exception__init_($task);
     $rt_throw($task);
-}
-function jl_Runnable() {
 }
 function ju_TimerTask() {
     var a = this; jl_Object.call(a);
@@ -4836,6 +6011,41 @@ function ovncv_RenderRegistry$1_run($this) {
         ovncv_Application_render($this.$this$05.$application);
     $this.$this$05.$invoke = 0;
 }
+function jusi_ReducingConsumer() {
+    var a = this; jl_Object.call(a);
+    a.$accumulator = null;
+    a.$result = null;
+    a.$initialized = 0;
+}
+function jusi_ReducingConsumer__init_(var_0, var_1, var_2) {
+    var var_3 = new jusi_ReducingConsumer();
+    jusi_ReducingConsumer__init_0(var_3, var_0, var_1, var_2);
+    return var_3;
+}
+function jusi_ReducingConsumer__init_0($this, $accumulator, $result, $initialized) {
+    $this.$accumulator = $accumulator;
+    $this.$result = $result;
+    $this.$initialized = $initialized;
+}
+function jusi_ReducingConsumer_test($this, $t) {
+    if (!$this.$initialized) {
+        $this.$result = $t;
+        $this.$initialized = 1;
+    } else
+        $this.$result = $this.$accumulator.$apply0($this.$result, $t);
+    return 1;
+}
+function jl_AssertionError() {
+    jl_Error.call(this);
+}
+function jl_AssertionError__init_(var_0) {
+    var var_1 = new jl_AssertionError();
+    jl_AssertionError__init_0(var_1, var_0);
+    return var_1;
+}
+function jl_AssertionError__init_0($this, $message) {
+    jl_Throwable__init_($this, $message === null ? $rt_s(3) : $message);
+}
 function ju_Set() {
 }
 function ju_AbstractSet() {
@@ -4850,14 +6060,14 @@ function ju_HashSet_remove($this, $object) {
 }
 function ovncvc_EventBus$lambda$new$1$lambda$_3_0() {
     var a = this; jl_Object.call(a);
-    a.$_019 = null;
-    a.$_13 = null;
+    a.$_059 = null;
+    a.$_14 = null;
 }
 function ovncvc_EventBus$lambda$new$1$lambda$_3_0_accept(var$0, var$1) {
     var var$2, var$3;
     var$1 = var$1;
-    var$2 = var$0.$_019;
-    var$3 = var$0.$_13;
+    var$2 = var$0.$_059;
+    var$3 = var$0.$_14;
     if (var$1.$focused) {
         var$3.preventDefault();
         ju_HashMap_get(var$2.$events, var$1).$call(var$3);
@@ -4873,17 +6083,17 @@ function otjb_TimerHandler() {
 }
 function ju_Timer$schedule$lambda$_3_0() {
     var a = this; jl_Object.call(a);
-    a.$_020 = null;
-    a.$_14 = null;
+    a.$_060 = null;
+    a.$_15 = null;
 }
 function ju_Timer$schedule$lambda$_3_0_onTimer(var$0) {
     var var$1, var$2, var$3, var$4;
-    var$1 = var$0.$_020;
-    var$2 = var$0.$_14;
+    var$1 = var$0.$_060;
+    var$2 = var$0.$_15;
     var$3 = new jl_Thread;
     var$4 = new ju_Timer$lambda$schedule$1$lambda$_6_0;
-    var$4.$_021 = var$1;
-    var$4.$_15 = var$2;
+    var$4.$_061 = var$1;
+    var$4.$_16 = var$2;
     jl_Thread__init_(var$3, var$4, null);
     jl_Thread_start(var$3);
 }
@@ -4981,6 +6191,24 @@ function jnci_BufferedEncoder$Controller_setInPosition($this, $inPosition) {
 function jnci_BufferedEncoder$Controller_setOutPosition($this, $outPosition) {
     $this.$outPosition = $outPosition;
 }
+function jusi_MappingStreamImpl$wrap$lambda$_1_0() {
+    var a = this; jl_Object.call(a);
+    a.$_058 = null;
+    a.$_13 = null;
+}
+function jusi_MappingStreamImpl$wrap$lambda$_1_0_test(var$0, var$1) {
+    var var$2;
+    var$2 = var$0.$_058;
+    return var$0.$_13.$test(var$2.$mapper.$apply(var$1));
+}
+function jusi_StreamOverSpliterator$AdapterAction() {
+    var a = this; jl_Object.call(a);
+    a.$consumer = null;
+    a.$wantsMore = 0;
+}
+function jusi_StreamOverSpliterator$AdapterAction_accept($this, $t) {
+    $this.$wantsMore = $this.$consumer.$test($t);
+}
 function jl_Thread() {
     var a = this; jl_Object.call(a);
     a.$id = Long_ZERO;
@@ -5012,7 +6240,7 @@ function jl_Thread__init_($this, $target, $name) {
 function jl_Thread_start($this) {
     var var$1;
     var$1 = new jl_Thread$start$lambda$_4_0;
-    var$1.$_022 = $this;
+    var$1.$_062 = $this;
     otp_Platform_startThread(var$1);
 }
 function jl_Thread_setCurrentThread($thread) {
@@ -5028,20 +6256,20 @@ function jl_Thread_currentThread() {
     return jl_Thread_currentThread0;
 }
 function jl_Thread__clinit_() {
-    jl_Thread_mainThread = jl_Thread__init_0(null, $rt_s(79));
+    jl_Thread_mainThread = jl_Thread__init_0(null, $rt_s(128));
     jl_Thread_currentThread0 = jl_Thread_mainThread;
     jl_Thread_nextId = Long_fromInt(1);
     jl_Thread_activeCount = 1;
 }
 function ju_Timer$lambda$schedule$1$lambda$_6_0() {
     var a = this; jl_Object.call(a);
-    a.$_021 = null;
-    a.$_15 = null;
+    a.$_061 = null;
+    a.$_16 = null;
 }
 function ju_Timer$lambda$schedule$1$lambda$_6_0_run(var$0) {
     var var$1, var$2;
-    var$1 = var$0.$_021;
-    var$2 = var$0.$_15;
+    var$1 = var$0.$_061;
+    var$2 = var$0.$_16;
     if (!var$1.$cancelled && var$2.$timer !== null && var$2.$timer !== null) {
         ovncv_RenderRegistry$1_run(var$2);
         ju_HashSet_remove(var$2.$timer.$tasks, var$2);
@@ -5061,11 +6289,11 @@ function otp_PlatformRunnable() {
 }
 function jl_Thread$start$lambda$_4_0() {
     jl_Object.call(this);
-    this.$_022 = null;
+    this.$_062 = null;
 }
 function jl_Thread$start$lambda$_4_0_run(var$0) {
     var var$1, var$2, var$3, $$je;
-    var$1 = var$0.$_022;
+    var$1 = var$0.$_062;
     a: {
         try {
             jl_Thread_activeCount = jl_Thread_activeCount + 1 | 0;
@@ -5117,46 +6345,24 @@ function jl_Thread$start$lambda$_4_0_run(var$0) {
     jl_Thread_setCurrentThread(jl_Thread_mainThread);
     $rt_throw(var$2);
 }
+function ovncvc_ComboBox$lambda$new$0$lambda$_15_0() {
+    jl_Object.call(this);
+    this.$_050 = null;
+}
+function ovncvc_ComboBox$lambda$new$0$lambda$_15_0_accept(var$0, var$1) {
+    var$1 = var$1;
+    var$0.$_050.$onChange(var$1);
+}
 function ovncvc_ListBox$lambda$new$0$lambda$_10_0() {
     jl_Object.call(this);
-    this.$_016 = null;
+    this.$_055 = null;
 }
 function ovncvc_ListBox$lambda$new$0$lambda$_10_0_accept(var$0, var$1) {
     var$1 = var$1;
-    var$0.$_016.$onChange(var$1);
+    var$0.$_055.$onChange(var$1);
 }
-function ju_Optional() {
+function otjj_JSON() {
     jl_Object.call(this);
-    this.$value7 = null;
-}
-var ju_Optional_emptyInstance = null;
-function ju_Optional__init_(var_0) {
-    var var_1 = new ju_Optional();
-    ju_Optional__init_0(var_1, var_0);
-    return var_1;
-}
-function ju_Optional__init_0($this, $value) {
-    $this.$value7 = $value;
-}
-function ju_Optional_ofNullable($value) {
-    var var$2;
-    if ($value !== null)
-        var$2 = ju_Optional__init_(ju_Objects_requireNonNull($value));
-    else {
-        if (ju_Optional_emptyInstance === null)
-            ju_Optional_emptyInstance = ju_Optional__init_(null);
-        var$2 = ju_Optional_emptyInstance;
-    }
-    return var$2;
-}
-function ju_Optional_ifPresent($this, $consumer) {
-    if ($this.$value7 !== null)
-        $consumer.$accept($this.$value7);
-}
-function ju_Optional_orElse($this, $other) {
-    if ($this.$value7 !== null)
-        $other = $this.$value7;
-    return $other;
 }
 function jl_IllegalMonitorStateException() {
     jl_RuntimeException.call(this);
@@ -5168,21 +6374,21 @@ function jl_Object$Monitor() {
     a.$owner = null;
     a.$count = 0;
 }
-function ovncvc_ComboBox$lambda$new$3$lambda$_11_0() {
+function ovncvc_ComboBox$lambda$new$3$lambda$_12_0() {
     jl_Object.call(this);
-    this.$_012 = null;
+    this.$_051 = null;
 }
-function ovncvc_ComboBox$lambda$new$3$lambda$_11_0_test(var$0, var$1) {
+function ovncvc_ComboBox$lambda$new$3$lambda$_12_0_test(var$0, var$1) {
     var$1 = var$1;
-    return jl_String_equals(var$0.$_012, var$1.$getCaption());
+    return jl_String_equals(var$0.$_051, var$1.$getCaption());
 }
-function ovncvc_ComboBox$lambda$new$3$lambda$_11_1() {
+function ovncvc_ComboBox$lambda$new$3$lambda$_12_1() {
     jl_Object.call(this);
-    this.$_013 = null;
+    this.$_052 = null;
 }
-function ovncvc_ComboBox$lambda$new$3$lambda$_11_1_accept(var$0, var$1) {
+function ovncvc_ComboBox$lambda$new$3$lambda$_12_1_accept(var$0, var$1) {
     var$1 = var$1;
-    ovncvc_ListBox_setSelectedItem(var$0.$_013.$itemsList, var$1);
+    ovncvc_ListBox_setSelectedItem(var$0.$_052.$itemsList, var$1);
 }
 function otp_PlatformQueue() {
     jl_Object.call(this);
@@ -5248,37 +6454,6 @@ function jl_Object$monitorEnterWait$lambda$_6_0_run(var$0) {
     var$1.$count = var$1.$count + var$3 | 0;
     otpp_AsyncCallbackWrapper_complete(var$4, null);
 }
-function jusi_StreamOverSpliterator() {
-    jusi_SimpleStreamImpl.call(this);
-    this.$spliterator = null;
-}
-function jusi_StreamOverSpliterator_next($this, $consumer) {
-    var $action;
-    $action = new jusi_StreamOverSpliterator$AdapterAction;
-    $action.$consumer = $consumer;
-    while (jusi_SpliteratorOverCollection_tryAdvance($this.$spliterator, $action)) {
-        if ($action.$wantsMore)
-            continue;
-        else
-            return 1;
-    }
-    return 0;
-}
-function jusi_WrappingStreamImpl() {
-    jusi_SimpleStreamImpl.call(this);
-    this.$sourceStream = null;
-}
-function jusi_WrappingStreamImpl__init_0(var_0) {
-    var var_1 = new jusi_WrappingStreamImpl();
-    jusi_WrappingStreamImpl__init_(var_1, var_0);
-    return var_1;
-}
-function jusi_WrappingStreamImpl__init_($this, $sourceStream) {
-    $this.$sourceStream = $sourceStream;
-}
-function jusi_WrappingStreamImpl_next($this, $consumer) {
-    return jusi_StreamOverSpliterator_next($this.$sourceStream, $this.$wrap($consumer));
-}
 function jusi_FilteringStreamImpl() {
     jusi_WrappingStreamImpl.call(this);
     this.$filter0 = null;
@@ -5286,24 +6461,9 @@ function jusi_FilteringStreamImpl() {
 function jusi_FilteringStreamImpl_wrap($this, $consumer) {
     var var$2;
     var$2 = new jusi_FilteringStreamImpl$wrap$lambda$_1_0;
-    var$2.$_023 = $this;
-    var$2.$_16 = $consumer;
+    var$2.$_063 = $this;
+    var$2.$_17 = $consumer;
     return var$2;
-}
-function ju_Spliterator() {
-}
-function jusi_SpliteratorOverCollection() {
-    var a = this; jl_Object.call(a);
-    a.$collection = null;
-    a.$iterator0 = null;
-}
-function jusi_SpliteratorOverCollection_tryAdvance($this, $action) {
-    if ($this.$iterator0 === null)
-        $this.$iterator0 = $this.$collection.$iterator();
-    if (!$this.$iterator0.$hasNext())
-        return 0;
-    jusi_StreamOverSpliterator$AdapterAction_accept($action, $this.$iterator0.$next());
-    return 1;
 }
 function jusi_FindFirstConsumer() {
     jl_Object.call(this);
@@ -5312,6 +6472,17 @@ function jusi_FindFirstConsumer() {
 function jusi_FindFirstConsumer_test($this, $t) {
     $this.$result0 = $t;
     return 0;
+}
+function jusi_FilteringStreamImpl$wrap$lambda$_1_0() {
+    var a = this; jl_Object.call(a);
+    a.$_063 = null;
+    a.$_17 = null;
+}
+function jusi_FilteringStreamImpl$wrap$lambda$_1_0_test(var$0, var$1) {
+    var var$2, var$3;
+    var$2 = var$0.$_063;
+    var$3 = var$0.$_17;
+    return ovncvc_ComboBox$lambda$new$3$lambda$_12_0_test(var$2.$filter0, var$1) ? var$3.$test(var$1) : 1;
 }
 function ovncvc_VerticalLayout$VLAPIWrapper() {
     var a = this; jl_Object.call(a);
@@ -5369,13 +6540,13 @@ function ovncvc_Label$1__clinit_() {
 }
 function ovncvc_Label$render$lambda$_6_0() {
     var a = this; jl_Object.call(a);
-    a.$_04 = null;
+    a.$_017 = null;
     a.$_10 = 0;
 }
 function ovncvc_Label$render$lambda$_6_0_apply(var$0, var$1) {
     var var$2, var$3, var$4;
     var$1 = var$1;
-    var$2 = var$0.$_04;
+    var$2 = var$0.$_017;
     var$3 = var$0.$_10;
     var$4 = var$1.$value;
     var$1 = var$2.$value3;
@@ -5384,13 +6555,13 @@ function ovncvc_Label$render$lambda$_6_0_apply(var$0, var$1) {
 }
 function ovncvc_Label$render$lambda$_6_1() {
     var a = this; jl_Object.call(a);
-    a.$_05 = null;
+    a.$_018 = null;
     a.$_11 = 0;
 }
 function ovncvc_Label$render$lambda$_6_1_apply(var$0, var$1) {
     var var$2, var$3, var$4;
     var$1 = var$1;
-    var$2 = var$0.$_05;
+    var$2 = var$0.$_018;
     var$3 = var$0.$_11;
     var$4 = var$1.$value;
     var$1 = var$2.$value3;
@@ -5399,13 +6570,13 @@ function ovncvc_Label$render$lambda$_6_1_apply(var$0, var$1) {
 }
 function ovncvc_Label$render$lambda$_6_2() {
     var a = this; jl_Object.call(a);
-    a.$_06 = null;
+    a.$_019 = null;
     a.$_12 = 0;
 }
 function ovncvc_Label$render$lambda$_6_2_apply(var$0, var$1) {
     var var$2, var$3;
     var$1 = var$1;
-    var$2 = var$0.$_06;
+    var$2 = var$0.$_019;
     var$3 = var$1.$value;
     var$1 = var$2.$value3;
     return jl_Character_valueOf(var$3 >= jl_String_length(var$1) ? 0 : jl_String_charAt(var$1, var$3));
@@ -5420,37 +6591,6 @@ function ovncvc_HorizontalLayout$HLAPIWrapper() {
 function ovncvc_HorizontalLayout$HLAPIWrapper_setItem($this, $x, $y, $item) {
     $this.$api2.$setItem($x + $this.$offset0 | 0, $y, $item);
 }
-function jusi_FilteringStreamImpl$wrap$lambda$_1_0() {
-    var a = this; jl_Object.call(a);
-    a.$_023 = null;
-    a.$_16 = null;
-}
-function jusi_FilteringStreamImpl$wrap$lambda$_1_0_test(var$0, var$1) {
-    var var$2, var$3;
-    var$2 = var$0.$_023;
-    var$3 = var$0.$_16;
-    return ovncvc_ComboBox$lambda$new$3$lambda$_11_0_test(var$2.$filter0, var$1) ? var$3.$test(var$1) : 1;
-}
-function jusi_StreamOverSpliterator$AdapterAction() {
-    var a = this; jl_Object.call(a);
-    a.$consumer = null;
-    a.$wantsMore = 0;
-}
-function jusi_StreamOverSpliterator$AdapterAction_accept($this, $t) {
-    $this.$wantsMore = $this.$consumer.$test($t);
-}
-function ovncvc_ListBox$getWidth$lambda$_8_0() {
-    jl_Object.call(this);
-}
-function ovncvc_ListBox$getWidth$lambda$_8_0_apply(var$0, var$1) {
-    return var$1.$getCaption();
-}
-function ovncvc_ListBox$getWidth$lambda$_8_1() {
-    jl_Object.call(this);
-}
-function ovncvc_ListBox$getWidth$lambda$_8_1_compare(var$0, var$1, var$2) {
-    return jl_String_compareTo(var$1, var$2);
-}
 function ovncv_Palete16() {
     jl_Object.call(this);
 }
@@ -5459,22 +6599,22 @@ function ovncv_Palete16__clinit_() {
     var var$1, var$2;
     var$1 = $rt_createArray(jl_String, 16);
     var$2 = var$1.data;
-    var$2[0] = $rt_s(80);
-    var$2[1] = $rt_s(81);
-    var$2[2] = $rt_s(82);
-    var$2[3] = $rt_s(83);
-    var$2[4] = $rt_s(84);
-    var$2[5] = $rt_s(85);
-    var$2[6] = $rt_s(86);
-    var$2[7] = $rt_s(87);
-    var$2[8] = $rt_s(80);
-    var$2[9] = $rt_s(88);
-    var$2[10] = $rt_s(89);
-    var$2[11] = $rt_s(90);
-    var$2[12] = $rt_s(91);
-    var$2[13] = $rt_s(92);
-    var$2[14] = $rt_s(93);
-    var$2[15] = $rt_s(94);
+    var$2[0] = $rt_s(129);
+    var$2[1] = $rt_s(130);
+    var$2[2] = $rt_s(131);
+    var$2[3] = $rt_s(132);
+    var$2[4] = $rt_s(133);
+    var$2[5] = $rt_s(134);
+    var$2[6] = $rt_s(135);
+    var$2[7] = $rt_s(136);
+    var$2[8] = $rt_s(129);
+    var$2[9] = $rt_s(137);
+    var$2[10] = $rt_s(138);
+    var$2[11] = $rt_s(139);
+    var$2[12] = $rt_s(140);
+    var$2[13] = $rt_s(141);
+    var$2[14] = $rt_s(142);
+    var$2[15] = $rt_s(143);
     ovncv_Palete16_color = var$1;
 }
 function ovncvc_VerticalLayout$getHeight$lambda$_2_0() {
@@ -5482,10 +6622,6 @@ function ovncvc_VerticalLayout$getHeight$lambda$_2_0() {
 }
 function ovncvc_VerticalLayout$getHeight$lambda$_2_0_apply(var$0, var$1) {
     return jl_Integer_valueOf0(var$1.$getHeight());
-}
-function juf_BiFunction() {
-}
-function juf_BinaryOperator() {
 }
 function ovncvc_VerticalLayout$getHeight$lambda$_2_1() {
     jl_Object.call(this);
@@ -5540,71 +6676,6 @@ function ovncvc_HorizontalLayout$getWidth$lambda$_1_1_apply(var$0, var$1, var$2)
     var$1 = var$1;
     var$2 = var$2;
     return jl_Integer_valueOf0(var$1.$value + var$2.$value | 0);
-}
-function jusi_MappingStreamImpl() {
-    jusi_WrappingStreamImpl.call(this);
-    this.$mapper = null;
-}
-function jusi_MappingStreamImpl_wrap($this, $consumer) {
-    var var$2;
-    var$2 = new jusi_MappingStreamImpl$wrap$lambda$_1_0;
-    var$2.$_024 = $this;
-    var$2.$_17 = $consumer;
-    return var$2;
-}
-function jusi_SimpleStreamImpl$max$lambda$_26_0() {
-    jl_Object.call(this);
-    this.$_015 = null;
-}
-function jusi_SimpleStreamImpl$max$lambda$_26_0_apply(var$0, var$1, var$2) {
-    if (ovncvc_ListBox$getWidth$lambda$_8_1_compare(var$0.$_015, var$1, var$2) > 0)
-        var$2 = var$1;
-    return var$2;
-}
-function jusi_ReducingConsumer() {
-    var a = this; jl_Object.call(a);
-    a.$accumulator = null;
-    a.$result = null;
-    a.$initialized = 0;
-}
-function jusi_ReducingConsumer__init_(var_0, var_1, var_2) {
-    var var_3 = new jusi_ReducingConsumer();
-    jusi_ReducingConsumer__init_0(var_3, var_0, var_1, var_2);
-    return var_3;
-}
-function jusi_ReducingConsumer__init_0($this, $accumulator, $result, $initialized) {
-    $this.$accumulator = $accumulator;
-    $this.$result = $result;
-    $this.$initialized = $initialized;
-}
-function jusi_ReducingConsumer_test($this, $t) {
-    if (!$this.$initialized) {
-        $this.$result = $t;
-        $this.$initialized = 1;
-    } else
-        $this.$result = $this.$accumulator.$apply0($this.$result, $t);
-    return 1;
-}
-function jl_AssertionError() {
-    jl_Error.call(this);
-}
-function jl_AssertionError__init_(var_0) {
-    var var_1 = new jl_AssertionError();
-    jl_AssertionError__init_0(var_1, var_0);
-    return var_1;
-}
-function jl_AssertionError__init_0($this, $message) {
-    jl_Throwable__init_($this, $message === null ? $rt_s(3) : $message);
-}
-function jusi_MappingStreamImpl$wrap$lambda$_1_0() {
-    var a = this; jl_Object.call(a);
-    a.$_024 = null;
-    a.$_17 = null;
-}
-function jusi_MappingStreamImpl$wrap$lambda$_1_0_test(var$0, var$1) {
-    var var$2;
-    var$2 = var$0.$_024;
-    return var$0.$_17.$test(var$2.$mapper.$apply(var$1));
 }
 $rt_packages([-1, "java", 0, "lang", -1, "org", 2, "vaadin", 3, "nikolay", 4, "client", 5, "vcommander", 6, "components"
 ]);
@@ -5719,38 +6790,93 @@ ovncvc_Content, 0, ovncvc_Panel, [], 0, 0, 0, 0,
 ovncvc_Label, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_Label_getWidth(this); }, "$getHeight", function() { return ovncvc_Label_getHeight(this); }, "$render", function(var_1) { ovncvc_Label_render(this, var_1); }],
 jl_Enum, 0, jl_Object, [jl_Comparable, ji_Serializable], 1, 3, 0, ["$equals0", function(var_1) { return jl_Enum_equals(this, var_1); }],
 ovncvc_Component$Style$TextAlign, 0, jl_Enum, [], 12, 3, 0, 0,
-jl_Math, 0, jl_Object, [], 4, 3, 0, 0,
+ovncvc_CFDemoModel, 0, jl_Object, [otj_JSObject], 0, 0, 0, 0,
+ovncvc_HorizontalLayout, 0, ovncvc_Layout, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_HorizontalLayout_getWidth(this); }, "$getHeight", function() { return ovncvc_HorizontalLayout_getHeight(this); }, "$render", function(var_1) { ovncvc_HorizontalLayout_render(this, var_1); }],
+ovncvc_NumeroLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_TipoLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_MatriculaLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_ZonaLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_ClasificadorLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_FechaLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_NumeroTarjetaLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0,
+ovncvc_CaracteristicasLine, 0, ovncvc_HorizontalLayout, [], 0, 0, 0, 0]);
+$rt_metadata([jl_Math, 0, jl_Object, [], 4, 3, 0, 0,
 ju_Arrays, 0, jl_Object, [], 0, 3, 0, 0,
 ovncvc_Component$Style, 0, jl_Object, [], 0, 3, 0, 0,
-ovncvc_HorizontalLayout, 0, ovncvc_Layout, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_HorizontalLayout_getWidth(this); }, "$getHeight", function() { return ovncvc_HorizontalLayout_getHeight(this); }, "$render", function(var_1) { ovncvc_HorizontalLayout_render(this, var_1); }],
+jl_Boolean, 0, jl_Object, [ji_Serializable, jl_Comparable], 0, 3, 0, 0,
 ovncvc_ListBox$ListBoxItem, 0, jl_Object, [], 3, 3, 0, 0,
 ovncvc_BooleanItem, 0, jl_Object, [ovncvc_ListBox$ListBoxItem], 0, 3, 0, ["$getCaption", function() { return ovncvc_BooleanItem_getCaption(this); }, "$equals0", function(var_1) { return ovncvc_BooleanItem_equals(this, var_1); }],
 ovncvc_ComboBox, 0, ovncvc_Component, [], 0, 3, 0, ["$setFocused", function(var_1) { ovncvc_ComboBox_setFocused(this, var_1); }, "$getWidth", function() { return ovncvc_ComboBox_getWidth(this); }, "$getHeight", function() { return ovncvc_ComboBox_getHeight(this); }, "$render", function(var_1) { ovncvc_ComboBox_render(this, var_1); }],
+ovncvc_ValueChangeListener, 0, jl_Object, [], 3, 3, 0, 0,
+ovncvc_NumeroLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_NumeroLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_NumeroLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_NumeroLine$_init_$lambda$_0_1_onChange(this, var_1); }],
 ovncvc_VehicleTypeItem$VehicleType, 0, jl_Enum, [], 12, 0, 0, 0,
 jl_AutoCloseable, 0, jl_Object, [], 3, 3, 0, 0,
-jus_BaseStream, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0]);
-$rt_metadata([jus_Stream, 0, jl_Object, [jus_BaseStream], 3, 3, 0, 0,
-ovncvc_Content$tipoLine$lambda$_2_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, 0,
+jus_BaseStream, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0,
+jus_Stream, 0, jl_Object, [jus_BaseStream], 3, 3, 0, 0,
+ovncvc_TipoLine$_init_$lambda$_0_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_TipoLine$_init_$lambda$_0_0_accept(this, var_1); }],
 ovncvc_VehicleTypeItem, 0, jl_Object, [ovncvc_ListBox$ListBoxItem], 0, 0, 0, ["$getCaption", function() { return ovncvc_VehicleTypeItem_getCaption(this); }, "$equals0", function(var_1) { return ovncvc_VehicleTypeItem_equals(this, var_1); }],
+ovncvc_TipoLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_TipoLine$_init_$lambda$_0_1_onChange(this, var_1); }],
 ovncvc_TextField, 0, ovncvc_Component, [], 0, 3, 0, ["$getHeight", function() { return ovncvc_TextField_getHeight(this); }, "$render", function(var_1) { ovncvc_TextField_render(this, var_1); }],
-ovncvc_TextItem, 0, jl_Object, [ovncvc_ListBox$ListBoxItem], 0, 3, 0, ["$getCaption", function() { return ovncvc_TextItem_getCaption(this); }, "$equals0", function(var_1) { return ovncvc_TextItem_equals(this, var_1); }],
+ovncvc_TipoLine$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_TipoLine$_init_$lambda$_0_2_onChange(this, var_1); }],
+ovncvc_TipoLine$_init_$lambda$_0_3, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_TipoLine$_init_$lambda$_0_3_onChange(this, var_1); }],
+ovncvc_MatriculaLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_SNCTypeItem$SNCType, 0, jl_Enum, [], 12, 0, 0, 0,
+ovncvc_MatriculaLine$_init_$lambda$_0_1, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_1_accept(this, var_1); }],
+ovncvc_SNCTypeItem, 0, jl_Object, [ovncvc_ListBox$ListBoxItem], 0, 0, 0, ["$getCaption", function() { return ovncvc_SNCTypeItem_getCaption(this); }, "$equals0", function(var_1) { return ovncvc_SNCTypeItem_equals(this, var_1); }],
+ovncvc_MatriculaLine$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_2_onChange(this, var_1); }],
+ovncvc_MatriculaLine$_init_$lambda$_0_3, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_3_onChange(this, var_1); }],
+ovncvc_MatriculaLine$_init_$lambda$_0_4, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_4_accept(this, var_1); }],
+ovncvc_MatriculaLine$_init_$lambda$_0_5, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_MatriculaLine$_init_$lambda$_0_5_onChange(this, var_1); }],
+ovncvc_ZonaLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ZonaLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_ZonaLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ZonaLine$_init_$lambda$_0_1_onChange(this, var_1); }],
+ovncvc_ZonaLine$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ZonaLine$_init_$lambda$_0_2_onChange(this, var_1); }],
+ovncvc_ZonaLine$_init_$lambda$_0_3, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ZonaLine$_init_$lambda$_0_3_onChange(this, var_1); }],
+ovncvc_ClasificadorLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ClasificadorLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ju_Date, 0, jl_Object, [jl_Comparable], 0, 3, 0, 0,
+ovncvc_ClasificadorLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ClasificadorLine$_init_$lambda$_0_1_onChange(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_1, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_1_accept(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_2_onChange(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_3, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_3_accept(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_4, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_4_onChange(this, var_1); }],
+ovncvc_FechaLine$_init_$lambda$_0_5, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_FechaLine$_init_$lambda$_0_5_onChange(this, var_1); }],
+ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_NumeroTarjetaLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_NumeroTarjetaLine$_init_$lambda$_0_1_onChange(this, var_1); }],
+ovncvc_CaracteristicasLine$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_CaracteristicasLine$_init_$lambda$_0_0_onChange(this, var_1); }],
+ovncvc_CaracteristicasLine$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_CaracteristicasLine$_init_$lambda$_0_1_onChange(this, var_1); }],
+ovncvc_CaracteristicasLine$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_CaracteristicasLine$_init_$lambda$_0_2_onChange(this, var_1); }],
+ovncvc_CaracteristicasLine$_init_$lambda$_0_3, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_CaracteristicasLine$_init_$lambda$_0_3_onChange(this, var_1); }],
+ovncvc_CaracteristicasLine$_init_$lambda$_0_4, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_CaracteristicasLine$_init_$lambda$_0_4_onChange(this, var_1); }],
+ovncvc_Button, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_Button_getWidth(this); }, "$getHeight", function() { return ovncvc_Button_getHeight(this); }, "$render", function(var_1) { ovncvc_Button_render(this, var_1); }],
+jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0]);
+$rt_metadata([ovncvc_Content$demoLine$lambda$_1_0, 0, jl_Object, [jl_Runnable], 0, 3, 0, ["$run", function() { ovncvc_Content$demoLine$lambda$_1_0_run(this); }],
+ovncvc_CheckBox, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_CheckBox_getWidth(this); }, "$getHeight", function() { return ovncvc_CheckBox_getHeight(this); }, "$render", function(var_1) { ovncvc_CheckBox_render(this, var_1); }],
+ovncvc_Content$demoLine$lambda$_1_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_Content$demoLine$lambda$_1_1_onChange(this, var_1); }],
 ovncvc_ListBox, 0, ovncvc_Component, [], 0, 3, 0, ["$getWidth", function() { return ovncvc_ListBox_getWidth(this); }, "$render", function(var_1) { ovncvc_ListBox_render(this, var_1); }],
+ovncvc_TextItem, 0, jl_Object, [ovncvc_ListBox$ListBoxItem], 0, 3, 0, ["$getCaption", function() { return ovncvc_TextItem_getCaption(this); }, "$equals0", function(var_1) { return ovncvc_TextItem_equals(this, var_1); }],
+ovncvc_Content$demoLine$lambda$_1_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_Content$demoLine$lambda$_1_2_onChange(this, var_1); }],
+ovncvc_Content$demoLine$lambda$_1_3, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_Content$demoLine$lambda$_1_3_onChange(this, var_1); }],
+ovncvc_Content$demoLine$lambda$_1_4, 0, jl_Object, [jl_Runnable], 0, 3, 0, ["$run", function() { ovncvc_Content$demoLine$lambda$_1_4_run(this); }],
 ovncv_Plugin, 0, jl_Object, [], 1, 3, 0, 0,
 ovncv_Navigation, "Navigation", 6, ovncv_Plugin, [], 0, 3, 0, 0,
 ovncvc_EventBus, "EventBus", 7, ovncv_Plugin, [], 0, 3, 0, 0,
 ovncvc_EventBus$ComponentEvent, 0, jl_Object, [], 3, 3, 0, 0,
 ovncvc_ComboBox$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_ComboBox$_init_$lambda$_0_0_call(this, var_1); }],
-ovncvc_ValueChangeListener, 0, jl_Object, [], 3, 3, 0, 0,
 ovncvc_ComboBox$_init_$lambda$_0_1, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ComboBox$_init_$lambda$_0_1_onChange(this, var_1); }],
 ovncvc_ComboBox$_init_$lambda$_0_2, 0, jl_Object, [ovncvc_ValueChangeListener], 0, 3, 0, ["$onChange", function(var_1) { ovncvc_ComboBox$_init_$lambda$_0_2_onChange(this, var_1); }],
 jusi_SimpleStreamImpl, 0, jl_Object, [jus_Stream], 1, 3, 0, 0,
 jusi_ArrayStreamImpl, 0, jusi_SimpleStreamImpl, [], 0, 3, 0, 0,
 ovncvc_TextField$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_TextField$_init_$lambda$_0_0_call(this, var_1); }],
+jl_System, 0, jl_Object, [], 4, 3, 0, 0,
+ovncvc_Button$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_Button$_init_$lambda$_0_0_call(this, var_1); }],
+ovncvc_CheckBox$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_CheckBox$_init_$lambda$_0_0_call(this, var_1); }],
 ju_AbstractSequentialList, 0, ju_AbstractList, [], 1, 3, 0, ["$get1", function(var_1) { return ju_AbstractSequentialList_get(this, var_1); }, "$iterator", function() { return ju_AbstractSequentialList_iterator(this); }],
 ju_Queue, 0, jl_Object, [ju_Collection], 3, 3, 0, 0,
 ju_Deque, 0, jl_Object, [ju_Queue], 3, 3, 0, 0,
 ju_LinkedList, 0, ju_AbstractSequentialList, [ju_Deque], 0, 3, 0, ["$size", function() { return ju_LinkedList_size(this); }],
 ovncvc_ListBox$_init_$lambda$_0_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_ListBox$_init_$lambda$_0_0_call(this, var_1); }],
+ovncvc_Button$_init_$lambda$_1_0, 0, jl_Object, [ovncvc_EventBus$ComponentEvent], 0, 3, 0, ["$call", function(var_1) { ovncvc_Button$_init_$lambda$_1_0_call(this, var_1); }],
 jl_CloneNotSupportedException, 0, jl_Exception, [], 0, 3, 0, 0,
 juf_Function, 0, jl_Object, [], 3, 3, 0, 0,
 ovncv_Navigation$_clinit_$lambda$_4_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncv_Navigation$_clinit_$lambda$_4_0_apply(this, var_1); }],
@@ -5758,7 +6884,10 @@ ovncvc_EventBus$_clinit_$lambda$_5_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$
 ju_Iterator, 0, jl_Object, [], 3, 3, 0, 0,
 ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, ["$hasNext", function() { return ju_AbstractList$1_hasNext(this); }, "$next", function() { return ju_AbstractList$1_next(this); }],
 ovncv_RenderRegistry, "RenderRegistry", 6, ovncv_Plugin, [], 0, 3, 0, 0,
-jl_System, 0, jl_Object, [], 4, 3, 0, 0,
+otjc_JSDate, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0,
+ovncvc_ListBox$getWidth$lambda$_8_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_ListBox$getWidth$lambda$_8_0_apply(this, var_1); }],
+ovncvc_ListBox$getWidth$lambda$_8_1, 0, jl_Object, [ju_Comparator], 0, 3, 0, 0,
+ju_Optional, 0, jl_Object, [], 4, 3, 0, 0,
 ji_Closeable, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0,
 ji_Flushable, 0, jl_Object, [], 3, 3, 0, 0,
 ji_OutputStream, 0, jl_Object, [ji_Closeable, ji_Flushable], 1, 3, 0, 0,
@@ -5770,7 +6899,8 @@ jnc_Charset, 0, jl_Object, [jl_Comparable], 1, 3, 0, 0,
 jnci_UTF8Charset, 0, jnc_Charset, [], 0, 3, 0, 0,
 jnc_IllegalCharsetNameException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0,
 juf_Predicate, 0, jl_Object, [], 3, 3, 0, 0,
-jusi_SimpleStreamImpl$forEachOrdered$lambda$_17_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, 0,
+jusi_SimpleStreamImpl$forEachOrdered$lambda$_17_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, 0]);
+$rt_metadata([jusi_StreamOverSpliterator, 0, jusi_SimpleStreamImpl, [], 0, 3, 0, 0,
 ju_ConcurrentModificationException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jlr_Array, 0, jl_Object, [], 4, 3, 0, 0,
 jn_Buffer, 0, jl_Object, [], 1, 3, 0, 0,
@@ -5778,27 +6908,35 @@ jl_Readable, 0, jl_Object, [], 3, 3, 0, 0,
 jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0,
 jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0,
 jnc_CodingErrorAction, 0, jl_Object, [], 0, 3, 0, 0,
-jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0]);
-$rt_metadata([jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0,
+jl_NegativeArraySizeException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
+jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0,
 jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0,
 jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0,
 jnc_CoderResult, 0, jl_Object, [], 0, 3, 0, 0,
 jn_ByteBufferImpl, 0, jn_ByteBuffer, [], 0, 0, 0, 0,
 jn_ByteOrder, 0, jl_Object, [], 4, 3, 0, 0,
+jusi_WrappingStreamImpl, 0, jusi_SimpleStreamImpl, [], 1, 3, 0, 0,
+jusi_MappingStreamImpl, 0, jusi_WrappingStreamImpl, [], 0, 3, 0, ["$wrap", function(var_1) { return jusi_MappingStreamImpl_wrap(this, var_1); }],
+ju_Spliterator, 0, jl_Object, [], 3, 3, 0, 0,
+jusi_SpliteratorOverCollection, 0, jl_Object, [ju_Spliterator], 0, 3, 0, 0,
 jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0,
 jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0,
 ji_IOException, 0, jl_Exception, [], 0, 3, 0, 0,
+juf_BiFunction, 0, jl_Object, [], 3, 3, 0, 0,
+juf_BinaryOperator, 0, jl_Object, [juf_BiFunction], 3, 3, 0, 0,
+jusi_SimpleStreamImpl$max$lambda$_26_0, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return jusi_SimpleStreamImpl$max$lambda$_26_0_apply(this, var_1, var_2); }],
 ju_ListIterator, 0, jl_Object, [ju_Iterator], 3, 3, 0, 0,
 ju_LinkedList$SequentialListIterator, 0, jl_Object, [ju_ListIterator], 0, 0, 0, ["$hasNext", function() { return ju_LinkedList$SequentialListIterator_hasNext(this); }, "$next", function() { return ju_LinkedList$SequentialListIterator_next(this); }],
 ju_LinkedList$Entry, 0, jl_Object, [], 0, 0, 0, 0,
 otjde_EventListener, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0,
-ovncvc_EventBus$_init_$lambda$_0_0, 0, jl_Object, [otjde_EventListener], 0, 3, 0, ["$handleEvent$exported$0", function(var_1) { return ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(this, var_1); }],
 ovncv_Navigation$_init_$lambda$_0_0, 0, jl_Object, [otjde_EventListener], 0, 3, 0, ["$handleEvent$exported$0", function(var_1) { return ovncv_Navigation$_init_$lambda$_0_0_handleEvent$exported$0(this, var_1); }],
+ovncvc_EventBus$_init_$lambda$_0_0, 0, jl_Object, [otjde_EventListener], 0, 3, 0, ["$handleEvent$exported$0", function(var_1) { return ovncvc_EventBus$_init_$lambda$_0_0_handleEvent$exported$0(this, var_1); }],
 ju_NoSuchElementException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 ju_Timer, 0, jl_Object, [], 0, 3, 0, 0,
-jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0,
 ju_TimerTask, 0, jl_Object, [jl_Runnable], 1, 3, 0, 0,
 ovncv_RenderRegistry$1, 0, ju_TimerTask, [], 0, 0, 0, 0,
+jusi_ReducingConsumer, 0, jl_Object, [juf_Predicate], 0, 0, 0, ["$test", function(var_1) { return jusi_ReducingConsumer_test(this, var_1); }],
+jl_AssertionError, 0, jl_Error, [], 0, 3, 0, 0,
 ju_Set, 0, jl_Object, [ju_Collection], 3, 3, 0, 0,
 ju_AbstractSet, 0, ju_AbstractCollection, [ju_Set], 1, 3, 0, 0,
 ju_HashSet, 0, ju_AbstractSet, [jl_Cloneable, ji_Serializable], 0, 3, 0, 0,
@@ -5811,7 +6949,9 @@ ju_HashMap$1, 0, ju_AbstractSet, [], 0, 0, 0, ["$iterator", function() { return 
 ju_HashMap$AbstractMapIterator, 0, jl_Object, [], 0, 0, 0, ["$hasNext", function() { return ju_HashMap$AbstractMapIterator_hasNext(this); }],
 ju_HashMap$KeyIterator, 0, ju_HashMap$AbstractMapIterator, [ju_Iterator], 0, 0, 0, ["$next", function() { return ju_HashMap$KeyIterator_next(this); }],
 jl_UnsupportedOperationException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
-jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0,
+jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0]);
+$rt_metadata([jusi_MappingStreamImpl$wrap$lambda$_1_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, ["$test", function(var_1) { return jusi_MappingStreamImpl$wrap$lambda$_1_0_test(this, var_1); }],
+jusi_StreamOverSpliterator$AdapterAction, 0, jl_Object, [juf_Consumer], 0, 0, 0, 0,
 jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0,
 ju_Timer$lambda$schedule$1$lambda$_6_0, 0, jl_Object, [jl_Runnable], 0, 3, 0, 0,
 jn_ReadOnlyBufferException, 0, jl_UnsupportedOperationException, [], 0, 3, 0, 0,
@@ -5819,23 +6959,21 @@ jn_BufferOverflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jn_BufferUnderflowException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 otp_PlatformRunnable, 0, jl_Object, [], 3, 3, 0, 0,
 jl_Thread$start$lambda$_4_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, ["$run", function() { jl_Thread$start$lambda$_4_0_run(this); }],
+ovncvc_ComboBox$lambda$new$0$lambda$_15_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_ComboBox$lambda$new$0$lambda$_15_0_accept(this, var_1); }],
 ovncvc_ListBox$lambda$new$0$lambda$_10_0, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_ListBox$lambda$new$0$lambda$_10_0_accept(this, var_1); }],
-ju_Optional, 0, jl_Object, [], 4, 3, 0, 0,
+otjj_JSON, 0, jl_Object, [], 4, 3, 0, 0,
 jl_IllegalMonitorStateException, 0, jl_RuntimeException, [], 0, 3, 0, 0,
 jl_Object$Monitor, 0, jl_Object, [], 0, 0, 0, 0,
-ovncvc_ComboBox$lambda$new$3$lambda$_11_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, 0,
-ovncvc_ComboBox$lambda$new$3$lambda$_11_1, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_ComboBox$lambda$new$3$lambda$_11_1_accept(this, var_1); }],
+ovncvc_ComboBox$lambda$new$3$lambda$_12_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, 0,
+ovncvc_ComboBox$lambda$new$3$lambda$_12_1, 0, jl_Object, [juf_Consumer], 0, 3, 0, ["$accept", function(var_1) { ovncvc_ComboBox$lambda$new$3$lambda$_12_1_accept(this, var_1); }],
 otp_PlatformQueue, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0,
 jl_Object$monitorExit$lambda$_8_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, ["$run", function() { jl_Object$monitorExit$lambda$_8_0_run(this); }],
 oti_AsyncCallback, 0, jl_Object, [], 3, 3, 0, 0,
-otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, ["$complete", function(var_1) { otpp_AsyncCallbackWrapper_complete(this, var_1); }, "$error", function(var_1) { otpp_AsyncCallbackWrapper_error(this, var_1); }]]);
-$rt_metadata([jl_Object$monitorEnterWait$lambda$_6_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, 0,
-jusi_StreamOverSpliterator, 0, jusi_SimpleStreamImpl, [], 0, 3, 0, 0,
-jusi_WrappingStreamImpl, 0, jusi_SimpleStreamImpl, [], 1, 3, 0, 0,
+otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, ["$complete", function(var_1) { otpp_AsyncCallbackWrapper_complete(this, var_1); }, "$error", function(var_1) { otpp_AsyncCallbackWrapper_error(this, var_1); }],
+jl_Object$monitorEnterWait$lambda$_6_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, 0,
 jusi_FilteringStreamImpl, 0, jusi_WrappingStreamImpl, [], 0, 3, 0, ["$wrap", function(var_1) { return jusi_FilteringStreamImpl_wrap(this, var_1); }],
-ju_Spliterator, 0, jl_Object, [], 3, 3, 0, 0,
-jusi_SpliteratorOverCollection, 0, jl_Object, [ju_Spliterator], 0, 3, 0, 0,
 jusi_FindFirstConsumer, 0, jl_Object, [juf_Predicate], 0, 3, 0, ["$test", function(var_1) { return jusi_FindFirstConsumer_test(this, var_1); }],
+jusi_FilteringStreamImpl$wrap$lambda$_1_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, ["$test", function(var_1) { return jusi_FilteringStreamImpl$wrap$lambda$_1_0_test(this, var_1); }],
 ovncvc_VerticalLayout$VLAPIWrapper, 0, jl_Object, [ovncv_APIBridge], 0, 0, 0, ["$setItem", function(var_1, var_2, var_3) { ovncvc_VerticalLayout$VLAPIWrapper_setItem(this, var_1, var_2, var_3); }],
 ovncvc_Panel$PAPIWrapper, 0, jl_Object, [ovncv_APIBridge], 0, 0, 0, ["$setItem", function(var_1, var_2, var_3) { ovncvc_Panel$PAPIWrapper_setItem(this, var_1, var_2, var_3); }],
 ovncvc_Label$1, 0, jl_Object, [], 32, 0, ovncvc_Label$1_$callClinit, 0,
@@ -5843,26 +6981,15 @@ ovncvc_Label$render$lambda$_6_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply
 ovncvc_Label$render$lambda$_6_1, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_Label$render$lambda$_6_1_apply(this, var_1); }],
 ovncvc_Label$render$lambda$_6_2, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_Label$render$lambda$_6_2_apply(this, var_1); }],
 ovncvc_HorizontalLayout$HLAPIWrapper, 0, jl_Object, [ovncv_APIBridge], 0, 0, 0, ["$setItem", function(var_1, var_2, var_3) { ovncvc_HorizontalLayout$HLAPIWrapper_setItem(this, var_1, var_2, var_3); }],
-jusi_FilteringStreamImpl$wrap$lambda$_1_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, ["$test", function(var_1) { return jusi_FilteringStreamImpl$wrap$lambda$_1_0_test(this, var_1); }],
-jusi_StreamOverSpliterator$AdapterAction, 0, jl_Object, [juf_Consumer], 0, 0, 0, 0,
-ovncvc_ListBox$getWidth$lambda$_8_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_ListBox$getWidth$lambda$_8_0_apply(this, var_1); }],
-ovncvc_ListBox$getWidth$lambda$_8_1, 0, jl_Object, [ju_Comparator], 0, 3, 0, 0,
 ovncv_Palete16, 0, jl_Object, [], 0, 3, 0, 0,
 ovncvc_VerticalLayout$getHeight$lambda$_2_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_VerticalLayout$getHeight$lambda$_2_0_apply(this, var_1); }],
-juf_BiFunction, 0, jl_Object, [], 3, 3, 0, 0,
-juf_BinaryOperator, 0, jl_Object, [juf_BiFunction], 3, 3, 0, 0,
 ovncvc_VerticalLayout$getHeight$lambda$_2_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return ovncvc_VerticalLayout$getHeight$lambda$_2_1_apply(this, var_1, var_2); }],
 ovncvc_HorizontalLayout$getHeight$lambda$_2_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_HorizontalLayout$getHeight$lambda$_2_0_apply(this, var_1); }],
 ovncvc_HorizontalLayout$getHeight$lambda$_2_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return ovncvc_HorizontalLayout$getHeight$lambda$_2_1_apply(this, var_1, var_2); }],
 ovncvc_VerticalLayout$getWidth$lambda$_1_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_VerticalLayout$getWidth$lambda$_1_0_apply(this, var_1); }],
 ovncvc_VerticalLayout$getWidth$lambda$_1_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return ovncvc_VerticalLayout$getWidth$lambda$_1_1_apply(this, var_1, var_2); }],
 ovncvc_HorizontalLayout$getWidth$lambda$_1_0, 0, jl_Object, [juf_Function], 0, 3, 0, ["$apply", function(var_1) { return ovncvc_HorizontalLayout$getWidth$lambda$_1_0_apply(this, var_1); }],
-ovncvc_HorizontalLayout$getWidth$lambda$_1_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return ovncvc_HorizontalLayout$getWidth$lambda$_1_1_apply(this, var_1, var_2); }],
-jusi_MappingStreamImpl, 0, jusi_WrappingStreamImpl, [], 0, 3, 0, ["$wrap", function(var_1) { return jusi_MappingStreamImpl_wrap(this, var_1); }],
-jusi_SimpleStreamImpl$max$lambda$_26_0, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return jusi_SimpleStreamImpl$max$lambda$_26_0_apply(this, var_1, var_2); }],
-jusi_ReducingConsumer, 0, jl_Object, [juf_Predicate], 0, 0, 0, ["$test", function(var_1) { return jusi_ReducingConsumer_test(this, var_1); }],
-jl_AssertionError, 0, jl_Error, [], 0, 3, 0, 0,
-jusi_MappingStreamImpl$wrap$lambda$_1_0, 0, jl_Object, [juf_Predicate], 0, 3, 0, ["$test", function(var_1) { return jusi_MappingStreamImpl$wrap$lambda$_1_0_test(this, var_1); }]]);
+ovncvc_HorizontalLayout$getWidth$lambda$_1_1, 0, jl_Object, [juf_BinaryOperator], 0, 3, 0, ["$apply0", function(var_1, var_2) { return ovncvc_HorizontalLayout$getWidth$lambda$_1_1_apply(this, var_1, var_2); }]]);
 function $rt_array(cls, data) {
     this.$monitor = null;
     this.$id$ = 0;
@@ -5894,9 +7021,10 @@ $rt_setCloneMethod($rt_array.prototype, function() {
     }
     return new $rt_array(this.type, dataCopy);
 });
-$rt_stringPool(["Can\'t enter monitor from another thread synchronously", "@", "0", "null", "Index out of bounds", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "String is null or empty", "Illegal radix: ", "ch", "UTF-8", "Register plugin: ", "MAINTENIMIENTO DE COCHES", "NUMERO DE BUS...", "422", "ES GENERICO.:", "ES RESERVA:", "TIPO.:", "BASE.:", "0800", "9999=Nada/9000=Dep.", "BASE LIBRES:", "MATRICULA.......", "3671-FMX", "BATO:",
-"S", "N", "O", "DOBLE TANQUE:", "ES BUS:", "S/N/O", "", "LEFT", "CENTER", "RIGHT", "No", "Yes", "Type here", "ComboBox width can\'t be less than 3", "[v]", "CAR", "AUTOCA", "MOTOCICLE", "MOTOCICLETA", "BUS", "AUTOBÚS", "TRUCK", "CAMIÓN", "Enter", "ArrowRight", "ArrowLeft", "Home", "End", "Backspace", "Delete", "next() should have returned true", "ArrowDown", "ArrowUp", "keydown", "Replacement preconditions do not hold", "New position ", " is outside of range [0;", "]", "The last char in dst ", " is outside of array of size ",
-"Length ", " must be non-negative", "Offset ", ")", "The last byte in src ", "IGNORE", "REPLACE", "REPORT", "Action must be non-null", "BIG_ENDIAN", "LITTLE_ENDIAN", "Tab", "main", "#000000", "#0000c9", "#c90000", "#c900c9", "#00c900", "#00c9c9", "#c9c900", "#c9c9c9", "#0000ff", "#ff0000", "#ff00ff", "#00ff00", "#00ffff", "#ffff00", "#ffffff"]);
+$rt_stringPool(["Can\'t enter monitor from another thread synchronously", "@", "0", "null", "Index out of bounds", "String contains invalid digits: ", "String contains digits out of radix ", ": ", "The value is too big for int type: ", "String is null or empty", "Illegal radix: ", "ch", "Register plugin: ", "MAINTENIMIENTO DE COCHES", "NUMERO DE BUS...", "422", "ES GENERICO.:", "ES RESERVA:", "TIPO.:", "BASE.:", "0800", "9999=Nada/9000=Dep.", "BASE LIBRES:", "NUMERO TARJETA..", "SERIE TARJETA:", "", "Hello, World!",
+"Label2", "Press enter", "Check box", "Text Field test. This value should be very long!", "Line 1", "Line 22", "Line 333", "Line 4444", "Line 55555", "Line 666666", "Line 7777777", "Line 88888888", "Line 999999999", "Line 0000000000", "Item 2", "Item 1", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Commit", "LEFT", "CENTER", "RIGHT", "MATRICULA.......", "3671-FMX", "BATO:", "DOBLE TANQUE:", "ES BUS:", "S/N/O", "ZONA............", "SUBZONA.", "ALQ:", "AQUIEN:", "CLASIFICADOR....",
+"DIS", "ITV..:", "ESCOLAR.:", "2022-2023", "FECHA MATRICULA.", "29/03/07", "DISCRECIONAL:", "S/N/C", "A SAE:", "CON FLEX:", "CARACTERISTICAS.", "ESC", "No", "Yes", "Type here", "ComboBox width can\'t be less than 3", "[v]", "CAR", "AUTOCA", "MOTOCICLE", "MOTOCICLETA", "BUS", "AUTOBÚS", "TRUCK", "CAMIÓN", "Enter", "ArrowRight", "ArrowLeft", "Home", "End", "Backspace", "Delete", "S", "N", "C", "Pressed button", "Unchecked", "Checked", "CFDemo model: ", "next() should have returned true", "UTF-8", "ArrowDown",
+"ArrowUp", "keydown", "Replacement preconditions do not hold", "New position ", " is outside of range [0;", "]", "The last char in dst ", " is outside of array of size ", "Length ", " must be non-negative", "Offset ", ")", "The last byte in src ", "IGNORE", "REPLACE", "REPORT", "Action must be non-null", "BIG_ENDIAN", "LITTLE_ENDIAN", "Tab", "main", "#000000", "#0000c9", "#c90000", "#c900c9", "#00c900", "#00c9c9", "#c9c900", "#c9c9c9", "#0000ff", "#ff0000", "#ff00ff", "#00ff00", "#00ffff", "#ffff00", "#ffffff"]);
 jl_String.prototype.toString = function() {
     return $rt_ustr(this);
 };
@@ -6508,9 +7636,9 @@ main = $rt_mainStarter(ovnc_Client_main);
     c.get = c.$get$exported$2;
     c.addEventListener = c.$addEventListener$exported$6;
     c.removeEventListener = c.$removeEventListener$exported$3;
-    c = ovncvc_EventBus$_init_$lambda$_0_0.prototype;
-    c.handleEvent = c.$handleEvent$exported$0;
     c = ovncv_Navigation$_init_$lambda$_0_0.prototype;
+    c.handleEvent = c.$handleEvent$exported$0;
+    c = ovncvc_EventBus$_init_$lambda$_0_0.prototype;
     c.handleEvent = c.$handleEvent$exported$0;
     c = ju_Timer$schedule$lambda$_3_0.prototype;
     c.onTimer = c.$onTimer$exported$0;

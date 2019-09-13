@@ -12,7 +12,7 @@ import java.util.Objects;
 public class TextField extends Component {
 
     private StringBuilder value = new StringBuilder();
-    private String placeHolder;
+    private String placeHolder = "";
     private int renderValuePos = 0;
     private int cursorPos = 0;
     private int carretPos = 0;
@@ -184,9 +184,9 @@ public class TextField extends Component {
             int currentPos = renderValuePos + i;
 
             if(currentPos < valueSize && currentPos >= 0) {
-                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), color, i == cursorPos && editMode ? 2 : bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), color, i == cursorPos && editMode ? 2 : bgcolor));
             } else {
-                api.setItem(i, 0, new VCommander.Item((char) 0, color, i == cursorPos && editMode ? 2 : bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item((char) 0, color, i == cursorPos && editMode ? 2 : bgcolor));
             }
         }
     }

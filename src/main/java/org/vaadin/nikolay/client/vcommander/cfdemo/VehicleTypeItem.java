@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  *
  */
-class VehicleTypeItem implements ListBox.ListBoxItem {
+class VehicleTypeItem implements ListBox.ListBoxItem<VehicleTypeItem.VehicleType> {
 
     private VehicleType vehicleType;
 
@@ -22,6 +22,11 @@ class VehicleTypeItem implements ListBox.ListBoxItem {
     @Override
     public String getCaption() {
         return vehicleType.getCaption();
+    }
+
+    @Override
+    public VehicleType getValue() {
+        return vehicleType;
     }
 
     @Override
@@ -40,7 +45,7 @@ class VehicleTypeItem implements ListBox.ListBoxItem {
     /**
      *
      */
-    static enum VehicleType {
+    enum VehicleType {
         CAR("AUTOCA"), MOTOCICLE("MOTOCICLETA"), BUS("AUTOBÚS"), TRUCK("CAMIÓN");
 
         private String caption;

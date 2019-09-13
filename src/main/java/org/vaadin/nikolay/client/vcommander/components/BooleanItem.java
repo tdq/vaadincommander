@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  *
  */
-public class BooleanItem implements ListBox.ListBoxItem {
+public class BooleanItem implements ListBox.ListBoxItem<Boolean> {
 
     private boolean value;
 
@@ -20,6 +20,11 @@ public class BooleanItem implements ListBox.ListBoxItem {
     @Override
     public String getCaption() {
         return value ? "Yes" : "No";
+    }
+
+    @Override
+    public Boolean getValue() {
+        return value;
     }
 
     @Override

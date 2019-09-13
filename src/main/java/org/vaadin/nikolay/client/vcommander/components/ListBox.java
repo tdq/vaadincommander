@@ -172,7 +172,9 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
     /**
      *
      */
-    public interface ListBoxItem {
+    public interface ListBoxItem<T> {
         String getCaption();
+
+        T getValue();
     }
 }

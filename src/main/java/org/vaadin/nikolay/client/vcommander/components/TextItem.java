@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  *
  */
-public class TextItem implements ListBox.ListBoxItem {
+public class TextItem implements ListBox.ListBoxItem<String> {
 
     private String value;
 
@@ -15,6 +15,11 @@ public class TextItem implements ListBox.ListBoxItem {
 
     @Override
     public String getCaption() {
+        return value;
+    }
+
+    @Override
+    public String getValue() {
         return value;
     }
 

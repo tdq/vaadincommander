@@ -19,6 +19,7 @@ public class Main extends Application {
 
     @Override
     public void exec() {
+        /*
         int width = getApi().getBufferWidth();
         int height = getApi().getBufferHeight();
         int middleX = width / 2;
@@ -130,5 +131,7 @@ public class Main extends Application {
         leftPanel.setContent(leftContent);
 
         setContent(content);
+
+         */
     }
 }

@@ -23,6 +23,12 @@ public class Button extends Component {
         });
     }
 
+    public Button() {}
+
+    public Button(String caption) {
+        this.caption = Objects.requireNonNull(caption);
+    }
+
     /**
      *
      * @param caption
@@ -59,13 +65,13 @@ public class Button extends Component {
 
         for(int i = 0; i < width; ++i) {
             if(i == 0 ) {
-                api.setItem(i, 0, new VCommander.Item('[', color, bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item('[', color, bgcolor));
             } else if(i == width - 1) {
-                api.setItem(i, 0, new VCommander.Item(']', color, bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item(']', color, bgcolor));
             } else if(i == 1 || i == width - 2) {
-                api.setItem(i, 0, new VCommander.Item((char) 0, color, bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item((char) 0, color, bgcolor));
             } else {
-                api.setItem(i, 0, new VCommander.Item(this.caption.charAt(i - 2), color, bgcolor, false));
+                api.setItem(i, 0, new VCommander.Item(this.caption.charAt(i - 2), color, bgcolor));
             }
         }
     }

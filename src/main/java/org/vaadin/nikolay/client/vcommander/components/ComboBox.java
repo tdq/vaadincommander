@@ -15,6 +15,7 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
     private ListBox<T> itemsList = new ListBox<>();
     private TextField captionField = new TextField();
     private boolean activeMode;
+    private ValueChangeListener<T> valueChangeListener;
 
     {
         VCommander.getPlugin(Navigation.class).registerComponent(this);
@@ -31,6 +32,10 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
 
                 // TODO use popup for items list
                 itemsList.setVisible(activeMode);
+
+                if(!activeMode && valueChangeListener != null) {
+                    getValue().ifPresent(valueChangeListener::onChange);
+                }
             }
         });
 
@@ -81,6 +86,14 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
      */
     public void addItem(T item) {
         itemsList.addItem(item);
+    }
+
+    /**
+     *
+     * @param listener
+     */
+    public void setValueChangeLister(ValueChangeListener<T> listener) {
+        this.valueChangeListener = Objects.requireNonNull(listener);
     }
 
     @Override

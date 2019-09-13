@@ -45,19 +45,19 @@ public class Panel extends Component {
         for(int j = 0; j < height; ++j) {
             for(int i = 0; i < width; ++i) {
                 if(i == 0 && j == 0) {
-                    api.setItem(i, j, new VCommander.Item('\u2554', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u2554', color, bgcolor));
                 } else if(i == borderX && j == 0) {
-                    api.setItem(i, j, new VCommander.Item('\u2557', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u2557', color, bgcolor));
                 } else if(i ==0 && j == borderY) {
-                    api.setItem(i, j, new VCommander.Item('\u255A', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u255A', color, bgcolor));
                 } else if(i == borderX && j == borderY) {
-                    api.setItem(i, j, new VCommander.Item('\u255D', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u255D', color, bgcolor));
                 } else if(i > 0 && i < borderX && (j == 0 || j == borderY)) {
-                    api.setItem(i, j, new VCommander.Item('\u2550', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u2550', color, bgcolor));
                 } else if(i == 0 || i == borderX) {
-                    api.setItem(i, j, new VCommander.Item('\u2551', color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item('\u2551', color, bgcolor));
                 } else {
-                    api.setItem(i, j, new VCommander.Item((char) 0, color, bgcolor, false));
+                    api.setItem(i, j, new VCommander.Item((char) 0, color, bgcolor));
                 }
             }
         }
@@ -76,7 +76,7 @@ public class Panel extends Component {
 
     private void drawText(APIBridge api, int start, String text, Integer color, Integer bgcolor, int length) {
         for(int i = 0; i < length; ++i) {
-            api.setItem(start + i, 0, new VCommander.Item(text.charAt(i), color, bgcolor, false));
+            api.setItem(start + i, 0, new VCommander.Item(text.charAt(i), color, bgcolor));
         }
     }
 

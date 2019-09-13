@@ -74,13 +74,13 @@ public class CheckBox extends Component {
         Integer color = isFocused() ? (Integer) 0 : getStyle().getColor();
         Integer bgcolor = isFocused() ? (Integer) 7 : getStyle().getBgcolor();
 
-        api.setItem(0, 0, new VCommander.Item('[', color, bgcolor, false));
-        api.setItem(1, 0, new VCommander.Item(this.checked ? '\u25A0' : (char) 0, color, bgcolor, false));
-        api.setItem(2, 0, new VCommander.Item(']', color, bgcolor, false));
-        api.setItem(3, 0, new VCommander.Item((char) 0, color, bgcolor, false));
+        api.setItem(0, 0, new VCommander.Item('[', color, bgcolor));
+        api.setItem(1, 0, new VCommander.Item(this.checked ? '\u25A0' : (char) 0, color, bgcolor));
+        api.setItem(2, 0, new VCommander.Item(']', color, bgcolor));
+        api.setItem(3, 0, new VCommander.Item((char) 0, color, bgcolor));
 
         for(int i = 0; i < this.caption.length(); ++i) {
-            api.setItem(i + 4, 0, new VCommander.Item(this.caption.charAt(i), color, bgcolor, false));
+            api.setItem(i + 4, 0, new VCommander.Item(this.caption.charAt(i), color, bgcolor));
         }
     }
 }
