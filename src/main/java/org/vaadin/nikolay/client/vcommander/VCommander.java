@@ -6,7 +6,7 @@ import org.teavm.jso.dom.events.EventListener;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
 import org.vaadin.nikolay.client.CustomElement;
-import org.vaadin.nikolay.client.vcommander.cfdemo.CFDemo;
+import org.vaadin.nikolay.client.vcommander.bugrap.Bugrap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +70,7 @@ public class VCommander extends CustomElement {
             for(int i = 0; i < this.width; ++i) {
                 HTMLElement item = document.createElement("span");
                 item.setInnerHTML("");
-                this.buffer[j][i] = new Item('\0', 15, 0);
+                this.buffer[j][i] = new Item('\0', Palette16.WHITE, Palette16.BLACK);
                 this.doubleBuffer[j][i] = this.buffer[j][i];
 
                 this.content.appendChild(item);
@@ -86,7 +86,7 @@ public class VCommander extends CustomElement {
             System.err.println("Register plugin: " + plugin.getClass().getName());
         });
 
-        Application application = new CFDemo(apiBridge);
+        Application application = new Bugrap(apiBridge);
 
         application.exec();
     }
@@ -107,8 +107,8 @@ public class VCommander extends CustomElement {
         this.buffer[y][x] = item;
 
         HTMLElement cell = (HTMLElement) this.content.getChildNodes().get(y * this.width + x);
-        String color = item.color == null ? null : item.shadowed ? Palete16.color[7] : Palete16.color[item.color];
-        String bgcolor = item.bgcolor == null ? null :item.shadowed ? Palete16.color[0] : Palete16.color[item.bgcolor];
+        String color = item.color == null ? null : item.shadowed ? Palette16.DARK_WHITE.getColorValue() : item.color.getColorValue();
+        String bgcolor = item.bgcolor == null ? null :item.shadowed ? Palette16.BLACK.getColorValue() : item.bgcolor.getColorValue();
 
         cell.setInnerHTML(String.valueOf(item.value));
 
@@ -124,7 +124,7 @@ public class VCommander extends CustomElement {
     private void clearBuffer() {
         for(int j = 0; j < height; ++j) {
             for(int i = 0; i < width; ++i) {
-                buffer[j][i] = new Item('\0', 15, 0);
+                buffer[j][i] = new Item('\0', Palette16.WHITE, Palette16.BLACK);
             }
         }
     }
@@ -142,13 +142,13 @@ public class VCommander extends CustomElement {
      */
     public static class Item {
         private char value;
-        private Integer color;
-        private Integer bgcolor;
+        private Palette color;
+        private Palette bgcolor;
         private boolean shadowed;
         private int zindex = 0;
         private boolean visible = true;
 
-        public Item(char value, Integer color, Integer bgcolor) {
+        public Item(char value, Palette color, Palette bgcolor) {
             this.value = value;
             this.color = color;
             this.bgcolor = bgcolor;
@@ -164,21 +164,21 @@ public class VCommander extends CustomElement {
             return this;
         }
 
-        public Integer getColor() {
+        public Palette getColor() {
             return color;
         }
 
-        public Item setColor(Integer color) {
+        public Item setColor(Palette color) {
             this.color = color;
 
             return this;
         }
 
-        public Integer getBgcolor() {
+        public Palette getBgcolor() {
             return bgcolor;
         }
 
-        public Item setBgcolor(Integer bgcolor) {
+        public Item setBgcolor(Palette bgcolor) {
             this.bgcolor = bgcolor;
 
             return this;

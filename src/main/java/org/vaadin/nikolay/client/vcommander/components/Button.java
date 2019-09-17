@@ -2,6 +2,8 @@ package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.Navigation;
+import org.vaadin.nikolay.client.vcommander.Palette;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -26,7 +28,7 @@ public class Button extends Component {
     public Button() {}
 
     public Button(String caption) {
-        this.caption = Objects.requireNonNull(caption);
+        setCaption(caption);
     }
 
     /**
@@ -34,7 +36,7 @@ public class Button extends Component {
      * @param caption
      */
     public void setCaption(String caption) {
-        this.caption = caption;
+        this.caption = Objects.requireNonNull(caption);
 
         super.markAsDirty();
     }
@@ -59,8 +61,8 @@ public class Button extends Component {
 
     @Override
     public void render(APIBridge api) {
-        Integer color = isFocused() ? (Integer) 0 : getStyle().getColor();
-        Integer bgcolor = isFocused() ? (Integer) 7 : getStyle().getBgcolor();
+        Palette color = isFocused() ? Palette16.BLACK : getStyle().getColor();
+        Palette bgcolor = isFocused() ? Palette16.DARK_WHITE : getStyle().getBgcolor();
         int width = getWidth();
 
         for(int i = 0; i < width; ++i) {

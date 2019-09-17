@@ -2,6 +2,7 @@ package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.Navigation;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -49,12 +50,12 @@ public class ComboBox<T extends ListBox.ListBoxItem> extends Component {
             captionField.setValue(value.getCaption());
         });
 
-        getStyle().setColor(7);
+        getStyle().setColor(Palette16.DARK_WHITE);
         setWidth(15);
         captionField.setPlaceHolder("Type here");
         itemsList.setVisible(false);
         itemsList.getStyle().setZindex(1);
-        itemsList.getStyle().setColor(0);
+        itemsList.getStyle().setColor(Palette16.BLACK);
     }
 
     /**

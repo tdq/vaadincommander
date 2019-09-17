@@ -2,6 +2,8 @@ package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.Navigation;
+import org.vaadin.nikolay.client.vcommander.Palette;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -95,8 +97,8 @@ public class TextField extends Component {
         });
 
         setWidth(10);
-        getStyle().setColor(15);
-        getStyle().setBgcolor(5);
+        getStyle().setColor(Palette16.WHITE);
+        getStyle().setBgcolor(Palette16.DARK_CYAN);
     }
 
     /**
@@ -177,16 +179,16 @@ public class TextField extends Component {
 
         int width = getWidth();
         int valueSize = text.length();
-        Integer color = editMode ? (Integer) 15 : isFocused() ? (Integer) 0 : getStyle().getColor();
-        Integer bgcolor = editMode ? (Integer) 0 : isFocused() ? (Integer) 7 : getStyle().getBgcolor();
+        Palette color = editMode ? Palette16.WHITE : isFocused() ? Palette16.BLACK : getStyle().getColor();
+        Palette bgcolor = editMode ? Palette16.BLACK : isFocused() ? Palette16.DARK_WHITE : getStyle().getBgcolor();
 
         for(int i = 0; i < width; ++i) {
             int currentPos = renderValuePos + i;
 
             if(currentPos < valueSize && currentPos >= 0) {
-                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), color, i == cursorPos && editMode ? 2 : bgcolor));
+                api.setItem(i, 0, new VCommander.Item(text.charAt(currentPos), color, i == cursorPos && editMode ? Palette16.DARK_RED : bgcolor));
             } else {
-                api.setItem(i, 0, new VCommander.Item((char) 0, color, i == cursorPos && editMode ? 2 : bgcolor));
+                api.setItem(i, 0, new VCommander.Item((char) 0, color, i == cursorPos && editMode ? Palette16.DARK_RED : bgcolor));
             }
         }
     }

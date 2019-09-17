@@ -3,6 +3,7 @@ package org.vaadin.nikolay.client.vcommander.components;
 import org.teavm.jso.dom.events.Event;
 import org.teavm.jso.dom.events.EventListener;
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Palette;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -37,8 +38,8 @@ public class Panel extends Component {
         int height = getHeight();
         int borderX = width - 1;
         int borderY = height - 1;
-        Integer color = getStyle().getColor();
-        Integer bgcolor = getStyle().getBgcolor();
+        Palette color = getStyle().getColor();
+        Palette bgcolor = getStyle().getBgcolor();
 
         // TODO border style
 
@@ -74,7 +75,7 @@ public class Panel extends Component {
         }
     }
 
-    private void drawText(APIBridge api, int start, String text, Integer color, Integer bgcolor, int length) {
+    private void drawText(APIBridge api, int start, String text, Palette color, Palette bgcolor, int length) {
         for(int i = 0; i < length; ++i) {
             api.setItem(start + i, 0, new VCommander.Item(text.charAt(i), color, bgcolor));
         }

@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.cfdemo;
 
-import org.teavm.jso.json.JSON;
+import org.teavm.flavour.json.JSON;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.components.Button;
 import org.vaadin.nikolay.client.vcommander.components.CheckBox;
 import org.vaadin.nikolay.client.vcommander.components.ComboBox;
@@ -18,7 +19,7 @@ class Content extends Panel {
     private CFDemoModel model = new CFDemoModel();
 
     Content(int width, int height) {
-        this.getStyle().setBgcolor(1);
+        this.getStyle().setBgcolor(Palette16.DARK_BLUE);
         this.setWidth(width);
         this.setHeight(height);
 
@@ -47,15 +48,15 @@ class Content extends Panel {
 
         Label label2 = new Label();
         label2.setValue("Label2");
-        label2.getStyle().setColor(1);
-        label2.getStyle().setBgcolor(4);
+        label2.getStyle().setColor(Palette16.DARK_BLUE);
+        label2.getStyle().setBgcolor(Palette16.DARK_GREEN);
 
         Button button = new Button();
         button.setCaption("Press enter");
         button.setClickListener(() -> {
             label2.setValue("Pressed button");
-            label2.getStyle().setBgcolor(1);
-            label2.getStyle().setColor(4);
+            label2.getStyle().setBgcolor(Palette16.DARK_BLUE);
+            label2.getStyle().setColor(Palette16.DARK_GREEN);
         });
 
         CheckBox checkBox = new CheckBox();
@@ -107,7 +108,7 @@ class Content extends Panel {
         });
 
         Button commit = new Button("Commit");
-        commit.setClickListener(() -> System.err.println("CFDemo model: " + JSON.stringify(model)));
+        commit.setClickListener(() -> System.err.println("CFDemo model: " + JSON.serialize(model).stringify()));
 
         HorizontalLayout layout1 = new HorizontalLayout();
         layout1.setSpacing(true);

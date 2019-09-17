@@ -1,6 +1,8 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Palette;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.RenderRegistry;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
@@ -127,24 +129,24 @@ public abstract class Component {
      *
      */
     public static class Style {
-        private Integer color = 7;
-        private Integer bgcolor;
+        private Palette color = Palette16.DARK_WHITE;
+        private Palette bgcolor;
         private TextAlign textAlign = TextAlign.LEFT;
         private int zindex = 0;
 
-        public Integer getColor() {
+        public Palette getColor() {
             return color;
         }
 
-        public void setColor(Integer color) {
+        public void setColor(Palette color) {
             this.color = color;
         }
 
-        public Integer getBgcolor() {
+        public Palette getBgcolor() {
             return bgcolor;
         }
 
-        public void setBgcolor(Integer bgcolor) {
+        public void setBgcolor(Palette bgcolor) {
             this.bgcolor = bgcolor;
         }
 

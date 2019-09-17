@@ -25,7 +25,5 @@ public abstract class CustomElement {
         init();
     }
 
-    protected void init() {
-
-    }
+    protected abstract void init();
 }

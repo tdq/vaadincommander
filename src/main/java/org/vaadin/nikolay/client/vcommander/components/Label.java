@@ -1,6 +1,7 @@
 package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.Objects;
@@ -14,13 +15,13 @@ public class Label extends Component {
     private String value;
 
     {
-        getStyle().setColor(7);
+        getStyle().setColor(Palette16.DARK_WHITE);
     }
 
     public Label() {}
 
     public Label(String value) {
-        this.value = Objects.requireNonNull(value);
+        setValue(value);
     }
 
     /**
@@ -36,7 +37,7 @@ public class Label extends Component {
      * @param value
      */
     public void setValue(String value) {
-        this.value = value;
+        this.value = Objects.requireNonNull(value);
 
         super.markAsDirty();
     }

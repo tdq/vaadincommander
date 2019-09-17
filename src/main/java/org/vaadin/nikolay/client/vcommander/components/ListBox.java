@@ -2,6 +2,7 @@ package org.vaadin.nikolay.client.vcommander.components;
 
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.Navigation;
+import org.vaadin.nikolay.client.vcommander.Palette16;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
 import java.util.LinkedList;
@@ -45,7 +46,7 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
             }
         });
 
-        getStyle().setColor(7);
+        getStyle().setColor(Palette16.DARK_WHITE);
         setHeight(3);
     }
 
@@ -158,12 +159,12 @@ public class ListBox<T extends ListBox.ListBoxItem> extends Component {
             itemCaption.getStyle().setColor(getStyle().getColor());
 
             if(isFocused()) {
-                itemCaption.getStyle().setColor(0);
-                itemCaption.getStyle().setBgcolor(7);
+                itemCaption.getStyle().setColor(Palette16.BLACK);
+                itemCaption.getStyle().setBgcolor(Palette16.DARK_WHITE);
             }
 
             if(i + scrollPos == currentItemId && selectMode) {
-                itemCaption.getStyle().setBgcolor(2);
+                itemCaption.getStyle().setBgcolor(Palette16.DARK_RED);
             }
 
             layout.add(itemCaption);
