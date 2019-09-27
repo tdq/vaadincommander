@@ -1,13 +1,7 @@
 package org.vaadin.nikolay.client.vcommander;
 
-import org.vaadin.nikolay.client.vcommander.components.Button;
-import org.vaadin.nikolay.client.vcommander.components.ComboBox;
-import org.vaadin.nikolay.client.vcommander.components.Component;
 import org.vaadin.nikolay.client.vcommander.components.HorizontalLayout;
 import org.vaadin.nikolay.client.vcommander.components.Label;
-import org.vaadin.nikolay.client.vcommander.components.Panel;
-import org.vaadin.nikolay.client.vcommander.components.TextItem;
-import org.vaadin.nikolay.client.vcommander.components.VerticalLayout;
 
 public class Main extends Application {
 
@@ -17,6 +11,23 @@ public class Main extends Application {
 
     @Override
     public void exec() {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.setSpacing(true);
+
+        Label abc = new Label("ABC");
+        abc.getStyle().setBgcolor(Palette16.DARK_GREEN);
+
+        Label def = new Label("DEF");
+        def.getStyle().setBgcolor(Palette16.DARK_BLUE);
+
+        layout.setExspandRatio(abc, 100f);
+
+        layout.add(abc);
+        layout.add(def);
+
+        setContent(layout);
+
+        /*
         Panel panel = new Panel();
         panel.setTitle("Demo");
         panel.getStyle().setBgcolor(Palette16.DARK_BLUE);
@@ -64,5 +75,6 @@ public class Main extends Application {
         panel.setContent(layout);
 
         setContent(panel);
+         */
     }
 }

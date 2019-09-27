@@ -51,7 +51,7 @@ public class Button extends Component {
 
     @Override
     public int getWidth() {
-        return this.caption != null ? this.caption.length() + 4 : 1;
+        return this.caption != null ? this.caption.length() + 4 : 4;
     }
 
     @Override

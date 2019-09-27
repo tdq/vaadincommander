@@ -5,11 +5,16 @@ import org.teavm.jso.dom.events.EventListener;
 import org.vaadin.nikolay.client.vcommander.APIBridge;
 import org.vaadin.nikolay.client.vcommander.VCommander;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class HorizontalLayout extends Layout {
 
     @Override
     public int getWidth() {
-        return getComponents().stream().map(Component::getWidth).reduce(0, (a, b) -> a + b);
+        return super.getWidth() != 0 ? super.getWidth() : getComponents().stream().map(Component::getWidth).reduce(0, (a, b) -> a + b);
     }
 
     @Override
@@ -20,9 +25,34 @@ public class HorizontalLayout extends Layout {
     @Override
     public void render(APIBridge api) {
         int offset = 0;
+        int width = api.getBufferWidth();
+        float totalRatio = 0;
 
-        for(Component component : getComponents()) {
-            int childWidth = component.getWidth();
+        List<Component> components = getComponents();
+
+        if(isSpacing()) {
+            width -= components.size() - 1;
+        }
+
+        Map<Component, Integer> widths = new HashMap<>();
+        List<Component> sortedComponents = components.stream().sorted((o1, o2) -> Float.compare(getRatio(o1), getRatio(o2))).collect(Collectors.toList());
+
+        for(Component component : components) {
+            totalRatio += getRatio(component);
+        }
+
+        int availableWidth = width;
+        for(Component component : sortedComponents) {
+            int childWidth = Math.min(Math.max(totalRatio == 0 ? 0 : (int) (getRatio(component) * width / totalRatio), component.getWidth()), availableWidth);
+
+            widths.put(component, childWidth);
+
+            availableWidth -= childWidth;
+        }
+
+        for(Component component : components) {
+            int childWidth = widths.get(component);
+
             APIBridge wrapper= new HLAPIWrapper(api, childWidth, offset);
             offset += childWidth;
 
