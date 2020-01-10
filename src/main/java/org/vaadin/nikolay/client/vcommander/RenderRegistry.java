@@ -50,7 +50,7 @@ public class RenderRegistry extends Plugin {
 
                     invoke = false;
                 }
-            }, 0);
+            }, 0);                              // TODO explain why 0
         }
     }
 }

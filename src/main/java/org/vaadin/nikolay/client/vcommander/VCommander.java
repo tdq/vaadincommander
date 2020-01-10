@@ -7,6 +7,7 @@ import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
 import org.vaadin.nikolay.client.CustomElement;
 import org.vaadin.nikolay.client.vcommander.bugrap.Bugrap;
+import org.vaadin.nikolay.client.vcommander.cfdemo.CFDemo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +87,7 @@ public class VCommander extends CustomElement {
             System.err.println("Register plugin: " + plugin.getClass().getName());
         });
 
-        Application application = new Bugrap(apiBridge);
+        Application application = new CFDemo(apiBridge);
 
         application.exec();
     }

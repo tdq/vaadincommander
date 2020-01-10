@@ -19,7 +19,7 @@ class Content extends Panel {
     private CFDemoModel model = new CFDemoModel();
 
     Content(int width, int height) {
-        this.getStyle().setBgcolor(Palette16.DARK_BLUE);
+        //this.getStyle().setBgcolor(Palette16.DARK_BLUE);
         this.setWidth(width);
         this.setHeight(height);
 
